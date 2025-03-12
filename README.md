@@ -1,2 +1,47 @@
-# Översvämningskollen
+<section align="center">
+<h1>ÖVERSVÄMNINGSKOLLEN</h1>
+</section>
+
+<!-- Place image here -->
+<!-- ![alt text](imgurl) -->
+
 IoT-plattform för övervakning och hantering av översvämningsrisker i kommuner.
+
+## Introduktion
+
+## Resurser
+
+Listor över verktyg som används under projektet:
+
+### Design och prototyping
+
+### Projektplanering
+
+## Starta projektet
+
+## Dokumentation
+
+<details open>
+  <summary>Dokumentationssidor</summary>
+  <ul>
+    <li><a href="">Projektplan</a></li>
+    <li><a href="">Accessibility</a></li>
+    <li><a href="">API-dokumentation</a></li>
+    <li><a href="">Systemarkitektur</a></li>
+    <li><a href="">Changelog</a></li>
+    <li><a href="">Retrospektiv</a></li>
+    <li><a href="">Testning</a></li>
+  </ul>
+</details>
+
+## Deltagande
+
+<a href="https://github.com/hemrys"><img src="https://avatars.githubusercontent.com/u/48299434?v=4" title="hemrys" width="50" height="50"></a>
+<a href="https://github.com/ToeCrow"><img src="https://avatars.githubusercontent.com/u/180638640?v=4" title="ToeCrow" width="50" height="50"></a>
+<a href="https://github.com/rebeccalindman"><img src="https://avatars.githubusercontent.com/u/180174336?v=4" title="rebeccalindman" width="50" height="50"></a>
+<a href="https://github.com/gurramannen"><img src="https://avatars.githubusercontent.com/u/180275818?v=4" title="gurramannen" width="50" height="50"></a>
+<a href="https://github.com/BenjaminBerhane"><img src="https://avatars.githubusercontent.com/u/180633245?v=4" title="BenjaminBerhane" width="50" height="50"></a>
+<a href="https://github.com/masriyey"><img src="https://avatars.githubusercontent.com/u/45066874?v=4" title="masriyey" width="50" height="50"></a>
+<a href="https://github.com/Ayahshe"><img src="https://avatars.githubusercontent.com/u/172211083?v=4" title="Ayahshe" width="50" height="50"></a>
+<a href="https://github.com/linuschas"><img src="https://avatars.githubusercontent.com/u/183321874?v=4" title="linuschas" width="50" height="50"></a>
+<a href="https://github.com/islandskan"><img src="https://avatars.githubusercontent.com/u/89599893?v=4" title="islandskan" width="50" height="50"></a>

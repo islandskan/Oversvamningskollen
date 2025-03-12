@@ -24,13 +24,13 @@ Listor över verktyg som används under projektet:
 <details open>
   <summary>Dokumentationssidor</summary>
   <ul>
-    <li><a href="">Projektplan</a></li>
-    <li><a href="">Accessibility</a></li>
-    <li><a href="">API-dokumentation</a></li>
-    <li><a href="">Systemarkitektur</a></li>
-    <li><a href="">Changelog</a></li>
-    <li><a href="">Retrospektiv</a></li>
-    <li><a href="">Testning</a></li>
+    <li><a href="documentation/PROJECTPLAN.md">Projektplan</a></li>
+    <li><a href="documentation/ACCESSIBILITY.md">Accessibility</a></li>
+    <li><a href="documentation/API-DOCUMENTATION.md">API-dokumentation</a></li>
+    <li><a href="documentation/ARCHITECTURE.md">Systemarkitektur</a></li>
+    <li><a href="documentation/CHANGELOG.md">Changelog</a></li>
+    <li><a href="documentation/RETROSPECTIVE.md">Retrospektiv</a></li>
+    <li><a href="documentation/TESTING.md">Testning</a></li>
   </ul>
 </details>
 

@@ -122,6 +122,8 @@ Projektet syftar till att utveckla ett system för att övervaka och hantera öv
 
 ### Plan för dokumentation
 
+### Plan för code reviews och pull requests
+
 ## Tidsplan och milstolpar
 
 ### Övergripande tidsplan
@@ -133,12 +135,6 @@ Projektet syftar till att utveckla ett system för att övervaka och hantera öv
 -   **Testning och optimering:**
 
 ### Hantering av förändringar i tidsplanen
-
-## Riskanalys och plan för problemhantering
-
--   Identifiera risker som kan uppstå under projektet(tekniska utmaningar, brsit på kommunikation, tidsbrist)
--   Hur ska vi hantera problem som blockerar utvecklingen
--   Vilka steg tar vi om en teammedlem inte levererar enligt plan?
 
 ## Leveranser och dokumentation
 
@@ -169,3 +165,9 @@ Projektet syftar till att utveckla ett system för att övervaka och hantera öv
 -   En integrerad lösning där frontend, backend och inbyggda system samverkar.
 -   Dokumentation och användarmanualer
 -   Presentation och demo för kommun och räddningstjänst
+
+## Riskanalys och plan för problemhantering
+
+-   Identifiera risker som kan uppstå under projektet(tekniska utmaningar, brsit på kommunikation, tidsbrist)
+-   Hur ska vi hantera problem som blockerar utvecklingen
+-   Vilka steg tar vi om en teammedlem inte levererar enligt plan?

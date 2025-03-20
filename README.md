@@ -1,5 +1,5 @@
 <section align="center">
-<h1>ÖVERSVÄMNINGSKOLLEN</h1>
+<h1>Chas Challenge: ÖVERSVÄMNINGSKOLLEN</h1>
 </section>
 
 <!-- Place image here -->
@@ -8,14 +8,18 @@
 IoT-plattform för övervakning och hantering av översvämningsrisker i kommuner.
 
 ## Introduktion
+Projektet syftar till att utveckla ett system för att övervaka och hantera översvämningsrisker i en kommun genom användning av IoT-sensorer och en digital plattform. Systemet ska ge realtidsinformation om vattennivåer, optimera resursallokering och möjliggöra snabb respons från kommunens insatspersonal och frivilliga.
 
 ## Resurser
 
 Listor över verktyg som används under projektet:
 
 ### Design och prototyping
+- Figma
 
 ### Projektplanering
+- Slack
+- Github Projects(Kanban-tavla)
 
 ## Starta projektet
 

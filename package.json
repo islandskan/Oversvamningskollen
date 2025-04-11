@@ -4,7 +4,8 @@
   "description": "<section align=\"center\"> <h1>Chas Challenge: ÖVERSVÄMNINGSKOLLEN</h1> </section>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch server.js"
   },
   "repository": {
     "type": "git",
@@ -13,9 +14,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/islandskan/Oversvamningskollen/issues"
   },
-  "homepage": "https://github.com/islandskan/Oversvamningskollen#readme"
+  "homepage": "https://github.com/islandskan/Oversvamningskollen#readme",
+  "dependencies": {
+    "nodemon": "^3.1.9"
+  }
 }

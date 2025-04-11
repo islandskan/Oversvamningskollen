@@ -40,9 +40,9 @@ router.get('/', (req, res) => {
 }); 
 
 //specific user
-router.get('/:id', (req, res) => {
+router.get('/:userID', (req, res) => {
   const id=req.params.userID;
-  const user = users.find(u => u.id === id);
+  const user = users.find(u => u.userID === id);
   if(!user){
     return res.status(404).json({message: 'Användare kan inte hittas'});
   }
@@ -72,7 +72,7 @@ router.post('/', validateRole, (req, res) => {
 //* This approach is cleaner and requires control, whitelist 'allowedUpdates'
 const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
 
-router.patch('/:id', (req, res) => {
+router.patch('/:userID', (req, res) => {
   const id = req.params.userID;
   const updates = Object.keys(req.body);
   
@@ -97,10 +97,10 @@ router.patch('/:id', (req, res) => {
 
 //DELETE
 //delete specific user
-router.delete('/:id', (req, res) => {
+router.delete('/:userID', (req, res) => {
   const id = req.params.userID;
 
-  const index = users.findIndex(p => p.id === id);
+  const index = users.findIndex(p => p.userID === id);
 
   if (index === -1) {
     return res.status(404).json({ message: 'Användare hittades inte'});

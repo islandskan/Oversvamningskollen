@@ -1,25 +1,31 @@
 import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { validateRole } from '../middleware/validateRole.js'
+
 const router = Router();
 
 let users = [
   {"id":"1",
     "name":"Thomas",
+    "role":"admin",
     "mail":"thomas.kronvoldt@chasacademy.se",
     "password":"hej123",
   },
   {"id":"2",
     "name":"Rebecca",
+    "role":"admin",
     "mail":"rebecca.lindman@chasacademy.se",
     "password":"hej123",
   },
   {"id":"3",
     "name":"Gustav",
+    "role":"admin",
     "mail":"gustav.thilander@chasacademy.se",
     "password":"hej123",
   },
   {"id":"4",
     "name":"Benjamin",
+    "role":"admin",
     "mail":"benjamin.berhane@chasacademy.se",
     "password":"hej123",
   }
@@ -45,16 +51,20 @@ router.get('/:id', (req, res) => {
 
 //POST 
 //new user
-router.post('/', (req, res) => {
-  //create id and read body
+router.post('/', validateRole, (req, res) => {
+  const { name, mail, role, password } = req.body;
+
   const user = {
-    "id": uuidv4(), 
-    "name":req.body.name,
-    "mail": req.body.mail,
-    "password":req.body.password
+    id: uuidv4(),
+    name,
+    mail,
+    role,
+    password
   };
-  res.status(201).json({ message: 'Användare skapad', user });
+
   users.push(user);
+
+  res.status(201).json({ message: 'Användare skapad', user });
 });
 
 //PATCH or PUT or both

@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
 });
 
 // Route-mounting
-app.use('/api/sensor', sensorRouter);
-app.use('/api/user', userRouter);
+app.use('/api/sensors', sensorRouter);
+app.use('/api/users', userRouter);
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);

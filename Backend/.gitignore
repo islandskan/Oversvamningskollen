@@ -1,2 +1,37 @@
+# Ignorera node_modules
+node_modules/
+
+# Ignorera miljövariabler
 .env
-node_modules
+
+# Loggfiler
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ignorera systemfiler
+.DS_Store
+Thumbs.db
+
+# Tempfiler
+*.swp
+*.swo
+*.tmp
+
+# Ignorera coverage-filer om du använder t.ex. Jest
+coverage/
+
+# Ignorera byggfiler (om du kompilerar TypeScript eller bundlar)
+dist/
+build/
+
+# Ignorera editor-specifika filer
+.vscode/
+.idea/
+
+# Ignorera dokumentationsfiler du genererar automatiskt
+documentation/
+
+# Ignorera OS-cache
+*.log

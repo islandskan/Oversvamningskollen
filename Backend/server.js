@@ -8,6 +8,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Basic route
+app.get('/', (req, res) => {
+  res.send('Startsida!');
+});
+
 // Route-mounting
 app.use('/api/sensor', sensorRouter);
 app.use('/api/user', userRouter);

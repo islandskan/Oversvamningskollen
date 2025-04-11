@@ -5,25 +5,25 @@ import { validateRole } from '../middleware/validateRole.js'
 const router = Router();
 
 let users = [
-  {"id":"1",
+  {"userID":"1",
     "name":"Thomas",
     "role":"admin",
     "mail":"thomas.kronvoldt@chasacademy.se",
     "password":"hej123",
   },
-  {"id":"2",
+  {"userID":"2",
     "name":"Rebecca",
     "role":"admin",
     "mail":"rebecca.lindman@chasacademy.se",
     "password":"hej123",
   },
-  {"id":"3",
+  {"userID":"3",
     "name":"Gustav",
     "role":"admin",
     "mail":"gustav.thilander@chasacademy.se",
     "password":"hej123",
   },
-  {"id":"4",
+  {"userID":"4",
     "name":"Benjamin",
     "role":"admin",
     "mail":"benjamin.berhane@chasacademy.se",
@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
 
 //specific user
 router.get('/:id', (req, res) => {
-  const id=req.params.id;
+  const id=req.params.userID;
   const user = users.find(u => u.id === id);
   if(!user){
     return res.status(404).json({message: 'Användare kan inte hittas'});
@@ -55,7 +55,7 @@ router.post('/', validateRole, (req, res) => {
   const { name, mail, role, password } = req.body;
 
   const user = {
-    id: uuidv4(),
+    userID: uuidv4(),
     name,
     mail,
     role,
@@ -73,7 +73,7 @@ router.post('/', validateRole, (req, res) => {
 const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
 
 router.patch('/:id', (req, res) => {
-  const id = req.params.id;
+  const id = req.params.userID;
   const updates = Object.keys(req.body);
   
   // Find the invalid fields
@@ -86,7 +86,7 @@ router.patch('/:id', (req, res) => {
     });
   }
 
-  const user = users.find(u => u.id === id);
+  const user = users.find(u => u.userID === id);
   if (!user) return res.status(404).send('Användaren hittades inte');
 
   Object.assign(user, req.body);
@@ -98,7 +98,7 @@ router.patch('/:id', (req, res) => {
 //DELETE
 //delete specific user
 router.delete('/:id', (req, res) => {
-  const id = req.params.id;
+  const id = req.params.userID;
 
   const index = users.findIndex(p => p.id === id);
 

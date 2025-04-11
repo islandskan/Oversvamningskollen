@@ -4,50 +4,49 @@ import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 let sensors = [
   {
-    "id":"1",
+    "sensorID":"1", //PK
+    "batteryStatus":"80",
+    "locationID":"Malmö1", //FK
   },
   {
-    "id":"2",
+    "sensorId":"2",
   },
   {
-    "id":"3",
+    "sensorId":"3",
   }
-]
+];
 
 router.get('/', (req, res) => {
-  if(users.length === 0){
-    return res.status(404).json({message: 'Inga användare kunde hämtas'});
+  if(sensors.length === 0){
+    return res.status(404).json({message: 'Ingen data kunde hämtas'});
   }
-  res.status(200).json({ message: 'Hämtar alla användare', users });
+  res.status(200).json({ message: 'Hämtar alla sensorer', sensors });
 }); 
 
-//specific user
+//specific sensor
 router.get('/:id', (req, res) => {
   const id=req.params.id;
   const user = users.find(u => u.id === id);
   if(!user){
-    return res.status(404).json({message: 'Användare kan inte hittas'});
+    return res.status(404).json({message: 'Sensoren kan inte hittas'});
   }
-  res.status(200).json({ message: 'Hämtar en användare', user });
+  res.status(200).json({ message: 'Hämtar en Sensoren', user });
 });
 
 //POST 
-//new user
+//new sensor
 router.post('/', (req, res) => {
   //create id and read body
-  const user = {
-    "id": uuidv4(), 
-    "name":req.body.name,
-    "mail": req.body.mail,
-    "password":req.body.password
-  };
-  res.status(201).json({ message: 'Användare skapad', user });
-  users.push(user);
+  const sensor = req.body;
+  // Här kan man lägga till logik för att spara i databas eller lista
+  res.status(201).json({ message: 'Sensor tillagd', sensor });
 });
 
 //PATCH or PUT or both
-//edit specific user
-//* This approach is cleaner and requires control, whitelist 'allowedUpdates'
+//edit specific sensor
+
+//todo update battery status
+//todo update with sensor whitelist and fields
 const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
 
 router.patch('/:id', (req, res) => {
@@ -65,28 +64,30 @@ router.patch('/:id', (req, res) => {
   }
 
   const user = users.find(u => u.id === id);
-  if (!user) return res.status(404).send('Användaren hittades inte');
+  if (!user) return res.status(404).send('Sensorn hittades inte');
 
   Object.assign(user, req.body);
 
-  res.json({ message: 'Användare uppdaterad', user });
+  res.json({ message: 'Sensorn uppdaterad', user });
 });
 
 
+
+
 //DELETE
-//delete specific user
+//delete specific sensor
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
 
-  const index = users.findIndex(p => p.id === id);
+  const index = sensors.findIndex(p => p.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ message: 'Användare hittades inte'});
+    return res.status(404).json({ message: 'Sensorn hittades inte'});
   }
 
-  users.splice(index, 1);
+  sensors.splice(index, 1);
 
-  res.json({ message: `Tog bort en användare med id: ${id}`, users });
+  res.json({ message: `Tog bort en sensor med id: ${id}`, users });
 });
 
 

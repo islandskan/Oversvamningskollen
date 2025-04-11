@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/islandskan/Oversvamningskollen#readme",
   "dependencies": {
-    "nodemon": "^3.1.9"
+    "express": "^5.1.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
+    "winston": "^3.17.0"
   }
 }

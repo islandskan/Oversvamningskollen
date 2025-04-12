@@ -3,5 +3,9 @@
         "floodcast",
         "myapp",
         "nativewind"
-    ]
+    ],
+    "editor.tokenColorCustomizations": {
+        "comments": "",
+        "textMateRules": []
+    }
 }

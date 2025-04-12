@@ -1,5 +1,23 @@
+// Types
+export interface FloodRiskArea {
+  id: number;
+  coordinate: { latitude: number; longitude: number };
+  title: string;
+  description: string;
+  radius: number;
+  riskLevel: 'high' | 'medium' | 'low' | string;
+  detailedInfo: {
+    waterLevel: string;
+    probability: string;
+    timeframe: string;
+    affectedArea: string;
+    evacuationStatus: string;
+    emergencyContacts: string;
+  };
+}
+
 // Sample flood risk data
-export const floodRiskAreas = [
+export const floodRiskAreas: FloodRiskArea[] = [
   {
     id: 1,
     coordinate: { latitude: 55.6050, longitude: 13.0038 }, // Central Malmö

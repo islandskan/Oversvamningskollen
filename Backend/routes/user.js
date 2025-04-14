@@ -1,8 +1,11 @@
 import { Router } from 'express';
 <<<<<<< HEAD
+<<<<<<< HEAD
 const router = Router();
 
 =======
+=======
+>>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
 import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 
@@ -49,6 +52,9 @@ router.post('/', (req, res) => {
     "mail": req.body.mail,
     "password":req.body.password
   };
+<<<<<<< HEAD
+>>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
+=======
 >>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
   res.status(201).json({ message: 'Användare skapad', user });
   users.push(user);

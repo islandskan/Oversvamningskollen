@@ -8,10 +8,10 @@ export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationEnabled, setLocationEnabled] = useState(false);
 
-  // State for theme toggle
+  // state for theme toggle
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
 
-  // Update the theme toggle when colorScheme changes
+  // update the theme toggle when colorScheme changes
   useEffect(() => {
     setIsDarkMode(colorScheme === 'dark');
   }, [colorScheme]);
@@ -31,7 +31,7 @@ export default function SettingsScreen() {
       <View className="mb-6 space-y-4">
         <Text className="text-xl font-bold text-gray-900 dark:text-white">Preferences</Text>
 
-        {/* Theme Toggle */}
+        {/* theme Toggle */}
         <View className="flex-row justify-between items-center py-2">
           <Text className="text-base text-gray-800 dark:text-gray-200">Dark Mode</Text>
           <Switch

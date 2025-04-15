@@ -1,0 +1,7 @@
+Implement login/signup UI with mock authentication
+Request Google Maps API key from Google Cloud Console
+Create web-compatible map component for browser support
+Expand user settings with additional  options
+Improve dark mode styling or implement third theme variant
+Add transition animations between screens
+Integrate weather data API

@@ -1,11 +1,4 @@
 import { Router } from 'express';
-<<<<<<< HEAD
-<<<<<<< HEAD
-const router = Router();
-
-=======
-=======
->>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
 import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 
@@ -33,11 +26,7 @@ let users = [
 ];
 //GET 
 //list of users
->>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
 router.get('/', (req, res) => {
-<<<<<<< HEAD
-  res.json({ message: 'Hämtar alla användare' });
-=======
   if(users.length === 0){
     return res.status(404).json({message: 'Inga användare kunde hämtas'});
   }
@@ -52,41 +41,24 @@ router.get('/:id', (req, res) => {
     return res.status(404).json({message: 'Användare kan inte hittas'});
   }
   res.status(200).json({ message: 'Hämtar en användare', user });
->>>>>>> parent of 9b202a5 (userID instead of id for users)
 });
 
-<<<<<<< HEAD
-router.post('/', (req, res) => {
-  const user = req.body;
-=======
+
 //POST 
 //new user
 router.post('/', (req, res) => {
   //create id and read body
   const user = {
-<<<<<<< HEAD
-    "id": uuidv4(), 
-    "name":req.body.name,
-    "mail": req.body.mail,
-    "password":req.body.password
-=======
     id: uuidv4(),
     name,
     mail,
     role,
     password
->>>>>>> parent of 9b202a5 (userID instead of id for users)
   };
-<<<<<<< HEAD
->>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
-=======
->>>>>>> parent of ef5bc41 (user validation moved to validateRole.js middleware)
   res.status(201).json({ message: 'Användare skapad', user });
   users.push(user);
 });
 
-<<<<<<< HEAD
-=======
 //PATCH or PUT or both
 //edit specific user
 //* This approach is cleaner and requires control, whitelist 'allowedUpdates'
@@ -135,5 +107,4 @@ router.delete('/:id', (req, res) => {
 
 
 
->>>>>>> parent of 9b202a5 (userID instead of id for users)
 export default router;

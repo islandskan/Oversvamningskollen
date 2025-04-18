@@ -1,0 +1,81 @@
+[
+  {
+    "sensorID": "1",
+    "measurements": [
+      {
+        "measurementID": "01",
+        "waterlevel": 7,
+        "date": "2025-01-18",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "02",
+        "waterlevel": 8,
+        "date": "2025-01-19",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "03",
+        "waterlevel": 6,
+        "date": "2025-01-20",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "04",
+        "waterlevel": 5,
+        "date": "2025-01-21",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "05",
+        "waterlevel": 4,
+        "date": "2025-01-22",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "06",
+        "waterlevel": 4,
+        "date": "2025-01-23",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "07",
+        "waterlevel": 4,
+        "date": "2025-01-24",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "08",
+        "waterlevel": 3,
+        "date": "2025-01-25",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "102",
+        "waterlevel": 8,
+        "date": "2025-03-19",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "101",
+        "waterlevel": 7,
+        "date": "2025-03-18",
+        "time": "10:00:00"
+      }
+    ]
+  },
+  {
+    "sensorID": "2",
+    "measurements": [
+      {
+        "measurementID": "04",
+        "date": "2025-04-08",
+        "time": "10:00:00"
+      }
+    ]
+  },
+  {
+    "sensorID": "3",
+    "measurements": []
+  }
+]

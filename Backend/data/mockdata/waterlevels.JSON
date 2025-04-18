@@ -1,34 +1,33 @@
 [
-    {
-      "sensorID": "1",
-      "measurements": [
-        {
-          "measurementID": "101",
-          "waterlevel": 7,
-          "date": "2025-03-18",
-          "time": "10:00:00"
-        },
-        {
-          "measurementID": "102",
-          "waterlevel": 8,
-          "date": "2025-03-19",
-          "time": "10:00:00"
-        },
-        {
-          "measurementID": "103",
-          "waterlevel": 6,
-          "date": "2025-03-20",
-          "time": "10:00:00"
-        }
-      ]
-    },
-    {
-      "sensorID": "2",
-      "measurements": []
-    },
-    {
-      "sensorID": "3",
-      "measurements": []
-    }
-  ]
-  
+  {
+    "sensorID": "1",
+    "measurements": [
+      {
+        "measurementID": "105",
+        "waterlevel": 4,
+        "date": "2025-03-22",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "104",
+        "waterlevel": 5,
+        "date": "2025-03-21",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "103",
+        "waterlevel": 6,
+        "date": "2025-03-20",
+        "time": "10:00:00"
+      }
+    ]
+  },
+  {
+    "sensorID": "2",
+    "measurements": []
+  },
+  {
+    "sensorID": "3",
+    "measurements": []
+  }
+]

@@ -4,9 +4,10 @@
 Reflections about the working process and lessons learned through out the project.
 
 <h2>2025-04-11 Retrospective Sprint #2</h2>
-<p align="left">Summa summarum så har allt gått bra, med viss förbättringspotential framförallt vad gäller planeringen och föregående sprint som krockade med avslut på tidigare kurser. 
+<p align="left">
+All in all, everything has gone well, with some potential for improvement, especially regarding planning and the previous sprint which collided with the end of previous courses.
 <br/><br/>
-Det finns förbättringspotential vad gäller transparens mellan de olika teamens progression. Detta ska kollas närmare på under kommande stand-up kombinerat med sprintplanering.
+There is potential for improvement regarding transparency between the different teams' progress. This should be checked on during the upcoming stand-up combined with sprint planning.
 </p>
 
 </section>

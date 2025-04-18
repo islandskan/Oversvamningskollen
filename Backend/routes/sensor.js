@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import waterlevelsRouter from './waterlevels.js';
+import historicwaterlevelsRouter from './historicwaterlevels.js';
 
 const router = Router();
+
+//mockdata
 let sensors = [
   {
     "sensorID":"1", //PK
@@ -23,14 +27,20 @@ router.get('/', (req, res) => {
   res.status(200).json({ message: 'Hämtar alla sensorer', sensors });
 }); 
 
+//Waterlevels routing
+router.use('/:sensorID/waterlevels', waterlevelsRouter);
+
+//Historicwaterlevels routing
+router.use('/:sensorID/historicwaterlevels', historicwaterlevelsRouter);
+
 //specific sensor
 router.get('/:sensorID', (req, res) => {
   const id=req.params.id;
-  const user = users.find(u => u.id === id);
-  if(!user){
+  const sensor = sensors.find(u => u.id === id);
+  if(!sensor){
     return res.status(404).json({message: 'Sensoren kan inte hittas'});
   }
-  res.status(200).json({ message: 'Hämtar en Sensoren', user });
+  res.status(200).json({ message: 'Hämtar en Sensoren', sensor });
 });
 
 //POST 
@@ -64,14 +74,12 @@ router.patch('/:sensorID', (req, res) => {
   }
 
   const sensor = sensors.find(s => s.id === id);
-  if (!user) return res.status(404).send('Sensorn hittades inte');
+  if (!sensor) return res.status(404).send('Sensorn hittades inte');
 
-  Object.assign(user, req.body);
+  Object.assign(sensor, req.body);
 
   res.json({ message: 'Sensorn uppdaterad', sensor });
 });
-
-
 
 
 //DELETE
@@ -89,6 +97,7 @@ router.delete('/:sensorID', (req, res) => {
 
   res.json({ message: `Tog bort en sensor med id: ${id}`, sensors });
 });
+
 
 
 

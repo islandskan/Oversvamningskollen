@@ -1,0 +1,34 @@
+[
+    {
+      "sensorID": "1",
+      "measurements": [
+        {
+          "measurementID": "1",
+          "waterlevel": 7,
+          "date": "2025-03-18",
+          "time": "10:00:00"
+        },
+        {
+          "measurementID": "2",
+          "waterlevel": 8,
+          "date": "2025-03-19",
+          "time": "10:00:00"
+        },
+        {
+          "measurementID": "3",
+          "waterlevel": 6,
+          "date": "2025-03-20",
+          "time": "10:00:00"
+        }
+      ]
+    },
+    {
+      "sensorID": "2",
+      "measurements": []
+    },
+    {
+      "sensorID": "3",
+      "measurements": []
+    }
+  ]
+  

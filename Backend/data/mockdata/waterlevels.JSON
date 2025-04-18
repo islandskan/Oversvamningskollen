@@ -24,7 +24,23 @@
   },
   {
     "sensorID": "2",
-    "measurements": []
+    "measurements": [
+      {
+        "measurementID": "01",
+        "date": "2025-04-17",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "02",
+        "date": "2025-04-10",
+        "time": "10:00:00"
+      },
+      {
+        "measurementID": "03",
+        "date": "2025-04-09",
+        "time": "10:00:00"
+      }
+    ]
   },
   {
     "sensorID": "3",

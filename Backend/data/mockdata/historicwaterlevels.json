@@ -66,7 +66,13 @@
   },
   {
     "sensorID": "2",
-    "measurements": []
+    "measurements": [
+      {
+        "measurementID": "04",
+        "date": "2025-04-08",
+        "time": "10:00:00"
+      }
+    ]
   },
   {
     "sensorID": "3",

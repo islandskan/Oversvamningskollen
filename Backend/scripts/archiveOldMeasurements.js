@@ -1,63 +1,73 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 
-const currentPath = path.resolve('Backend', 'data', 'mockdata', 'waterlevels.json');
-const historicPath = path.resolve('Backend', 'data', 'mockdata', 'historicwaterlevels.json');
+// 👇 File paths
+const dataPath = path.resolve('Backend/data/mockdata/waterlevels.json');
+const archivePath = path.resolve('Backend/data/mockdata/historicwaterlevels.json');
 
-function parseDateTime(dateStr, timeStr) {
-  return new Date(`${dateStr}T${timeStr}`);
-}
+try {
+  // Read current water level data
+  const rawData = fs.readFileSync(dataPath, 'utf-8');
+  const sensorData = JSON.parse(rawData);
 
-async function archiveOldMeasurements() {
-  try {
-    const currentDataRaw = await fs.readFile(currentPath, 'utf-8');
-    const historicDataRaw = await fs.readFile(historicPath, 'utf-8');
+  // Read or initialize archive
+  let archivedData = [];
+  if (fs.existsSync(archivePath)) {
+    const rawArchive = fs.readFileSync(archivePath, 'utf-8');
+    archivedData = JSON.parse(rawArchive);
+  }
 
-    const currentData = JSON.parse(currentDataRaw);
-    const historicData = JSON.parse(historicDataRaw);
+  const updatedSensorData = [];
+  const newlyArchived = [];
 
-    const updatedCurrent = [];
-    const updatedHistoric = [...historicData]; // clone
-
-    for (const sensor of currentData) {
-      if (!sensor.measurements || sensor.measurements.length <= 3) {
-        updatedCurrent.push(sensor); // nothing to archive
-        continue;
-      }
-
-      // Sort by date+time descending
-      const sorted = [...sensor.measurements].sort((a, b) => {
-        return parseDateTime(b.date, b.time) - parseDateTime(a.date, a.time);
-      });
-
-      const recent = sorted.slice(0, 3);
-      const toArchive = sorted.slice(3);
-
-      // Add to historic (merge by sensorID)
-      const existingHistoricSensor = updatedHistoric.find(s => s.sensorID === sensor.sensorID);
-      if (existingHistoricSensor) {
-        existingHistoricSensor.measurements.push(...toArchive);
-      } else {
-        updatedHistoric.push({
-          sensorID: sensor.sensorID,
-          measurements: toArchive
-        });
-      }
-
-      updatedCurrent.push({
-        sensorID: sensor.sensorID,
-        measurements: recent
-      });
+  sensorData.forEach(sensor => {
+    if (!sensor.measurements || sensor.measurements.length <= 3) {
+      updatedSensorData.push(sensor); // No archiving needed
+      return;
     }
 
-    // Save updated files
-    await fs.writeFile(currentPath, JSON.stringify(updatedCurrent, null, 2));
-    await fs.writeFile(historicPath, JSON.stringify(updatedHistoric, null, 2));
+    // Sort descending by date + time
+    const sorted = sensor.measurements.sort((a, b) => {
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      return dateB - dateA;
+    });
 
-    console.log('✅ Archiving complete.');
-  } catch (err) {
-    console.error('❌ Error during archiving:', err.message);
-  }
+    const keep = sorted.slice(0, 3);
+    const toArchive = sorted.slice(3);
+
+    // Save back the recent measurements
+    updatedSensorData.push({
+      ...sensor,
+      measurements: keep
+    });
+
+    // Append archived measurements
+    if (toArchive.length > 0) {
+      newlyArchived.push({
+        sensorID: sensor.sensorID,
+        measurements: toArchive
+      });
+    }
+  });
+
+  // Merge new archive data with existing
+  newlyArchived.forEach(newEntry => {
+    const existing = archivedData.find(item => item.sensorID === newEntry.sensorID);
+    if (existing) {
+      existing.measurements = existing.measurements.concat(newEntry.measurements);
+    } else {
+      archivedData.push(newEntry);
+    }
+  });
+
+  // Write updates to disk
+  fs.writeFileSync(dataPath, JSON.stringify(updatedSensorData, null, 2));
+  fs.writeFileSync(archivePath, JSON.stringify(archivedData, null, 2));
+
+  console.log('✅ Archiving complete!');
+  console.log(`📦 Archived ${newlyArchived.length} sensor(s).`);
+
+} catch (error) {
+  console.error('❌ Error during archiving:', error.message);
 }
-
-archiveOldMeasurements();

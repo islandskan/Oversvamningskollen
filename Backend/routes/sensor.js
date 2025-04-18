@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import waterlevelsRouter from './waterlevels.js';
 import historicwaterlevelsRouter from './historicwaterlevels.js';
+import waterlevelsMockdata from '../data/mockdata/waterlevels.json' assert { type: 'json' };
 
 const router = Router();
 
@@ -25,10 +26,19 @@ router.get('/', (req, res) => {
     return res.status(404).json({message: 'Ingen data kunde hämtas'});
   }
   res.status(200).json({ message: 'Hämtar alla sensorer', sensors });
-}); 
+});
 
-//Waterlevels routing
+//waterlevels for all sensors
+router.get('/waterlevels', (req, res) => {
+  res.json({
+    message: 'Alla vattennivåer för alla sensorer',
+    data: waterlevelsMockdata
+  });
+});
+
+//Waterlevels routing for specific sensor
 router.use('/:sensorID/waterlevels', waterlevelsRouter);
+
 
 //Historicwaterlevels routing
 router.use('/:sensorID/historicwaterlevels', historicwaterlevelsRouter);

@@ -1,22 +1,21 @@
 import { Router } from 'express';
-import waterlevelsMock from '../mockdata/waterlevelsMock.js';
+import waterlevelsMockdata from '../data/mockdata/waterlevels.json' assert { type: 'json' };
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-//* mockdata
-//*keys
-//measurementID
-//sensorID
-//waterlevel
-//date
-//time
-//*
-
-const waterlevelsMockdata = waterlevelsMock;
-
-
+// GET all waterlevels for _specific_ sensor
 router.get('/', (req, res) => {
-    res.send('All waterlevels:', JSON.parse(waterlevelsMockdata));
+  const { sensorID } = req.params;
+  const sensorData = waterlevelsMockdata.find(sensor => sensor.sensorID === sensorID);
+
+  if (!sensorData) {
+    return res.status(404).json({ error: `Sensor with ID ${sensorID} not found.` });
+  }
+
+  res.json({
+    sensorID: sensorData.sensorID,
+    measurements: sensorData.measurements || []
+  });
 });
 
 export default router;

@@ -9,10 +9,10 @@ let sensors = [
     "locationID":"Malmö1", //FK
   },
   {
-    "sensorId":"2",
+    "sensorID":"2",
   },
   {
-    "sensorId":"3",
+    "sensorID":"3",
   }
 ];
 
@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 }); 
 
 //specific sensor
-router.get('/:id', (req, res) => {
+router.get('/:sensorID', (req, res) => {
   const id=req.params.id;
   const user = users.find(u => u.id === id);
   if(!user){
@@ -49,8 +49,8 @@ router.post('/', (req, res) => {
 //todo update with sensor whitelist and fields
 const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
 
-router.patch('/:id', (req, res) => {
-  const id = req.params.id;
+router.patch('/:sensorID', (req, res) => {
+  const id = req.params.sensorID;
   const updates = Object.keys(req.body);
   
   // Find the invalid fields
@@ -63,12 +63,12 @@ router.patch('/:id', (req, res) => {
     });
   }
 
-  const user = users.find(u => u.id === id);
+  const sensor = sensors.find(s => s.id === id);
   if (!user) return res.status(404).send('Sensorn hittades inte');
 
   Object.assign(user, req.body);
 
-  res.json({ message: 'Sensorn uppdaterad', user });
+  res.json({ message: 'Sensorn uppdaterad', sensor });
 });
 
 
@@ -76,10 +76,10 @@ router.patch('/:id', (req, res) => {
 
 //DELETE
 //delete specific sensor
-router.delete('/:id', (req, res) => {
-  const id = req.params.id;
+router.delete('/:sensorID', (req, res) => {
+  const id = req.params.sensorID;
 
-  const index = sensors.findIndex(p => p.id === id);
+  const index = sensors.findIndex(p => p.sensorID === id);
 
   if (index === -1) {
     return res.status(404).json({ message: 'Sensorn hittades inte'});
@@ -87,7 +87,7 @@ router.delete('/:id', (req, res) => {
 
   sensors.splice(index, 1);
 
-  res.json({ message: `Tog bort en sensor med id: ${id}`, users });
+  res.json({ message: `Tog bort en sensor med id: ${id}`, sensors });
 });
 
 

@@ -4,14 +4,19 @@
     "slug": "floodcast",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/floodcast-logo.png",
+    "splash": {
+      "image": "./assets/images/floodcast-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/floodcast-logo.png"
     },
     "ios": {
       "supportsTablet": true,
@@ -22,7 +27,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/floodcast-logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.floodcast.app",
@@ -38,7 +43,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/floodcast-logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -56,4 +61,8 @@
     }
   }
 }
+
+
+
+
 

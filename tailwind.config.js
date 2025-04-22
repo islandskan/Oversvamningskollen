@@ -6,10 +6,16 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'modern-green': '#2e8458',
+        'modern-purple': '#795de2',
+      }
+    },
   },
   plugins: [],
 }
+
 
 
 

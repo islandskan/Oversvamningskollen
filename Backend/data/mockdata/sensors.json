@@ -1,0 +1,23 @@
+[
+    {
+        "sensorID":"1", 
+        "batteryStatus":80,
+        "locationID":"Malmö1" 
+    },
+    {
+        "sensorID":"2",
+        "batteryStatus":90,
+        "locationID":"Malmö2" 
+    },
+    {
+        "sensorID":"3",
+        "batteryStatus":100,
+        "locationID":"Malmö3" 
+    },
+    {
+        "sensorID":"4",
+        "batteryStatus":25,
+        "locationID":"Malmö4"
+    }
+
+]

@@ -3,23 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 import waterlevelsRouter from './waterlevels.js';
 import historicwaterlevelsRouter from './historicwaterlevels.js';
 import waterlevelsMockdata from '../data/mockdata/waterlevels.json' assert { type: 'json' };
+import sensorsMockdata from '../data/mockdata/sensors.json' assert { type: 'json' };
 
 const router = Router();
 
 //mockdata
-let sensors = [
-  {
-    "sensorID":"1", //PK
-    "batteryStatus":"80",
-    "locationID":"Malmö1", //FK
-  },
-  {
-    "sensorID":"2",
-  },
-  {
-    "sensorID":"3",
-  }
-];
+let sensors = sensorsMockdata;
 
 router.get('/', (req, res) => {
   if(sensors.length === 0){
@@ -36,11 +25,11 @@ router.get('/waterlevels', (req, res) => {
   });
 });
 
-//Waterlevels routing for specific sensor
+//* Waterlevels routing for specific sensor
 router.use('/:sensorID/waterlevels', waterlevelsRouter);
 
 
-//Historicwaterlevels routing
+//* Historicwaterlevels routing
 router.use('/:sensorID/historicwaterlevels', historicwaterlevelsRouter);
 
 //specific sensor
@@ -48,9 +37,9 @@ router.get('/:sensorID', (req, res) => {
   const id=req.params.id;
   const sensor = sensors.find(u => u.id === id);
   if(!sensor){
-    return res.status(404).json({message: 'Sensoren kan inte hittas'});
+    return res.status(404).json({message: 'Sensorn kan inte hittas'});
   }
-  res.status(200).json({ message: 'Hämtar en Sensoren', sensor });
+  res.status(200).json({ message: `Hämtar sensor ${sensor.id}`, sensor });
 });
 
 //POST 
@@ -107,7 +96,6 @@ router.delete('/:sensorID', (req, res) => {
 
   res.json({ message: `Tog bort en sensor med id: ${id}`, sensors });
 });
-
 
 
 

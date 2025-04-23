@@ -102,15 +102,22 @@ export default function LoginScreen() {
 
           {/* sign In button */}
           <TouchableOpacity 
-            className="bg-blue-600 py-3 rounded-xl items-center"
+            className="rounded-xl overflow-hidden"
             onPress={handleLogin}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text className="text-white font-medium text-lg">Sign In</Text>
-            )}
+            <LinearGradient
+              colors={['#a855f7', '#ec4899']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              className="py-3 px-4 items-center"
+            >
+              {isLoading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text className="text-white font-medium text-lg">Sign In</Text>
+              )}
+            </LinearGradient>
           </TouchableOpacity>
         </View>
 

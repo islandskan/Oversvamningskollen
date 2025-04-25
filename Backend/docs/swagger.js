@@ -4,27 +4,26 @@ import swaggerUi from 'swagger-ui-express';
 
 // Swagger definition
 const swaggerDefinition = {
-  openapi: '3.0.0', // Swagger version
+  openapi: '3.0.0', // Ensure you're using the correct OpenAPI version
   info: {
-    title: 'My API', // Your API name
+    title: 'FloodCast API',
     version: '1.0.0',
     description: 'API documentation for my app',
   },
   servers: [
     {
-      url: 'http://localhost:3000', // Your API server URL
+      url: 'http://localhost:3000',
     },
   ],
 };
 
-// Options for the swagger-jsdoc
+// Specify the path to your testapi.js for documentation
 const options = {
   swaggerDefinition,
-  apis: ['./routes/*.js'], // Specify where your API route files are
+  apis: ['./app.js', './docs/testapi.js'], // Make sure this matches the relative path of testapi.js
 };
 
-// Initialize swagger-jsdoc
+// Generate Swagger spec
 const swaggerSpec = swaggerJSDoc(options);
 
 export { swaggerSpec, swaggerUi };
-

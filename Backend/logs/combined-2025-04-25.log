@@ -81,3 +81,60 @@
 2025-04-25 13:50:07.478 +0200 [FloodCast] info: Logger initialized at level: debug
 2025-04-25 13:50:07.481 +0200 [FloodCast] info: Server is running on http://localhost:3000
 2025-04-25 13:50:10.259 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:07:06.363 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:07:42.528 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:08:13.330 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:10:12.576 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:11:06.424 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:12:03.088 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:13:16.330 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:13:54.078 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:14:33.845 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:14:57.211 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:17:34.855 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:19:22.860 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:21:27.620 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:21:41.786 +0200 [FloodCast] warn: 404 - Not Found - /api/sensors/1/waterlevels
+2025-04-25 14:23:00.224 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:24:55.019 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:25:01.134 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:25:19.392 +0200 [FloodCast] warn: 404 - Not Found - /api/users
+2025-04-25 14:25:25.930 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:25:40.341 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:29:28.064 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:31:30.123 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:33:00.152 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:33:03.840 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:34:27.714 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:35:09.405 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:35:36.952 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:36:23.041 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:37:08.809 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:37:19.243 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:37:31.465 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:39:59.651 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:40:26.141 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:42:05.255 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:44:16.693 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:46:44.406 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:48:25.607 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:49:59.027 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:51:11.433 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:51:59.812 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:55:43.646 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:55:53.260 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:56:06.169 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:56:18.534 +0200 [FloodCast] warn: 404 - Not Found - /swagger.json
+2025-04-25 14:56:28.275 +0200 [FloodCast] warn: 404 - Not Found - /test
+2025-04-25 14:56:32.504 +0200 [FloodCast] warn: 404 - Not Found - /api/test
+2025-04-25 14:56:45.079 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:56:53.549 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:57:06.474 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:57:23.564 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:57:29.047 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:57:35.751 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:58:39.253 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:59:09.282 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:59:30.243 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 14:59:36.817 +0200 [FloodCast] warn: 404 - Not Found - /api/test/test
+2025-04-25 14:59:42.943 +0200 [FloodCast] info: Server is running on http://localhost:3000

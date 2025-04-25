@@ -28,7 +28,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 const logger = createLogger({
     level: process.env.LOG_LEVEL || (isDev ? 'debug' : 'warn'), //currently development, add NODE_ENV=development to .env
     format: combine(
-        label({label: 'my-app'}),
+        label({label: 'FloodCast'}),
         timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS ZZ'}),
         myFormat
     ),

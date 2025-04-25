@@ -16,3 +16,5 @@
 2025-04-25 10:27:17.951 +0200 [my-app] info: Server is running on http://localhost:3000
 2025-04-25 10:27:58.041 +0200 [my-app] info: Logger initialized at level: debug
 2025-04-25 10:27:58.045 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 10:47:26.577 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 10:47:26.580 +0200 [my-app] info: Server is running on http://localhost:3000

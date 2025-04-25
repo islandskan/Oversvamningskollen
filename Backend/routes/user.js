@@ -4,23 +4,27 @@ const router = Router();
 
 let users = [
   {"id":"1",
-    "name":"Thomas",
+    "userName":"Thomas",
     "mail":"thomas.kronvoldt@chasacademy.se",
+    "role":"admin",
     "password":"hej123",
   },
   {"id":"2",
-    "name":"Rebecca",
+    "userName":"Rebecca",
     "mail":"rebecca.lindman@chasacademy.se",
+    "role":"admin",
     "password":"hej123",
   },
   {"id":"3",
-    "name":"Gustav",
+    "userName":"Gustav",
     "mail":"gustav.thilander@chasacademy.se",
+    "role":"admin",
     "password":"hej123",
   },
   {"id":"4",
-    "name":"Benjamin",
+    "userName":"Benjamin",
     "mail":"benjamin.berhane@chasacademy.se",
+    "role":"admin",
     "password":"hej123",
   }
 ];
@@ -47,22 +51,31 @@ router.get('/:id', (req, res) => {
 //POST 
 //new user
 router.post('/', (req, res) => {
-  //create id and read body
+  const { userName, mail, role, password } = req.body;
+
+  // Validate required fields
+  if (!userName || !mail || !role || !password) {
+    return res.status(400).json({ message: 'Alla fält måste vara ifyllda' });
+  }
+
   const user = {
     id: uuidv4(),
-    name,
+    userName,
     mail,
     role,
     password
   };
-  res.status(201).json({ message: 'Användare skapad', user });
+
   users.push(user);
+
+  res.status(201).json({ message: 'Användare skapad', user });
 });
+
 
 //PATCH or PUT or both
 //edit specific user
 //* This approach is cleaner and requires control, whitelist 'allowedUpdates'
-const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
+const allowedUpdates = ['userName', 'mail', 'password']; //* input whitelist
 
 router.patch('/:id', (req, res) => {
   const id = req.params.id;

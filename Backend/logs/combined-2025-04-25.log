@@ -18,3 +18,23 @@
 2025-04-25 10:27:58.045 +0200 [my-app] info: Server is running on http://localhost:3000
 2025-04-25 10:47:26.577 +0200 [my-app] info: Logger initialized at level: debug
 2025-04-25 10:47:26.580 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 10:55:52.467 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 10:55:52.471 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 10:56:46.459 +0200 [my-app] warn: 404 - Not Found - /api/sensors/1/waterlevelsss
+2025-04-25 11:16:53.964 +0200 [my-app] warn: 404 - Not Found - /api/users/5
+2025-04-25 11:17:00.850 +0200 [my-app] error: name is not defined - POST /api/users
+2025-04-25 11:17:10.048 +0200 [my-app] warn: 404 - Not Found - /api/users
+2025-04-25 11:17:19.961 +0200 [my-app] error: name is not defined - POST /api/users
+2025-04-25 11:17:30.934 +0200 [my-app] error: name is not defined - POST /api/users
+2025-04-25 11:18:55.063 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 11:18:55.067 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 11:18:57.237 +0200 [my-app] error: userName is not defined - POST /api/users
+2025-04-25 11:19:02.800 +0200 [my-app] error: userName is not defined - POST /api/users
+2025-04-25 11:19:50.068 +0200 [my-app] error: userName is not defined - POST /api/users
+2025-04-25 11:19:54.516 +0200 [my-app] warn: 404 - Not Found - /api/users
+2025-04-25 11:19:57.577 +0200 [my-app] warn: 404 - Not Found - /api/users/1
+2025-04-25 11:20:40.647 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 11:20:40.651 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 11:21:09.835 +0200 [my-app] error: userName is not defined - POST /api/users/
+2025-04-25 11:23:15.605 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 11:23:15.609 +0200 [my-app] info: Server is running on http://localhost:3000

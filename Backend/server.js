@@ -36,9 +36,9 @@ app.get('/', (req, res) => {
 app.use('/api/sensors', sensorRouter);
 app.use('/api/users', userRouter);
 
-// undefined routes are logged
+// Catch all undefined routes
 app.use((req, res, next) => {
-  const message = `404 - Not Found - ${req.originalUrl}`;
+  const message = `404 - Not Found - ${req.originalUrl} (${req.method})`;
   logger.warn(message);
   res.status(404).json({ error: message });
 });

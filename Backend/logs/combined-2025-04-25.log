@@ -40,3 +40,41 @@
 2025-04-25 11:23:15.609 +0200 [my-app] info: Server is running on http://localhost:3000
 2025-04-25 11:25:50.720 +0200 [my-app] info: Logger initialized at level: debug
 2025-04-25 11:25:50.724 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 11:43:25.070 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 11:43:25.073 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 11:49:49.919 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 11:49:49.923 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 11:58:33.442 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 11:58:33.446 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 11:59:02.791 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 11:59:02.794 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 11:59:11.860 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 11:59:11.864 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:00:41.134 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:00:41.138 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:01:18.889 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:01:18.893 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:01:42.764 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:01:42.768 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:01:48.828 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:01:48.832 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:04:23.943 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:04:23.947 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:05:35.616 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:05:35.620 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:09:02.424 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:09:02.428 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:09:04.278 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:12.332 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:09:12.336 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:09:13.207 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:17.016 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:48.228 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:09:48.232 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:09:49.744 +0200 [FloodCast] error: batteryStatus must be a finite number - POST /api/sensors/
+2025-04-25 12:11:27.487 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:11:27.490 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:13:06.779 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:13:06.783 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:17:51.334 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:17:51.337 +0200 [FloodCast] info: Server is running on http://localhost:3000

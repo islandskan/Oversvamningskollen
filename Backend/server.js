@@ -19,6 +19,14 @@ app.use(express.json());
 // ✅ This logs all HTTP requests (GET, POST, etc.) in dev mode
 app.use(morganMiddleware);
 
+// Custom POST and PUT logging
+app.use((req, res, next) => {
+  if (['POST', 'PUT'].includes(req.method)) {
+    logger.debug(`Request Body for ${req.method} ${req.url}: ${JSON.stringify(req.body)}`);
+  }
+  next();
+});
+
 // Basic route
 app.get('/', (req, res) => {
   res.send('Startsida!');
@@ -41,5 +49,5 @@ logger.info(`Logger initialized at level: ${logger.level}`);
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);
-  logger.info(`Servern körs på http://localhost:${PORT}`);
+  logger.info(`Server is running on http://localhost:${PORT}`);
 });

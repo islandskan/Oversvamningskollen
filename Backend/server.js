@@ -1,11 +1,14 @@
 // server.js
-import app from './app.js';
+import app from './app.js';  // Import app from app.js
 import handleProcessEvents from './startup/handleProcessEvents.js';
+import dotenv from 'dotenv';
 import logger from './logger/logger.js';
 
-const PORT = process.env.PORT || 3000;
+dotenv.config();
 
 handleProcessEvents();
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servern körs på http://localhost:${PORT}`);

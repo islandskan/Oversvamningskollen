@@ -54,8 +54,14 @@ router.post('/', (req, res) => {
   const { userName, mail, role, password } = req.body;
 
   // Validate required fields
-  if (!userName || !mail || !role || !password) {
-    return res.status(400).json({ message: 'Alla fält måste vara ifyllda' });
+  const missingFields = [];
+  if (!userName) missingFields.push('userName');
+  if (!mail) missingFields.push('mail');
+  if (!role) missingFields.push('role');
+  if (!password) missingFields.push('password');
+
+  if (missingFields.length > 0) {
+    return res.status(400).json({ message: `Alla fält måste vara ifyllda, saknar ${missingFields.join(', ')}` });
   }
 
   const user = {

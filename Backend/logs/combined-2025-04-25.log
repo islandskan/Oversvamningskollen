@@ -38,3 +38,5 @@
 2025-04-25 11:21:09.835 +0200 [my-app] error: userName is not defined - POST /api/users/
 2025-04-25 11:23:15.605 +0200 [my-app] info: Logger initialized at level: debug
 2025-04-25 11:23:15.609 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 11:25:50.720 +0200 [my-app] info: Logger initialized at level: debug
+2025-04-25 11:25:50.724 +0200 [my-app] info: Server is running on http://localhost:3000

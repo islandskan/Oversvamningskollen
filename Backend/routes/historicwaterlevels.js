@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import historicwaterlevelsMockdata from '../data/mockdata/historicwaterlevels.json' assert { type: 'json' };
+import historicwaterlevelsMockdata from '../data/mockdata/historicwaterlevels.json' with { type: 'json' };
 
 const router = Router({ mergeParams: true });
 
@@ -28,5 +28,5 @@ router.get('/', (req, res) => {
     });
   });
 
+  */
 export default router;
- */

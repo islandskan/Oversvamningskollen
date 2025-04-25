@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import waterlevelsRouter from './waterlevels.js';
 import historicwaterlevelsRouter from './historicwaterlevels.js';
-import waterlevelsMockdata from '../data/mockdata/waterlevels.json' assert { type: 'json' };
-import sensorsMockdata from '../data/mockdata/sensors.json' assert { type: 'json' };
+import waterlevelsMockdata from '../data/mockdata/waterlevels.json' with { type: 'json' };
+import sensorsMockdata from '../data/mockdata/sensors.json' with { type: 'json' };
 
 const router = Router();
 

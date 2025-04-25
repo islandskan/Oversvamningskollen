@@ -1,4 +1,5 @@
 import express from 'express';
+import logger from './logger/logger.js';
 import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import errorHandler from "./middleware/errorHandler.js";

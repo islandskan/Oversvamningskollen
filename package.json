@@ -1,7 +1,7 @@
 {
   "name": "oversvamningskollen",
   "version": "1.0.0",
-  "description": "<section align=\"center\"> <h1>Chas Challenge: ÖVERSVÄMNINGSKOLLEN</h1> </section>",
+  "description": "Chas Challenge: ÖVERSVÄMNINGSKOLLEN",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

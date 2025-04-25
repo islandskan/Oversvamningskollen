@@ -30,6 +30,15 @@ let users = [
 ];
 //GET 
 //list of users
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     description: Retrieve a list of users
+ *     responses:
+ *       200:
+ *         description: A list of users
+ */
 router.get('/', (req, res) => {
   if(users.length === 0){
     return res.status(404).json({message: 'Inga användare kunde hämtas'});

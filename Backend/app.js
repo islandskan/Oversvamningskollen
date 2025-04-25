@@ -6,6 +6,8 @@ import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import errorHandler from "./middleware/errorHandler.js";
 import morganMiddleware from './middleware/loggerMiddleware.js';
+import { swaggerSpec, swaggerUi } from './swagger.js'; // Import Swagger UI and spec
+
 
 dotenv.config();
 
@@ -21,6 +23,9 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Swagger setup: Serve the documentation on '/api-docs'
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Startsida
 app.get('/', (req, res) => {

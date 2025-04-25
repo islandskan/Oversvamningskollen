@@ -40,3 +40,11 @@
 2025-04-25 11:23:15.609 +0200 [my-app] info: Server is running on http://localhost:3000
 2025-04-25 11:25:50.720 +0200 [my-app] info: Logger initialized at level: debug
 2025-04-25 11:25:50.724 +0200 [my-app] info: Server is running on http://localhost:3000
+2025-04-25 12:31:58.949 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:31:58.953 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:33:38.461 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:33:38.464 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:33:39.767 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:33:39.770 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-25 12:34:47.841 +0200 [FloodCast] info: Logger initialized at level: debug
+2025-04-25 12:34:47.845 +0200 [FloodCast] info: Server is running on http://localhost:3000

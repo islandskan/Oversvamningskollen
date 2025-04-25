@@ -1,33 +1,9 @@
 import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import usersMockdata from '../data/mockdata/users.json' with { type: 'json' };
 const router = Router();
 
-let users = [
-  {"id":"1",
-    "userName":"Thomas",
-    "mail":"thomas.kronvoldt@chasacademy.se",
-    "role":"admin",
-    "password":"hej123",
-  },
-  {"id":"2",
-    "userName":"Rebecca",
-    "mail":"rebecca.lindman@chasacademy.se",
-    "role":"admin",
-    "password":"hej123",
-  },
-  {"id":"3",
-    "userName":"Gustav",
-    "mail":"gustav.thilander@chasacademy.se",
-    "role":"admin",
-    "password":"hej123",
-  },
-  {"id":"4",
-    "userName":"Benjamin",
-    "mail":"benjamin.berhane@chasacademy.se",
-    "role":"admin",
-    "password":"hej123",
-  }
-];
+let users = usersMockdata;
 //GET 
 //list of users
 /**
@@ -70,7 +46,7 @@ router.post('/', (req, res) => {
   if (!password) missingFields.push('password');
 
   if (missingFields.length > 0) {
-    return res.status(400).json({ message: `Alla fält måste vara ifyllda, saknar ${missingFields.join(', ')}` });
+    return res.status(400).json({ message: `All fields must be provided, missing fields: ${missingFields.join(', ')}` });
   }
 
   const user = {

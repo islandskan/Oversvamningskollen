@@ -1,0 +1,26 @@
+[
+    {"id":"1",
+      "userName":"Thomas",
+      "mail":"thomas.kronvoldt@chasacademy.se",
+      "role":"admin",
+      "password":"hej123"
+    },
+    {"id":"2",
+      "userName":"Rebecca",
+      "mail":"rebecca.lindman@chasacademy.se",
+      "role":"admin",
+      "password":"hej123"
+    },
+    {"id":"3",
+      "userName":"Gustav",
+      "mail":"gustav.thilander@chasacademy.se",
+      "role":"admin",
+      "password":"hej123"
+    },
+    {"id":"4",
+      "userName":"Benjamin",
+      "mail":"benjamin.berhane@chasacademy.se",
+      "role":"admin",
+      "password":"hej123"
+    }
+  ]

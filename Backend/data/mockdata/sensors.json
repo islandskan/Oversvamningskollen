@@ -2,21 +2,25 @@
     {
         "sensorID":"1", 
         "batteryStatus":80,
+        "installationDate":"2025-01-01",
         "locationID":"Malmö1" 
     },
     {
         "sensorID":"2",
         "batteryStatus":90,
+        "installationDate":"2025-01-01",
         "locationID":"Malmö2" 
     },
     {
         "sensorID":"3",
         "batteryStatus":100,
+        "installationDate":"2025-01-01",
         "locationID":"Malmö3" 
     },
     {
         "sensorID":"4",
         "batteryStatus":25,
+        "installationDate":"2025-01-01",
         "locationID":"Malmö4"
     }
 

@@ -46,7 +46,24 @@ router.get('/:sensorID', (req, res) => {
 //new sensor
 router.post('/', (req, res) => {
   const sensor = req.body;
-  // Här kan man lägga till logik för att spara i databas eller lista
+  if (!sensor.sensorID || !sensor.batteryStatus) {
+    return res.status(400).json({
+      message: 'Sensor information is required: sensorID, batteryStatus, installationDate (optional)'
+    });
+  }
+
+  if (!Number.isFinite(sensor.batteryStatus) || sensor.batteryStatus < 0 || sensor.batteryStatus > 100) {
+    return res.status(400).json({
+      message: 'batteryStatus must be a finite number between 0 and 100'
+    });
+  }
+
+  sensor.sensorID = uuidv4();
+  sensor.installationDate = req.body.installationDate
+    ? new Date(req.body.installationDate).toISOString().slice(0, 10)
+    : new Date().toISOString().slice(0, 10);
+  
+  sensors.push(sensor);
   res.status(201).json({ message: 'Sensor tillagd', sensor });
 });
 

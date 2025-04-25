@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/.6af3a3ff9566904396371e084aa1dbbfb8fa8bde-audit.json",
+    "files": [
+        {
+            "date": 1745567868156,
+            "name": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/rejections-2025-04-25.log",
+            "hash": "12513664fbc9b21b8a0207ac4c033817a98506353cebb353649d039efbaef31d"
+        }
+    ],
+    "hashType": "sha256"
+}

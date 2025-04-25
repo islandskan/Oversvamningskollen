@@ -1,3 +1,4 @@
+//docs/userSwagger.js
 /**
  * @swagger
  * /api/users:

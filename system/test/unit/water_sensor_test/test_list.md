@@ -23,9 +23,9 @@
 | Test case ID | Description                                             | Done? |
 | ------------ | ------------------------------------------------------- | ----- |
 | TC1.1        | Dry sensor should read 0                                | [ ]   |
-| TC1.2        | -20% water below treshold read low level                | [ ]   |
+| TC1.2        | -10% water below treshold read low level                | [ ]   |
 | TC1.3        | water level at treshold should read medium/normal level | [ ]   |
-| TC1.4        | 20% above treshold should read high level               | [ ]   |
+| TC1.4        | 10% above treshold should read high level               | [ ]   |
 | TC1.5        | 40% above treshold should read very high level          | [ ]   |
 | TC1.6        | 50% or more above treshold should read DANGER           | [ ]   |
 

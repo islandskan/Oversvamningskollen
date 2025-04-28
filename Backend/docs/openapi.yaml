@@ -21,7 +21,7 @@ paths:
                 SimpleUser:
                   summary: Simple user example
                   value:
-                    - id: 1
+                    - userID: 1
                       name: John Doe
                       email: johndoe@example.com
     post:
@@ -52,11 +52,11 @@ paths:
                     id: 1
                     name: John Doe
                     email: johndoe@example.com
-  /api/users/{id}:
+  /api/users/{userID}:
     get:
       summary: Get a user
       parameters:
-        - name: id
+        - name: userID
           in: path
           required: true
           schema:
@@ -72,43 +72,51 @@ paths:
                 SimpleUser:
                   summary: Simple user example
                   value:
-                    id: 1
+                    userID: 1
                     name: John Doe
                     email: johndoe@example.com
     patch:
       summary: Update a user
+      parameters:
+        - name: userID  # Rename the parameter to userID to avoid confusion
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
               $ref: '#/components/schemas/User'
             examples:
               SimpleUser:
                 summary: Simple user example
                 value:
-                  name: Jane Doe
-                  email: janedoe@example.com
+                  userName: Jane Doe
+                  mail: janedoe@example.com
+                  role: user
+                  password: newpassword123
       responses:
         '200':
           description: Updated user
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/User'
               examples:
                 SimpleUser:
-                  summary: Simple user example
+                  summary: Updated user example
                   value:
-                    id: 1
-                    name: Jane Doe
-                    email: janedoe@example.com
+                    userID: 1
+                    userName: Jane Doe
+                    mail: janedoe@example.com
+                    role: user
+                    password: newpassword123
     delete:
       summary: Delete a user
       parameters:
-        - name: id
+        - name: userID
           in: path
           required: true
           schema:
@@ -137,12 +145,12 @@ paths:
                 SimpleSensors:
                   summary: Simple sensors example
                   value:
-                    - id: 1
+                    - sensorID: 1
                       name: Sensor 1
                       batteryStatus: 80
                       installationDate: '2023-02-01'
                       locationID: 'Malmoe1'
-                    - id: 2
+                    - sensorID: 2
                       name: Sensor 2
                       batteryStatus: 50
                       installationDate: '2023-02-01'
@@ -155,7 +163,8 @@ paths:
           application/json:
             schema:
               type: array
-              $ref: '#/components/schemas/SensorInput'
+              items:
+                $ref: '#/components/schemas/SensorInput'
             examples:
               SimpleSensors:
                 summary: Simple sensors example
@@ -175,17 +184,18 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/Sensor'
+                items:
+                  $ref: '#/components/schemas/Sensor'
               examples:
                 SimpleSensors:
                   summary: Simple sensors example
                   value:
-                    - id: 1
+                    - sensorID: 1
                       name: Sensor 1
                       batteryStatus: 50
                       installationDate: '2023-02-01'
                       locationID: 'Malmoe1'
-                    - id: 2
+                    - sensorID: 2
                       name: Sensor 2
                       batteryStatus: 50
                       installationDate: '2023-02-01'

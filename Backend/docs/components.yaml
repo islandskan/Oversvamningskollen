@@ -33,3 +33,44 @@ components:
         password:
           type: string
           example: 'password123'
+    Sensor:
+      type: object
+      properties:
+        sensorID:
+          type: string
+          example: "1"
+        batteryStatus:
+          type: integer
+          example: 80
+        installationDate:
+          type: string
+          format: date
+          example: "2025-01-01"
+        locationID:
+          type: string
+          example: "Malmö1"
+    SensorsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Hämtar alla sensorer"
+        sensors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+    SensorInput:  
+      type: object
+      properties:
+        sensorName:
+          type: string
+          example: 'Sensor 1'
+        batteryStatus:
+          type: integer
+          example: 100
+        installationDate:
+          type: string
+          example: '2023-01-01'
+        locationID:
+          type: string
+          example: 'Malmö1'

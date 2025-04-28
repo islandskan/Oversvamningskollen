@@ -1,0 +1,35 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userID:
+          type: string
+          example: '1'
+        userName:
+          type: string
+          example: 'Thomas'
+        mail:
+          type: string
+          example: 'thomas.kronvoldt@chasacademy.se'
+        role:
+          type: string
+          example: 'admin'
+        password:
+          type: string
+          example: 'password123'
+    UserInput:
+      type: object
+      properties:
+        userName:
+          type: string
+          example: 'ThomasK'
+        mail:
+          type: string
+          example: 'thomas.kronvoldt@chasacademy.se'
+        role:
+          type: string
+          example: 'user'
+        password:
+          type: string
+          example: 'password123'

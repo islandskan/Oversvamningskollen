@@ -97,20 +97,7 @@
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               userName:
- *                 type: string
- *                 example: JohnDoe
- *               mail:
- *                 type: string
- *                 example: john.doe@example.com
- *               role:
- *                 type: string
- *                 example: user
- *               password:
- *                 type: string
- *                 example: password123
+ *             $ref: '#/components/schemas/UserInput'
  *     responses:
  *       201:
  *         description: User created successfully

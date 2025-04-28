@@ -6,8 +6,10 @@ import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
-import { swaggerDocs } from './docs/swagger.js';  // Import the swaggerDocs
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
+
+import { swaggerDocument} from './docs/swagger.js';
+
 
 dotenv.config();
 
@@ -16,8 +18,9 @@ const app = express();
 app.use(express.json());
 app.use(morganMiddleware);
 
-// Serve Swagger API Docs at /api-docs endpoint
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Serve the clean YAML version
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Other routes
 app.use('/api/sensors', sensorRouter);

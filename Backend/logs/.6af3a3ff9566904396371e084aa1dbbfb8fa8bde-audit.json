@@ -9,6 +9,11 @@
             "date": 1745568612422,
             "name": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/rejections-2025-04-25.log",
             "hash": "e9666537c13e31d25ab029d2b38ae69df171b4889981f7cde784d805f40f41c7"
+        },
+        {
+            "date": 1745828780227,
+            "name": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/rejections-2025-04-28.log",
+            "hash": "2e0546343be61a31ca6afa8a4dfde6f58ef5bc412851c6411c2af2e31b7e18c8"
         }
     ],
     "hashType": "sha256"

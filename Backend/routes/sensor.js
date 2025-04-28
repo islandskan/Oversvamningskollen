@@ -46,9 +46,9 @@ router.get('/:sensorID', (req, res) => {
 //new sensor
 router.post('/', (req, res) => {
   const sensor = req.body;
-  if (!sensor.sensorID || !sensor.batteryStatus) {
+  if (!sensor.locationID || !sensor.batteryStatus) {
     return res.status(400).json({
-      message: 'Sensor information is required: sensorID, batteryStatus, installationDate (optional)'
+      message: 'Sensor information is required: locationID, batteryStatus, installationDate (optional)'
     });
   }
 

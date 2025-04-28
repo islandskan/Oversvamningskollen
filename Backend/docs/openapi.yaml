@@ -241,6 +241,16 @@ components:
         locationID:
           type: string
           example: "Malmö1"
+    SensorsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Hämtar alla sensorer"
+        sensors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
     SensorInput:  
       type: object
       properties:

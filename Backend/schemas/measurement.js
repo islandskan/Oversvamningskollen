@@ -7,13 +7,10 @@ let measurementSchema = new Schema({
         type: String,
         required: true
     },
-    date: {
+    timestamp: {
         type: String,
-        required: true
-    },
-    time: {
-        type: String,
-        required: true
+        required: true,
+        default: new Date().toISOString().slice(0, 10)
     },
     waterlevel: {
         type: Number,

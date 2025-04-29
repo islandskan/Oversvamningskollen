@@ -5,20 +5,17 @@
       {
         "measurementID": "105",
         "waterlevel": 4,
-        "date": "2025-03-22",
-        "time": "10:00:00"
+        "timestamp": "2025-03-22T10:00:00.000Z"
       },
       {
         "measurementID": "104",
         "waterlevel": 5,
-        "date": "2025-03-21",
-        "time": "10:00:00"
+        "timestamp": "2025-03-21T10:00:00.000Z"
       },
       {
         "measurementID": "103",
         "waterlevel": 6,
-        "date": "2025-03-20",
-        "time": "10:00:00"
+        "timestamp": "2025-03-20T10:00:00.000Z"
       }
     ]
   },
@@ -27,18 +24,15 @@
     "measurements": [
       {
         "measurementID": "01",
-        "date": "2025-04-17",
-        "time": "10:00:00"
+        "timestamp": "2025-04-17T10:00:00.000Z"
       },
       {
         "measurementID": "02",
-        "date": "2025-04-10",
-        "time": "10:00:00"
+        "timestamp": "2025-04-10T10:00:00.000Z"
       },
       {
         "measurementID": "03",
-        "date": "2025-04-09",
-        "time": "10:00:00"
+        "timestamp": "2025-04-09T10:00:00.000Z"
       }
     ]
   },

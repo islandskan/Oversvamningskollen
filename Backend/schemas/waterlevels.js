@@ -7,8 +7,13 @@ let waterlevelsSchema = new Schema ({
     },
     measurements: {
         type: [measurementSchema],
-        required: true
+        required: true,
+        validate: [arrayLimit, '{PATH} exceeds the limit of 3']
     }
 })
+
+function arrayLimit(val) {
+    return val.length <= 3;
+}
 
 export { waterlevelsSchema }

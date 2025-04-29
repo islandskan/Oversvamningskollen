@@ -14,6 +14,11 @@
             "date": 1745828780223,
             "name": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/combined-2025-04-28.log",
             "hash": "c3f4d9e7729f4219d45782d351fb0efc67646a1d50c2a48216fadbdc0094ddb9"
+        },
+        {
+            "date": 1745926855180,
+            "name": "/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/logs/combined-2025-04-29.log",
+            "hash": "b11612e1ff03d49243e93e7acaba93dec389606be48602badf4dbcd47e0d1915"
         }
     ],
     "hashType": "sha256"

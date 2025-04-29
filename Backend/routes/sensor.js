@@ -34,12 +34,12 @@ router.use('/:sensorID/historicwaterlevels', historicwaterlevelsRouter);
 
 //specific sensor
 router.get('/:sensorID', (req, res) => {
-  const id=req.params.id;
-  const sensor = sensors.find(u => u.id === id);
+  const existingID=req.params.sensorID;
+  const sensor = sensors.find(u => u.sensorID === existingID);
   if(!sensor){
     return res.status(404).json({message: 'Sensorn kan inte hittas'});
   }
-  res.status(200).json({ message: `Hämtar sensor ${sensor.id}`, sensor });
+  res.status(200).json({ message: `Hämtar sensor ${existingID}`, sensor });
 });
 
 //POST 
@@ -75,7 +75,7 @@ router.post('/', (req, res) => {
 const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
 
 router.patch('/:sensorID', (req, res) => {
-  const id = req.params.sensorID;
+  const existingID = req.params.sensorID;
   const updates = Object.keys(req.body);
   
   // Find the invalid fields
@@ -88,7 +88,7 @@ router.patch('/:sensorID', (req, res) => {
     });
   }
 
-  const sensor = sensors.find(s => s.id === id);
+  const sensor = sensors.find(s => s.sensorID === existingID);
   if (!sensor) return res.status(404).send('Sensorn hittades inte');
 
   Object.assign(sensor, req.body);
@@ -100,9 +100,9 @@ router.patch('/:sensorID', (req, res) => {
 //DELETE
 //delete specific sensor
 router.delete('/:sensorID', (req, res) => {
-  const id = req.params.sensorID;
+  const existingID = req.params.sensorID;
 
-  const index = sensors.findIndex(p => p.sensorID === id);
+  const index = sensors.findIndex(p => p.sensorID === existingID);
 
   if (index === -1) {
     return res.status(404).json({ message: 'Sensorn hittades inte'});
@@ -110,7 +110,7 @@ router.delete('/:sensorID', (req, res) => {
 
   sensors.splice(index, 1);
 
-  res.json({ message: `Tog bort en sensor med id: ${id}`, sensors });
+  res.json({ message: `Tog bort en sensor med id: ${existingID}`, sensors });
 });
 
 

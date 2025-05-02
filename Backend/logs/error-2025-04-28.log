@@ -1,0 +1,2 @@
+2025-04-28 13:59:01.167 +0200 [FloodCast] error: Unexpected token '"', ""string"" is not valid JSON - POST /api/sensors
+2025-04-28 14:00:05.348 +0200 [FloodCast] error: Expected ',' or '}' after property value in JSON at position 48 - POST /api/sensors

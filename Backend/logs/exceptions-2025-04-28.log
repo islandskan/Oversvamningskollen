@@ -1,0 +1,17 @@
+2025-04-28 11:52:57.394 +0200 [FloodCast] error: uncaughtException: app is not defined
+ReferenceError: app is not defined
+    at file:///Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/docs/swagger.js:22:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:234:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:473:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:122:5)
+2025-04-28 13:46:36.730 +0200 [FloodCast] error: uncaughtException: ENOENT: no such file or directory, open '/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/openapi.yaml'
+Error: ENOENT: no such file or directory, open '/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/openapi.yaml'
+    at Object.openSync (node:fs:574:18)
+    at Object.readFileSync (node:fs:453:35)
+    at Utils.getStringFromFile (/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/node_modules/yamljs/lib/Utils.js:284:19)
+    at Yaml.parseFile (/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/node_modules/yamljs/lib/Yaml.js:46:21)
+    at Yaml.load (/Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/node_modules/yamljs/lib/Yaml.js:78:17)
+    at file:///Users/rebeccalindman/Documents/Chas/JSX24/Oversvamningskollen/Oversvamningskollen/Backend/docs/swagger.js:9:30
+    at ModuleJob.run (node:internal/modules/esm/module_job:234:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:473:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:122:5)

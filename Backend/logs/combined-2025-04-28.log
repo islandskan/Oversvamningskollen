@@ -1,0 +1,71 @@
+2025-04-28 10:26:20.388 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 10:26:31.689 +0200 [FloodCast] warn: 404 - Not Found - /
+2025-04-28 10:26:37.234 +0200 [FloodCast] warn: 404 - Not Found - /test
+2025-04-28 10:35:41.852 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 10:57:57.150 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:00:17.114 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:01:05.279 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:01:15.895 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:01:41.529 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:01:48.100 +0200 [FloodCast] warn: 404 - Not Found - /api-docs-jsdocs/
+2025-04-28 11:06:11.604 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:10:35.483 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:10:49.472 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:11:32.428 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:11:54.172 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:12:43.827 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:13:56.186 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:31:35.343 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:31:40.209 +0200 [FloodCast] warn: 404 - Not Found - /api-docs/
+2025-04-28 11:31:43.060 +0200 [FloodCast] warn: 404 - Not Found - /api-docs/
+2025-04-28 11:31:43.379 +0200 [FloodCast] warn: 404 - Not Found - /api-docs/
+2025-04-28 11:36:16.991 +0200 [FloodCast] warn: 404 - Not Found - /api-docs/
+2025-04-28 11:36:17.387 +0200 [FloodCast] warn: 404 - Not Found - /api-docs/
+2025-04-28 11:38:49.562 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:41:19.876 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:42:59.521 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:48:37.753 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:50:18.309 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:53:39.112 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 11:53:46.253 +0200 [FloodCast] warn: 404 - Not Found - /api-docs-jsdoc/
+2025-04-28 11:54:15.112 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 12:01:49.267 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:44:30.712 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:44:43.375 +0200 [FloodCast] warn: 404 - Not Found - /
+2025-04-28 13:45:36.013 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:47:01.524 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:48:01.456 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:49:34.785 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:55:09.791 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:58:04.605 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 13:59:01.167 +0200 [FloodCast] error: Unexpected token '"', ""string"" is not valid JSON - POST /api/sensors
+2025-04-28 14:00:05.348 +0200 [FloodCast] error: Expected ',' or '}' after property value in JSON at position 48 - POST /api/sensors
+2025-04-28 14:03:34.317 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:06:29.147 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:06:36.896 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:07:14.164 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:09:03.623 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:11:34.707 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:13:56.956 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:16:32.909 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:17:26.167 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:17:35.554 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:18:28.190 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:19:03.396 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:19:56.941 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:20:22.576 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:20:50.647 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:21:03.490 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:21:38.315 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:21:43.118 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 14:22:11.105 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:06:28.892 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:07:15.121 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:10:10.415 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:11:02.983 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:12:30.654 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:18:41.780 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:36:41.961 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:37:15.393 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:47:44.194 +0200 [FloodCast] info: Server is running on http://localhost:3000
+2025-04-28 16:52:14.544 +0200 [FloodCast] info: Server is running on http://localhost:3000

@@ -1,0 +1,4 @@
+2025-04-25 12:09:04.278 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:13.207 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:17.016 +0200 [FloodCast] error: batteryStatus must be a number - POST /api/sensors/
+2025-04-25 12:09:49.744 +0200 [FloodCast] error: batteryStatus must be a finite number - POST /api/sensors/

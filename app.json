@@ -59,6 +59,14 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow FloodCast to use your location to show nearby flood risks."
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/floodcast-logo.png",
+          "color": "#795de2",
+          "sounds": ["./assets/sounds/notification.wav"]
+        }
       ]
     ],
     "experiments": {

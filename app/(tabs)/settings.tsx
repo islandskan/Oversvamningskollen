@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { useColorScheme, setColorScheme } from '@/hooks/useColorScheme';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { SettingItem } from '@/components/ui/SettingItem';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { LogoutButton } from '@/components/ui/LogoutButton';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -37,28 +38,6 @@ export default function SettingsScreen() {
     }
   };
 
-  interface SettingItemProps {
-    icon: string;
-    title: string;
-    description?: string;
-    control: React.ReactNode;
-  }
-
-  const SettingItem = ({ icon, title, description, control }: SettingItemProps) => (
-    <View className="flex-row items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-xl mb-3">
-      <View className="w-10 h-10 rounded-full bg-modern-purple/10 items-center justify-center mr-3">
-        <IconSymbol name={icon as any} size={20} color={isDarkMode ? '#795de2' : '#795de2'} />
-      </View>
-      <View className="flex-1">
-        <Text className="text-base font-medium text-gray-800 dark:text-gray-200">{title}</Text>
-        {description && (
-          <Text className="text-sm text-gray-500 dark:text-gray-400">{description}</Text>
-        )}
-      </View>
-      {control}
-    </View>
-  );
-
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
       <ScrollView className="flex-1 px-4">
@@ -67,12 +46,7 @@ export default function SettingsScreen() {
         </View>
 
         <View className="mb-6">
-          {/*  dot before section header */}
-          <View className="flex-row items-center mb-4">
-            <View className="w-4 h-4 rounded-full bg-modern-purple mr-2" />
-            <Text className="text-xl font-bold text-gray-900 dark:text-white">Appearance</Text>
-          </View>
-
+          <SectionHeader title="Appearance" />
           <SettingItem
             icon="gear"
             title="Dark Mode"
@@ -90,12 +64,7 @@ export default function SettingsScreen() {
         </View>
 
         <View className="mb-6">
-          {/* dot before section header */}
-          <View className="flex-row items-center mb-4">
-            <View className="w-4 h-4 rounded-full bg-modern-purple mr-2" />
-            <Text className="text-xl font-bold text-gray-900 dark:text-white">Notifications</Text>
-          </View>
-
+          <SectionHeader title="Notifications" />
           <SettingItem
             icon="paperplane.fill"
             title="Push Notifications"
@@ -128,12 +97,7 @@ export default function SettingsScreen() {
         </View>
 
         <View className="mb-6">
-          {/*  dot before section header */}
-          <View className="flex-row items-center mb-4">
-            <View className="w-4 h-4 rounded-full bg-modern-purple mr-2" />
-            <Text className="text-xl font-bold text-gray-900 dark:text-white">About</Text>
-          </View>
-          
+          <SectionHeader title="About" />
           <View className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
             <Text className="text-base text-gray-800 dark:text-gray-200 font-medium">
               FloodCast v1.0.0
@@ -147,22 +111,7 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        {/* logout button with red gradient */}
-        <View className="my-8">
-          <TouchableOpacity
-            className="rounded-xl overflow-hidden"
-            onPress={handleLogout}
-          >
-            <LinearGradient
-              colors={['#ef4444', '#b91c1c']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0.5, y: 0.866 }} // 120 degrees in x,y coordinates
-              className="py-3 px-4 items-center"
-            >
-              <Text className="text-white font-semibold text-base">Log Out</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+        <LogoutButton onPress={handleLogout} />
       </ScrollView>
     </SafeAreaView>
   );

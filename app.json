@@ -7,8 +7,8 @@
     "icon": "./assets/images/floodcast-logo.png",
     "splash": {
       "image": "./assets/images/floodcast-logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#101d2a"
     },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -16,26 +16,19 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/floodcast-logo.png"
+      "favicon": "./assets/images/floodcast-192.png"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.floodcast.app",
-      "config": {
-        "googleMapsApiKey": "YOUR_IOS_API_KEY_HERE"
-      }
+      "bundleIdentifier": "com.floodcast.app"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/floodcast-logo.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#101d2a"
       },
       "package": "com.floodcast.app",
-      "config": {
-        "googleMaps": {
-          "apiKey": "YOUR_ANDROID_API_KEY_HERE"
-        }
-      },
+      
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
@@ -48,10 +41,9 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/floodcast-logo.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/images/splash.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#101d2a"
         }
       ],
       [
@@ -63,9 +55,9 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/images/floodcast-logo.png",
-          "color": "#795de2",
-          "sounds": ["./assets/sounds/notification.wav"]
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#101d2a"
+          
         }
       ]
     ],

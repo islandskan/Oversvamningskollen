@@ -1,7 +1,11 @@
 import dotenv from 'dotenv';
-import pkg from 'pg'
+import pkg from 'pg';
 
-dotenv.config();
+dotenv.config(); // .env kommer nu att laddas från rotmappen automatiskt
+
+if (!process.env.PG_URI) {
+  throw new Error('PG_URI är inte definierad! Kontrollera att .env-filen finns i rotmappen och innehåller rätt data.');
+}
 
 const { Pool } = pkg;
 

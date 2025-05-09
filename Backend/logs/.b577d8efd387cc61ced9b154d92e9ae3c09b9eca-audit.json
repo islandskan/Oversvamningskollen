@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\thokr\\Repos\\Oversvamningskollen\\Backend\\logs\\.b577d8efd387cc61ced9b154d92e9ae3c09b9eca-audit.json",
+    "files": [
+        {
+            "date": 1746792703606,
+            "name": "C:\\Users\\thokr\\Repos\\Oversvamningskollen\\Backend\\logs\\exceptions-2025-05-09.log",
+            "hash": "6fc04b7b0170a1442acb3d4431823d61fdd69f1c35f1268c0acadb99cc770a08"
+        }
+    ],
+    "hashType": "sha256"
+}

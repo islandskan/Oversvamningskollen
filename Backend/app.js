@@ -12,6 +12,7 @@ import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 dotenv.config();
 
 const app = express();
+const router = express.Router();
 
 app.use(express.json());
 app.use(morganMiddleware);
@@ -20,8 +21,9 @@ app.use(morganMiddleware);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Other routes
-app.use('/api/sensors', sensorRouter);
-app.use('/api/users', userRouter);
+router.use('/api/sensors', sensorRouter);
+router.use('/api/users', userRouter);
+app.use(router);
 
 // 404 handler
 app.use((req, res) => {

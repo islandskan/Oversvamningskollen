@@ -1,116 +1,155 @@
 import { Router } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import waterlevelsRouter from './waterlevels.js';
-import historicwaterlevelsRouter from './historicwaterlevels.js';
-import waterlevelsMockdata from '../data/mockdata/waterlevels.json' with { type: 'json' };
-import sensorsMockdata from '../data/mockdata/sensors.json' with { type: 'json' };
+import { query } from '../db.js';
+
 
 const router = Router();
 
-//mockdata
-let sensors = sensorsMockdata;
-
-router.get('/', (req, res) => {
-  if(sensors.length === 0){
-    return res.status(404).json({message: 'Ingen data kunde hämtas'});
+// GET all sensors
+router.get('/', async (req, res) => {
+  try {
+    const result = await query(`SELECT * FROM sensors`);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Ingen data kunde hämtas' });
+    }
+    res.status(200).json({ message: 'Hämtar alla sensorer', sensors: result.rows });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid hämtning av sensorer', details: err.message });
   }
-  res.status(200).json({ message: 'Hämtar alla sensorer', sensors });
 });
 
-//waterlevels for all sensors
-router.get('/waterlevels', (req, res) => {
-  res.json({
-    message: 'Alla vattennivåer för alla sensorer',
-    data: waterlevelsMockdata
-  });
-});
-
-//* Waterlevels routing for specific sensor
-router.use('/:sensorID/waterlevels', waterlevelsRouter);
-
-
-//* Historicwaterlevels routing
-router.use('/:sensorID/historicwaterlevels', historicwaterlevelsRouter);
-
-//specific sensor
-router.get('/:sensorID', (req, res) => {
-  const existingID=req.params.sensorID;
-  const sensor = sensors.find(u => u.sensorID === existingID);
-  if(!sensor){
-    return res.status(404).json({message: 'Sensorn kan inte hittas'});
-  }
-  res.status(200).json({ message: `Hämtar sensor ${existingID}`, sensor });
-});
-
-//POST 
-//new sensor
-router.post('/', (req, res) => {
-  const sensor = req.body;
-  if (!sensor.locationID || !sensor.batteryStatus) {
-    return res.status(400).json({
-      message: 'Sensor information is required: locationID, batteryStatus, installationDate (optional)'
+// GET all waterlevels (historic)
+router.get('/historicwaterlevels', async (req, res) => {
+  try {
+    const result = await query(`SELECT * FROM waterlevels ORDER BY id DESC`);
+    res.json({
+      message: 'Alla vattennivåer för sensoren (senaste först)',
+      data: result.rows
     });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });
   }
-
-  if (!Number.isFinite(sensor.batteryStatus) || sensor.batteryStatus < 0 || sensor.batteryStatus > 100) {
-    return res.status(400).json({
-      message: 'batteryStatus must be a finite number between 0 and 100'
-    });
-  }
-
-  sensor.sensorID = uuidv4();
-  sensor.installationDate = req.body.installationDate
-    ? new Date(req.body.installationDate).toISOString().slice(0, 10)
-    : new Date().toISOString().slice(0, 10);
-  
-  sensors.push(sensor);
-  res.status(201).json({ message: 'Sensor tillagd', sensor });
-});
-
-//PATCH or PUT or both
-//edit specific sensor
-
-//todo update battery status
-//todo update with sensor whitelist and fields
-const allowedUpdates = ['name', 'mail', 'password']; //* input whitelist
-
-router.patch('/:sensorID', (req, res) => {
-  const existingID = req.params.sensorID;
-  const updates = Object.keys(req.body);
-  
-  // Find the invalid fields
-  const invalidFields = updates.filter(key => !allowedUpdates.includes(key));
-
-  if (invalidFields.length > 0) { //validates and sends feedback to developer
-    return res.status(400).json({ 
-      error: 'Ogiltiga fält i uppdateringen',
-      invalidFields: invalidFields 
-    });
-  }
-
-  const sensor = sensors.find(s => s.sensorID === existingID);
-  if (!sensor) return res.status(404).send('Sensorn hittades inte');
-
-  Object.assign(sensor, req.body);
-
-  res.json({ message: 'Sensorn uppdaterad', sensor });
 });
 
 
-//DELETE
-//delete specific sensor
-router.delete('/:sensorID', (req, res) => {
-  const existingID = req.params.sensorID;
+// GET latest waterlevel
+router.get('/waterlevels', async (req, res) => {
+  try {
+    const latestResult = await query(`SELECT * FROM waterlevels ORDER BY id DESC LIMIT 1`);
 
-  const index = sensors.findIndex(p => p.sensorID === existingID);
+    res.json({
+      message: 'Aktuell vattennivå',
+      latest: latestResult.rows[0] || null
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });
+  }
+});
 
-  if (index === -1) {
-    return res.status(404).json({ message: 'Sensorn hittades inte'});
+
+// GET specific sensor
+router.get('/:sensorID', async (req, res) => {
+  try {
+    const { sensorID } = req.params;
+    const result = await query(`SELECT * FROM sensors WHERE id = $1`, [sensorID]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Sensorn kan inte hittas' });
+    }
+    res.status(200).json({ message: `Hämtar sensor ${sensorID}`, sensor: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid hämtning av sensor', details: err.message });
+  }
+});
+
+// POST new sensor
+router.post('/', async (req, res) => {
+  const {
+    battery_status,
+    longitude,
+    latitude,
+    location_description,
+    installation_date,
+    sensor_failure = false,
+    lost_communication = false
+  } = req.body;
+
+  if (latitude == null) {
+    return res.status(400).json({ message: 'latitude är obligatoriskt' });
   }
 
-  sensors.splice(index, 1);
+  try {
+    const result = await query(`
+      INSERT INTO sensors (
+        installation_date,
+        battery_status,
+        longitude,
+        latitude,
+        location_description,
+        sensor_failure,
+        lost_communication
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
+    `, [
+      installation_date || new Date(),
+      battery_status,
+      longitude,
+      latitude,
+      location_description,
+      sensor_failure,
+      lost_communication
+    ]);
 
-  res.json({ message: `Tog bort en sensor med id: ${existingID}`, sensors });
+    res.status(201).json({ message: 'Sensor tillagd', sensor: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid skapande av sensor', details: err.message });
+  }
+});
+
+// PATCH uppdatera sensor
+router.patch('/:sensorID', async (req, res) => {
+  const { sensorID } = req.params;
+  const fields = ['battery_status', 'longitude', 'latitude', 'location_description', 'sensor_failure', 'lost_communication'];
+
+  const updates = Object.keys(req.body).filter(key => fields.includes(key));
+
+  if (updates.length === 0) {
+    return res.status(400).json({ message: 'Inga giltiga fält att uppdatera' });
+  }
+
+  const setClause = updates.map((field, i) => `"${field}" = $${i + 1}`).join(', ');
+  const values = updates.map(field => req.body[field]);
+
+  try {
+    const result = await query(
+      `UPDATE sensors SET ${setClause} WHERE id = $${values.length + 1} RETURNING *`,
+      [...values, sensorID]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Sensorn hittades inte' });
+    }
+
+    res.json({ message: 'Sensorn uppdaterad', sensor: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid uppdatering av sensor', details: err.message });
+  }
+});
+
+// DELETE sensor
+router.delete('/:sensorID', async (req, res) => {
+  const { sensorID } = req.params;
+
+  try {
+    const result = await query(`DELETE FROM sensors WHERE id = $1 RETURNING *`, [sensorID]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Sensorn hittades inte' });
+    }
+
+    res.json({ message: `Tog bort en sensor med id: ${sensorID}`, sensor: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid borttagning av sensor', details: err.message });
+  }
 });
 
 

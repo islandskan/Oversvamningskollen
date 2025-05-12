@@ -14,7 +14,7 @@ void DisplayManager::initialize() {
 void DisplayManager::print_message(const String& msg) {
     display.clearDisplay();
     display.setTextSize(1);
-    display.setTextColor(SDD1306_WHITE);
+    display.setTextColor(SSD1306_WHITE);
     display.setCursor(0, 0);
     display.println(msg);
     display.display();

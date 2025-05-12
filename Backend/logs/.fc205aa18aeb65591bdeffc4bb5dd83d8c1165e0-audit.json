@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\Gusta\\OneDrive\\Skrivbord\\projekt\\Oversvamningskollen\\Backend\\logs\\.fc205aa18aeb65591bdeffc4bb5dd83d8c1165e0-audit.json",
+    "files": [
+        {
+            "date": 1747038525597,
+            "name": "C:\\Users\\Gusta\\OneDrive\\Skrivbord\\projekt\\Oversvamningskollen\\Backend\\logs\\error-2025-05-12.log",
+            "hash": "f7aa8f1fb190e5703959606289c0e2afdbf8f91e2520c074aca19da8602f3c17"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { query } from '../db.js'; // Importera databasfrågefunktionen
 
-import '../docs/userSwagger.js'; // Importera Swagger-annotationer
 
 const router = Router();
 

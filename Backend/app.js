@@ -6,8 +6,8 @@ import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
-import { swaggerDocs } from './docs/swagger.js';  // Import the swaggerDocs
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
+import YAML from 'yamljs';
 
 dotenv.config();
 
@@ -17,12 +17,16 @@ const router = express.Router();
 app.use(express.json());
 app.use(morganMiddleware);
 
-// Serve Swagger API Docs at /api-docs endpoint
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// Läs in Swagger-specifikationen från YAML-filen
+const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');
 
-// Other routes
+// Serve Swagger API Docs at /api-docs endpoint
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Andra rutter
 router.use('/api/sensors', sensorRouter);
 router.use('/api/users', userRouter);
+
 app.use(router);
 
 // 404 handler

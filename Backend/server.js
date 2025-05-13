@@ -9,8 +9,9 @@ dotenv.config();
 handleProcessEvents();
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
+// had to edit this to be able to connect from a physical device without ngrok setup or simulator
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servern körs på http://localhost:${PORT}`);
-  logger.info(`Server is running on http://localhost:${PORT}`);
+  console.log(`För externa anslutningar, använd http://[DIN_IP]:${PORT}`);
+  logger.info(`Server is running on http://0.0.0.0:${PORT} (accessible from all network interfaces)`);
 });

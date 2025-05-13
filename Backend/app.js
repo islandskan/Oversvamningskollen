@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
 import { swaggerDocs } from './docs/swagger.js';  // Import the swaggerDocs
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
+import { saveSensorData } from './routes/sensor.js';
 
 dotenv.config();
 
@@ -21,8 +22,8 @@ app.use(morganMiddleware);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Other routes
-router.use('/api/sensors', sensorRouter);
-router.use('/api/users', userRouter);
+app.use('/api/sensors', sensorRouter, saveSensorData);
+app.use('/api/users', userRouter);
 app.use(router);
 
 // 404 handler

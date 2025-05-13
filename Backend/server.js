@@ -4,7 +4,7 @@ import handleProcessEvents from './startup/handleProcessEvents.js';
 import dotenv from 'dotenv';
 import logger from './logger/logger.js';
 
-dotenv.config();
+dotenv.config(); // .env kommer nu att laddas från rotmappen automatiskt
 
 handleProcessEvents();
 

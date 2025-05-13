@@ -17,6 +17,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+export const saveSensorData = async (req, res) => {
+  const { sensorId, thresholdLevel, rateOfChangeLevel } = req.body;
+
+  if (!sensorId) return res.status(400).json({ error: 'sensorId saknas' });
+
+  try {
+    await query(
+      `INSERT INTO sensor_readings (sensor_id, threshold_level, rate_of_change_level)
+       VALUES ($1, $2, $3)`,
+      [sensorId, thresholdLevel, rateOfChangeLevel]
+    );
+
+    res.status(201).json({ message: 'Sensorvärden sparade' });
+  } catch (err) {
+    console.error('Fel vid INSERT:', err);
+    res.status(500).json({ error: 'Databasfel' });
+  }
+};
+
+
 // GET all waterlevels (historic)
 router.get('/historicwaterlevels', async (req, res) => {
   try {

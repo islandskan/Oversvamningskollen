@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
+import { saveSensorData } from './routes/sensor.js';
 
 dotenv.config();
 

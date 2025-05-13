@@ -1,34 +1,92 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { FloodRiskArea, floodRiskAreas as mockData } from '@/data/floodRiskData';
+import { floodRiskService, LocationQuery } from '@/services/floodRiskService';
 
-// simple hook to fetch flood risk data
-// todo: replace mock data with actual API call when backend is ready
+// Hook to fetch flood risk data from the PostgreSQL database
 export function useFloodData() {
   const [data, setData] = useState<FloodRiskArea[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    // simulate api call with timeout
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch all flood risk areas
+  const fetchFloodRisks = useCallback(async () => {
     setLoading(true);
-    
-    // fake api delay for testing loading states
-    const timer = setTimeout(() => {
-      try {
-        // for now, just use our mock data
-        // later: fetch(`https://api.floodcast.com/risk-areas`)
-        setData(mockData);
-      } catch (err) {
-        console.log("failed to load data:", err);
-        Alert.alert("Couldn't load flood data", "Please check your connection and try again");
-        setData([]); // set empty array on error
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
-    
-    return () => clearTimeout(timer);
+    setError(null);
+
+    try {
+      const floodRisks = await floodRiskService.getFloodRisks();
+      setData(floodRisks);
+    } catch (err) {
+      console.error("Failed to load flood risk data:", err);
+      Alert.alert("Couldn't load flood data", "Please check your connection and try again");
+
+      // Fallback to mock data in case of error
+      console.log("Using mock data as fallback");
+      setData(mockData);
+
+      setError("Failed to fetch flood risk data");
+    } finally {
+      setLoading(false);
+    }
   }, []);
-  
-  return { data, loading };
+
+  // Fetch flood risk areas by location
+  const fetchFloodRisksByLocation = useCallback(async (location: LocationQuery) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const floodRisks = await floodRiskService.getFloodRisksByLocation(location);
+      setData(floodRisks);
+    } catch (err) {
+      console.error("Failed to load flood risk data by location:", err);
+      Alert.alert("Couldn't load flood data", "Please check your connection and try again");
+
+      // Fallback to mock data in case of error
+      console.log("Using mock data as fallback");
+      setData(mockData);
+
+      setError("Failed to fetch flood risk data by location");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Fetch a specific flood risk area by ID
+  const fetchFloodRiskById = useCallback(async (id: number) => {
+    try {
+      return await floodRiskService.getFloodRiskById(id);
+    } catch (err) {
+      console.error(`Failed to fetch flood risk with ID ${id}:`, err);
+      Alert.alert("Error", `Failed to fetch flood risk with ID ${id}.`);
+      return null;
+    }
+  }, []);
+
+  // Update user location for location-based alerts
+  const updateUserLocation = useCallback(async (location: { latitude: number; longitude: number }) => {
+    try {
+      await floodRiskService.updateUserLocation(location);
+      return true;
+    } catch (err) {
+      console.error("Failed to update user location:", err);
+      return false;
+    }
+  }, []);
+
+  // Fetch all flood risk areas on mount
+  useEffect(() => {
+    fetchFloodRisks();
+  }, [fetchFloodRisks]);
+
+  return {
+    data,
+    loading,
+    error,
+    fetchFloodRisks,
+    fetchFloodRisksByLocation,
+    fetchFloodRiskById,
+    updateUserLocation
+  };
 }

@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\ales9\\Oversvamningskollen\\Backend\\logs\\.d7abc63ef816a822bd6490538ae400fc65be2243-audit.json",
+    "files": [
+        {
+            "date": 1747130182534,
+            "name": "C:\\Users\\ales9\\Oversvamningskollen\\Backend\\logs\\exceptions-2025-05-13.log",
+            "hash": "af851a9cc3a5f0a5d5fe60516e98edcf55431045b4d37e844b2aed845bdf7b60"
+        }
+    ],
+    "hashType": "sha256"
+}

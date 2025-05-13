@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch Backend/server.js",
-    "archive": "node Backend/scripts/archiveOldMeasurements.js"
+    "archive": "node Backend/scripts/archiveOldMeasurements.js",
+    "setup-db": "node setupPostgres.js",
+    "create-tables": "node Backend/setupDatabase.js",
+    "seed-db": "node Backend/data/mockdata/seed.js"
   },
   "repository": {
     "type": "git",

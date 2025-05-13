@@ -12,7 +12,7 @@ private:
 public:
     SensorManager(bool mock = true);
     // check the data type/range
-    uint32_t read_level();
+    int read_water_level();
     // check the data type/range
     int get_rate_of_change() const;
 };

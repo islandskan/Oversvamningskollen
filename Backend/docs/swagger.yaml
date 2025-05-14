@@ -11,6 +11,8 @@ paths:
   /api/users:
     get:
       summary: Hämta alla användare
+      tags:
+        - Users
       responses:
         '200':
           description: En lista över användare
@@ -29,6 +31,8 @@ paths:
                     role_id: 2
     post:
       summary: Skapa ny användare
+      tags:
+        - Users
       requestBody:
         required: true
         content:
@@ -45,6 +49,8 @@ paths:
   /api/users/{id}:
     get:
       summary: Hämta en användare baserat på ID
+      tags:
+        - Users
       parameters:
         - name: id
           in: path
@@ -56,6 +62,8 @@ paths:
           description: Användare hittad
     patch:
       summary: Uppdatera en användare
+      tags:
+        - Users
       parameters:
         - name: id
           in: path
@@ -73,6 +81,8 @@ paths:
           description: Användare uppdaterad
     delete:
       summary: Radera en användare
+      tags:
+        - Users
       parameters:
         - name: id
           in: path
@@ -86,6 +96,8 @@ paths:
   /api/sensors:
     get:
       summary: Hämta alla sensorer
+      tags:
+        - Sensors
       responses:
         '200':
           description: Sensorer hämtade
@@ -96,7 +108,7 @@ paths:
                 sensors:
                   - id: 1
                     installation_date: '2024-12-01T10:00:00Z'
-                    battery_status: 95
+                    battery_status: 3
                     longitude: 18012
                     latitude: 598745
                     location_description: Riverbank North
@@ -104,13 +116,15 @@ paths:
                     lost_communication: false
     post:
       summary: Skapa en ny sensor
+      tags:
+        - Sensors
       requestBody:
         required: true
         content:
           application/json:
             example:
               installation_date: '2025-05-01T08:00:00Z'
-              battery_status: 90
+              battery_status: 3
               longitude: 18000
               latitude: 598000
               location_description: "Ny plats"
@@ -123,6 +137,8 @@ paths:
   /api/sensors/waterlevels:
     get:
       summary: Hämta senaste vattennivån
+      tags:
+        - Sensors
       responses:
         '200':
           description: Senaste vattennivå
@@ -139,6 +155,8 @@ paths:
   /api/sensors/historicwaterlevels:
     get:
       summary: Hämta historiska vattennivåer
+      tags:
+        - Sensors
       responses:
         '200':
           description: Lista av vattennivåer
@@ -154,7 +172,9 @@ paths:
 
   /api/sensors/{sensorID}:
     get:
-      summary: Hämta en specifik sensor
+      summary: Hämta en specifik sensor samt dess nödkontakter
+      tags:
+        - Sensors
       parameters:
         - name: sensorID
           in: path
@@ -163,9 +183,32 @@ paths:
             type: integer
       responses:
         '200':
-          description: Sensordata
+          description: Sensordata med tillhörande nödkontakter
+          content:
+            application/json:
+              example:
+                message: Sensor + nödkontakter för sensor 5
+                sensor:
+                  id: 5
+                  installation_date: "2025-04-01T06:20:00.000Z"
+                  battery_status: 88
+                  longitude: 18075
+                  latitude: 598900
+                  location_description: Floodplain Zone
+                  sensor_failure: true
+                  lost_communication: true
+                emergency_contacts:
+                  - id: 5
+                    sensor_id: 5
+                    name: Diana Rescue
+                    phone_number: "+46700000005"
+        '404':
+          description: Sensorn kunde inte hittas
+
     patch:
       summary: Uppdatera en sensor
+      tags:
+        - Sensors
       parameters:
         - name: sensorID
           in: path
@@ -177,13 +220,15 @@ paths:
         content:
           application/json:
             example:
-              battery_status: 85
+              battery_status: 3
               location_description: "Uppdaterad plats"
       responses:
         '200':
           description: Sensor uppdaterad
     delete:
       summary: Radera en sensor
+      tags:
+        - Sensors
       parameters:
         - name: sensorID
           in: path
@@ -202,8 +247,30 @@ paths:
       responses:
         '200':
           description: En lista med alla kontakter
+          content:
+            application/json:
+              example:
+                message: Hämtar alla nödkontakter
+                emergency_contacts:
+                  - id: 1
+                    sensor_id: 2
+                    name: Alice Alert
+                    phone_number: "+46700000001"
+                  - id: 2
+                    sensor_id: 3
+                    name: Bob Backup
+                    phone_number: "+46700000002"
+                  - id: 3
+                    sensor_id: 4
+                    name: Charlie Call
+                    phone_number: "+46700000003"
+                  - id: 5
+                    sensor_id: 5
+                    name: Diana Rescue
+                    phone_number: "+46700000005"
         '500':
           description: Fel vid hämtning av kontakter
+
 
     post:
       summary: Skapa en ny nödkontakt
@@ -235,51 +302,51 @@ paths:
           description: Fel vid skapande av kontakt
 
   /api/emergency-contacts/{contactID}:
-  patch:
-    summary: Uppdatera en kontakt
-    tags:
-      - Emergency Contacts
-    parameters:
-      - in: path
-        name: contactID
-        required: true
-        schema:
-          type: integer
-    requestBody:
-      required: true
-      content:
-        application/json:
+    patch:
+      summary: Uppdatera en kontakt
+      tags:
+        - Emergency Contacts
+      parameters:
+        - in: path
+          name: contactID
+          required: true
           schema:
-            type: object
-            properties:
-              name:
-                type: string
-              phone_number:
-                type: string
-    responses:
-      '200':
-        description: Kontakt uppdaterad
-      '400':
-        description: Inga giltiga fält att uppdatera
-      '404':
-        description: Kontakt hittades inte
-      '500':
-        description: Fel vid uppdatering av kontakt
-
-  delete:
-    summary: Ta bort en kontakt
-    tags:
-      - Emergency Contacts
-    parameters:
-      - in: path
-        name: contactID
+            type: integer
+      requestBody:
         required: true
-        schema:
-          type: integer
-    responses:
-      '200':
-        description: Kontakt borttagen
-      '404':
-        description: Kontakt hittades inte
-      '500':
-        description: Fel vid radering av kontakt
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        '200':
+          description: Kontakt uppdaterad
+        '400':
+          description: Inga giltiga fält att uppdatera
+        '404':
+          description: Kontakt hittades inte
+        '500':
+          description: Fel vid uppdatering av kontakt
+
+    delete:
+      summary: Ta bort en kontakt
+      tags:
+        - Emergency Contacts
+      parameters:
+        - in: path
+          name: contactID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Kontakt borttagen
+        '404':
+          description: Kontakt hittades inte
+        '500':
+          description: Fel vid radering av kontakt

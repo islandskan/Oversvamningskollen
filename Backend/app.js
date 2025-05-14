@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import logger from './logger/logger.js';
 import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
+import emergencyContactsRouter from './routes/emergencyContacts.js';
 import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
 import { swaggerDocs } from './docs/swagger.js';  // Import the swaggerDocs
@@ -21,10 +22,15 @@ app.use(morganMiddleware);
 // Serve Swagger API Docs at /api-docs endpoint
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+
+
 // Other routes
 app.use('/api/sensors', sensorRouter, saveSensorData);
 app.use('/api/users', userRouter);
+app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
+
+
 
 // 404 handler
 app.use((req, res) => {

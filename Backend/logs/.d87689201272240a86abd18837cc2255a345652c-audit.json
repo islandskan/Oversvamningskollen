@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\.d87689201272240a86abd18837cc2255a345652c-audit.json",
+    "files": [
+        {
+            "date": 1747039406236,
+            "name": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\combined-2025-05-12.log",
+            "hash": "e2b37b06477817809489d2dcafcef2381e081b7b92781fc106fa04b8435fad45"
+        },
+        {
+            "date": 1747136068304,
+            "name": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\combined-2025-05-13.log",
+            "hash": "12eb81bff3440f0390112bd8c349e81040962e1ec3a5b32f73e32bf5af187a09"
+        },
+        {
+            "date": 1747174091866,
+            "name": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\combined-2025-05-14.log",
+            "hash": "28f67a86720c49861e215e7c9f9a0427a1cf356d09949ae7f5db2154640595b8"
+        }
+    ],
+    "hashType": "sha256"
+}

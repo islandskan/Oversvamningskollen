@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\.c015928accd9cb9798314f2703c17a673a9c66d8-audit.json",
+    "files": [
+        {
+            "date": 1747136327400,
+            "name": "C:\\Users\\binib\\Documents\\GitHub\\projekt\\Oversvamningskollen\\Backend\\logs\\rejections-2025-05-13.log",
+            "hash": "a4b6ed7575724ce2bb4d3fa3b06378d479db850cf770826a9a053642301d8309"
+        }
+    ],
+    "hashType": "sha256"
+}

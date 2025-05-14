@@ -1,14 +1,13 @@
 // app.js
 import express from 'express';
 import dotenv from 'dotenv';
-import logger from './logger/logger.js';
+// import logger from './logger/logger.js';
+// import morganMiddleware from './middleware/loggerMiddleware.js';
 import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import errorHandler from './middleware/errorHandler.js';
-import morganMiddleware from './middleware/loggerMiddleware.js';
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
-import { saveSensorData } from './routes/sensor.js';
 import loginRouter from './routes/login.js';
 
 dotenv.config();
@@ -17,7 +16,6 @@ const app = express();
 const router = express.Router();
 
 app.use(express.json());
-app.use(morganMiddleware);
 
 // Läs in Swagger-specifikationen från YAML-filen
 const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');

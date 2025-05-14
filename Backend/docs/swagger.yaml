@@ -193,3 +193,93 @@ paths:
       responses:
         '200':
           description: Sensor raderad
+
+  /api/emergency-contacts:
+    get:
+      summary: Hämta alla nödkontakter
+      tags:
+        - Emergency Contacts
+      responses:
+        '200':
+          description: En lista med alla kontakter
+        '500':
+          description: Fel vid hämtning av kontakter
+
+    post:
+      summary: Skapa en ny nödkontakt
+      tags:
+        - Emergency Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sensor_id
+                - name
+                - phone_number
+              properties:
+                sensor_id:
+                  type: integer
+                name:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        '201':
+          description: Kontakt tillagd
+        '400':
+          description: Ogiltig inmatning
+        '500':
+          description: Fel vid skapande av kontakt
+
+  /api/emergency-contacts/{contactID}:
+  patch:
+    summary: Uppdatera en kontakt
+    tags:
+      - Emergency Contacts
+    parameters:
+      - in: path
+        name: contactID
+        required: true
+        schema:
+          type: integer
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              phone_number:
+                type: string
+    responses:
+      '200':
+        description: Kontakt uppdaterad
+      '400':
+        description: Inga giltiga fält att uppdatera
+      '404':
+        description: Kontakt hittades inte
+      '500':
+        description: Fel vid uppdatering av kontakt
+
+  delete:
+    summary: Ta bort en kontakt
+    tags:
+      - Emergency Contacts
+    parameters:
+      - in: path
+        name: contactID
+        required: true
+        schema:
+          type: integer
+    responses:
+      '200':
+        description: Kontakt borttagen
+      '404':
+        description: Kontakt hittades inte
+      '500':
+        description: Fel vid radering av kontakt

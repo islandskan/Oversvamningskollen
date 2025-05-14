@@ -1,13 +1,5 @@
 import { api } from './api';
-
-// User interface based on the backend schema
-export interface User {
-  id: number;
-  role_id: number;
-  name: string;
-  email: string;
-  password: string;
-}
+import { User } from '@/types';
 
 interface UserResponse {
   message: string;
@@ -35,13 +27,13 @@ export interface UpdateUser {
 
 
 export const userService = {
-  
+
   async getUsers(): Promise<User[]> {
     const response = await api.get<UserResponse>('/api/users');
     return response.users || [];
   },
 
-  
+
   async getUserById(id: number): Promise<User | null> {
     try {
       const response = await api.get<UserResponse>(`/api/users/${id}`);
@@ -54,7 +46,7 @@ export const userService = {
     }
   },
 
-  
+
   async login(credentials: LoginCredentials): Promise<User | null> {
     try {
       console.log('Attempting login with credentials:', { email: credentials.email });
@@ -80,7 +72,7 @@ export const userService = {
     }
   },
 
-  
+
   async createUser(userData: RegisterUser): Promise<User> {
     const response = await api.post<UserResponse>('/api/users', {
       userName: userData.name,
@@ -96,7 +88,7 @@ export const userService = {
     return response.user;
   },
 
-  
+
   async updateUser(id: number, userData: UpdateUser): Promise<User> {
     const response = await api.patch<UserResponse>(`/api/users/${id}`, userData);
 
@@ -107,7 +99,7 @@ export const userService = {
     return response.user;
   },
 
-  
+
   async deleteUser(id: number): Promise<User> {
     const response = await api.delete<UserResponse>(`/api/users/${id}`);
 

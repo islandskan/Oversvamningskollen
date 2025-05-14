@@ -1,56 +1,32 @@
-import React from 'react';
 import { TouchableOpacity, View, Text, Modal, ScrollView } from 'react-native';
-
-//#region Interfaces
-interface DetailedInfo {
-  waterLevel: string;
-  probability: string;
-  timeframe: string;
-  affectedArea: string;
-  evacuationStatus: string;
-  emergencyContacts: string;
-}
-
-interface FloodRiskArea {
-  id: number;
-  coordinate: { latitude: number; longitude: number };
-  title: string;
-  description: string;
-  radius: number;
-  riskLevel: 'high' | 'medium' | 'low' | string;
-  detailedInfo: DetailedInfo;
-}
+import { FloodRiskArea } from '@/types';
 
 interface FloodRiskModalProps {
   visible: boolean;
   selectedArea: FloodRiskArea | null;
   onClose: () => void;
 }
-//#endregion
 
 export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModalProps) {
   if (!selectedArea) return null;
-  
-  //#region Helper Functions
-  // helper function to get risk color
-  const getRiskColor = (riskLevel: string) => {
-    switch(riskLevel) {
-      case 'high': return 'bg-red-500';
-      case 'medium': return 'bg-orange-500';
-      default: return 'bg-yellow-500';
-    }
+
+  // Get background and text colors based on risk level
+  const getBgColor = (level: string): string => {
+    const riskLevel = level.toLowerCase();
+    if (riskLevel === 'high') return 'bg-red-500';
+    if (riskLevel === 'medium') return 'bg-orange-500';
+    if (riskLevel === 'low') return 'bg-yellow-500';
+    return 'bg-blue-500';
   };
-  
-  // helper function to get text risk color
-  const getTextRiskColor = (riskLevel: string) => {
-    switch(riskLevel) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-orange-600';
-      default: return 'text-yellow-600';
-    }
+
+  const getTextColor = (level: string): string => {
+    const riskLevel = level.toLowerCase();
+    if (riskLevel === 'high') return 'text-red-600';
+    if (riskLevel === 'medium') return 'text-orange-600';
+    if (riskLevel === 'low') return 'text-yellow-600';
+    return 'text-blue-600';
   };
-  //#endregion
-  
+
   return (
     <Modal
       animationType="slide"
@@ -60,7 +36,7 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
     >
       <View className="flex-1 justify-center items-center bg-black/50 dark:bg-black/70">
         <View className="w-[90%] max-h-[80%] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
-          <View className={`p-4 flex-row justify-between items-center ${getRiskColor(selectedArea.riskLevel)}`}>
+          <View className={`p-4 flex-row justify-between items-center ${getBgColor(selectedArea.riskLevel)}`}>
             <Text className="text-lg font-bold text-white">{selectedArea.title}</Text>
             <TouchableOpacity
               onPress={onClose}
@@ -105,7 +81,7 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
 
             <View className="mb-4">
               <Text className="text-base font-bold mb-2 text-gray-800 dark:text-gray-200">Status</Text>
-              <Text className={`text-base font-bold p-2 rounded text-center mt-1 ${getTextRiskColor(selectedArea.riskLevel)}`}>
+              <Text className={`text-base font-bold p-2 rounded text-center mt-1 ${getTextColor(selectedArea.riskLevel)}`}>
                 {selectedArea.detailedInfo.evacuationStatus}
               </Text>
             </View>

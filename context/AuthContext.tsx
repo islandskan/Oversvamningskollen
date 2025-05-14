@@ -1,7 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { userService, User } from '@/services/userService';
+import { userService } from '@/services/userService';
 import { showAlert } from '@/utils/alert';
+import { User } from '@/types';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -12,9 +13,7 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-// Temporary setup , either i or the backend will figure out a safer way to handle this
 
-// Key for storing user data in AsyncStorage
 const USER_STORAGE_KEY = 'user_data';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -55,48 +54,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const user = await userService.login({ email, password });
 
-      if (user) {
-        console.log('AuthContext: Login successful, storing user data');
-        await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
-        setCurrentUser(user);
-        setIsAuthenticated(true);
-      } else {
-        console.log('AuthContext: Login failed - invalid credentials');
+      if (!user) {
         showAlert('Login Failed', 'Invalid email or password', 'error');
         throw new Error('Invalid credentials');
       }
+
+      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+      setCurrentUser(user);
+      setIsAuthenticated(true);
     } catch (error) {
       console.error('AuthContext: Login failed:', error);
 
-      if (error instanceof Error) {
-        if (error.message.includes('timeout')) {
-          showAlert(
-            'Connection Timeout',
-            'The request timed out while trying to connect to the server. Please try again or check your connection.',
-            'warning'
-          );
-        } else if (error.message.includes('network') || error.message.includes('connection')) {
-          showAlert(
-            'Network Error',
-            'Unable to connect to the server. Please check your internet connection and try again.',
-            'warning'
-          );
-        } else if (error.message.includes('not reachable')) {
-          showAlert(
-            'Server Unreachable',
-            'The server is currently unreachable. Please ensure your backend server is running on 0.0.0.0 and accessible at 192.168.0.103:3000.',
-            'warning'
-          );
-        } else if (error.message.includes('Invalid credentials')) {
-          // This is already handled above, but just in case
-          showAlert('Login Failed', 'Invalid email or password', 'error');
-        } else {
-          showAlert('Login Error', 'An error occurred during login. Please try again.', 'error');
-        }
-      } else {
-        showAlert('Login Error', 'An unexpected error occurred. Please try again.', 'error');
-      }
+      // Determine error type and show appropriate message
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      const isCredentialError = message.includes('credentials');
 
+      const title = isCredentialError ? 'Login Failed' : 'Connection Error';
+      const type = isCredentialError ? 'error' : 'warning';
+
+      showAlert(title, message, type);
       throw error;
     }
   };

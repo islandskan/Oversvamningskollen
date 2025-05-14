@@ -1,0 +1,4 @@
+PG_URI=postgres://postgres:'PasswordToYourDatabase'@localhost:5432/'nameOfDatabaseInPSQL'
+JWT_SECRET=Password123!
+
+PORT='yourPreferedPortElseItWillUse3000'

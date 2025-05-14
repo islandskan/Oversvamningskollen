@@ -10,6 +10,7 @@ import morganMiddleware from './middleware/loggerMiddleware.js';
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
 import { saveSensorData } from './routes/sensor.js';
+import loginRouter from './routes/login.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Andra rutter
 router.use('/api/sensors', sensorRouter);
 router.use('/api/users', userRouter);
+router.use('/api/login', loginRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
 

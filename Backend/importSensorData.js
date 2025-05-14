@@ -7,15 +7,34 @@ const main = async () => {
   const content = await getSensorDataFile(fileName);
 
   for (const [sensorId, bitField] of Object.entries(content)) {
-    const { thresholdLevel, rateOfChangeLevel } = extractSensorFlags(bitField);
+    const {
+        thresholdLevel,
+        rateOfChangeLevel,
+        batteryLevel,
+        sensorFailure,
+        lostCommunication
+      } = extractSensorFlags(bitField);
 
     try {
+      // Spara vattennivå
       await query(
         `INSERT INTO waterlevels (sensor_id, waterlevel, rate_of_change, measured_at)
          VALUES ($1, $2, $3, NOW())`,
         [sensorId, thresholdLevel, rateOfChangeLevel]
       );
-      console.log(`✅ Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}`);
+
+      // Uppdatera batteristatus i sensors-tabellen
+      await query(
+        `UPDATE sensors 
+        SET battery_status = $1, 
+            sensor_failure = $2, 
+            lost_communication = $3
+        WHERE id = $4`,
+        [batteryLevel, sensorFailure, lostCommunication, sensorId]
+      );
+
+
+      console.log(`✅ Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}, battery=${batteryLevel}`);
     } catch (err) {
       console.error(`❌ Fel för sensor ${sensorId}:`, err);
     }

@@ -22,6 +22,20 @@ const isFlagSet = (bitField, flag) => (bitField & flag) !== 0;
 const extractSensorFlags = (bitField) => {
   const flags = {};
 
+  // Battery level: 3 = full, 2 = medium, 1 = low
+  const batteryLevels = [
+    { flag: SensorFlags.BATTERY_FULL, level: 3 },
+    { flag: SensorFlags.BATTERY_MEDIUM, level: 2 },
+    { flag: SensorFlags.BATTERY_LOW, level: 1 },
+  ];
+  flags.batteryLevel = 0;
+  for (const { flag, level } of batteryLevels) {
+    if (isFlagSet(bitField, flag)) {
+      flags.batteryLevel = level;
+      break;
+    }
+  }
+
   // Threshold level: extract highest level set (50 > 40 > ...)
   const thresholdLevels = [
     { flag: SensorFlags.THRESHOLD_ABOVE_50, level: 4 },
@@ -51,7 +65,14 @@ const extractSensorFlags = (bitField) => {
     }
   }
 
+  // Sensor failure (boolean)
+  flags.sensorFailure = isFlagSet(bitField, SensorFlags.SENSOR_FAILURE);
+
+  // Lost communication (boolean)
+  flags.lostCommunication = isFlagSet(bitField, SensorFlags.LOST_COMMUNICATION);
+
   return flags;
 };
+
 
 export default extractSensorFlags;

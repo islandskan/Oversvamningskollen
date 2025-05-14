@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
     const { username, password } = req.body;
   
     const user = users.find(

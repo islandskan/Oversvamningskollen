@@ -34,7 +34,8 @@ const main = async () => {
       );
 
 
-      console.log(`✅ Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}, battery=${batteryLevel}`);
+      console.log(`✅ Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}, battery=${batteryLevel} 
+        sensorFailure=${sensorFailure} lostCommunication=${lostCommunication}`);
     } catch (err) {
       console.error(`❌ Fel för sensor ${sensorId}:`, err);
     }

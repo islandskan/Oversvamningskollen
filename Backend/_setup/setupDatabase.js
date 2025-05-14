@@ -18,6 +18,7 @@ async function setup() {
         "name" VARCHAR(30) NOT NULL,
         "email" VARCHAR(40) UNIQUE NOT NULL,
         "password" VARCHAR NOT NULL,
+        "google_id" TEXT,
         CONSTRAINT "FK_users.role_id"
           FOREIGN KEY ("role_id")
           REFERENCES "roles"("id")

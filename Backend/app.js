@@ -25,6 +25,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 router.use('/api/sensors', sensorRouter);
 router.use('/api/users', userRouter);
 router.use('/api/login', loginRouter);
+router.use('/auth/google', googleRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
 

@@ -17,6 +17,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+export const saveSensorData = async (req, res) => {
+  const { sensorId, thresholdLevel, rateOfChangeLevel } = req.body;
+
+  if (!sensorId) return res.status(400).json({ error: 'sensorId saknas' });
+
+  try {
+    await query(
+      `INSERT INTO sensor_readings (sensor_id, threshold_level, rate_of_change_level)
+       VALUES ($1, $2, $3)`,
+      [sensorId, thresholdLevel, rateOfChangeLevel]
+    );
+
+    res.status(201).json({ message: 'Sensorvärden sparade' });
+  } catch (err) {
+    console.error('Fel vid INSERT:', err);
+    res.status(500).json({ error: 'Databasfel' });
+  }
+};
+
+
 // GET all waterlevels (historic)
 router.get('/historicwaterlevels', async (req, res) => {
   try {
@@ -45,18 +66,26 @@ router.get('/waterlevels', async (req, res) => {
   }
 });
 
-
-// GET specific sensor
+// GET specific sensor + emergency contacts
 router.get('/:sensorID', async (req, res) => {
   try {
-    const { sensorID } = req.params;
-    const result = await query(`SELECT * FROM sensors WHERE id = $1`, [sensorID]);
+    const result = await query(`SELECT * FROM sensors WHERE id = $1`, [req.params.sensorID]);
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Sensorn kan inte hittas' });
+      return res.status(404).json({ message: 'Sensorn hittades inte' });
     }
-    res.status(200).json({ message: `Hämtar sensor ${sensorID}`, sensor: result.rows[0] });
+
+    const contacts = await query(`SELECT * FROM emergency_contacts WHERE sensor_id = $1`, [req.params.sensorID]);
+
+    res.status(200).json({
+      message: `Sensor + nödkontakter för sensor ${req.params.sensorID}`,
+      sensor: result.rows[0],
+      emergency_contacts: contacts.rows
+    });
   } catch (err) {
-    res.status(500).json({ error: 'Fel vid hämtning av sensor', details: err.message });
+    res.status(500).json({
+      error: 'Fel vid hämtning av sensor och kontakter',
+      details: err.message
+    });
   }
 });
 

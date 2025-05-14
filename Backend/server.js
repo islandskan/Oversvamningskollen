@@ -1,12 +1,12 @@
 // server.js
 import app from './app.js';  // Import app from app.js
-import handleProcessEvents from './startup/handleProcessEvents.js';
 import dotenv from 'dotenv';
-import logger from './logger/logger.js';
+import logger from './logger.js';  // Import the logger
 
-dotenv.config();
 
-handleProcessEvents();
+dotenv.config(); // .env kommer nu att laddas från rotmappen automatiskt
+
+
 
 const PORT = process.env.PORT || 3000;
 // had to edit this to be able to connect from a physical device without ngrok setup or simulator

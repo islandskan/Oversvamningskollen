@@ -17,26 +17,62 @@ export const SensorFlags = {
   INTERNAL_FLAG_04: 1 << 15, // 32768
 };
 
-const isFlagSet = (bitField, flag) => {
-  return (bitField & flag) !== 0;
-};
-
-const getBaseSensorFlags = () => {
-  return Object.fromEntries(
-    Object.keys(SensorFlags).map((key) => [key, false])
-  );
-};
+const isFlagSet = (bitField, flag) => (bitField & flag) !== 0;
 
 const extractSensorFlags = (bitField) => {
-  const result = getBaseSensorFlags();
+  const flags = {};
 
-  for (const [flagName, flagValue] of Object.entries(SensorFlags)) {
-    if (isFlagSet(bitField, flagValue)) {
-      result[flagName] = true;
+  // Battery level: 3 = full, 2 = medium, 1 = low
+  const batteryLevels = [
+    { flag: SensorFlags.BATTERY_FULL, level: 3 },
+    { flag: SensorFlags.BATTERY_MEDIUM, level: 2 },
+    { flag: SensorFlags.BATTERY_LOW, level: 1 },
+  ];
+  flags.batteryLevel = 0;
+  for (const { flag, level } of batteryLevels) {
+    if (isFlagSet(bitField, flag)) {
+      flags.batteryLevel = level;
+      break;
     }
   }
 
-  return result;
+  // Threshold level: extract highest level set (50 > 40 > ...)
+  const thresholdLevels = [
+    { flag: SensorFlags.THRESHOLD_ABOVE_50, level: 4 },
+    { flag: SensorFlags.THRESHOLD_ABOVE_40, level: 3 },
+    { flag: SensorFlags.THRESHOLD_ABOVE_30, level: 2 },
+    { flag: SensorFlags.THRESHOLD_ABOVE_20, level: 1 },
+  ];
+  flags.thresholdLevel = 0;
+  for (const { flag, level } of thresholdLevels) {
+    if (isFlagSet(bitField, flag)) {
+      flags.thresholdLevel = level;
+      break;
+    }
+  }
+
+  // Rate of change: extract highest level
+  const rateLevels = [
+    { flag: SensorFlags.RATE_OF_CHANGE_LARGE, level: 3 },
+    { flag: SensorFlags.RATE_OF_CHANGE_MEDIUM, level: 2 },
+    { flag: SensorFlags.RATE_OF_CHANGE_SMALL, level: 1 },
+  ];
+  flags.rateOfChangeLevel = 0;
+  for (const { flag, level } of rateLevels) {
+    if (isFlagSet(bitField, flag)) {
+      flags.rateOfChangeLevel = level;
+      break;
+    }
+  }
+
+  // Sensor failure (boolean)
+  flags.sensorFailure = isFlagSet(bitField, SensorFlags.SENSOR_FAILURE);
+
+  // Lost communication (boolean)
+  flags.lostCommunication = isFlagSet(bitField, SensorFlags.LOST_COMMUNICATION);
+
+  return flags;
 };
+
 
 export default extractSensorFlags;

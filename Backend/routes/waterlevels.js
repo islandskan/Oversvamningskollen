@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import waterlevelsMockdata from '../data/mockdata/waterlevels.json' with { type: 'json' };
 
 const router = Router({ mergeParams: true });
 

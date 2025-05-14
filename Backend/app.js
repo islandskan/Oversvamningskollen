@@ -7,6 +7,7 @@ import emergencyContactsRouter from './routes/emergencyContacts.js';
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
 import loginRouter from './routes/login.js';
+import googleRouter from './routes/google.js';
 
 dotenv.config();
 

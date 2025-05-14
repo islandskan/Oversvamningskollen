@@ -6,11 +6,11 @@ import { authenticateToken } from '../middleware/auth.js';
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     // Hämta användare baserat på användarnamn (eller e‑mail om så önskas)
-    const result = await query('SELECT * FROM users WHERE name = $1', [name]);
+    const result = await query('SELECT * FROM users WHERE email = $1', [email]);
 
     if (result.rows.length === 0) {
       return res.status(401).json({ message: 'Fel användarnamn eller lösenord' });
@@ -29,10 +29,10 @@ router.post('/', async (req, res) => {
     }
 
 
-    const payload = { id: user.id, name: user.name };
+    const payload = { id: user.id, email: user.email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ message: `Välkommen, ${name}`, token });
+    res.json({ message: `Välkommen, ${email}`, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server login error' });
@@ -43,7 +43,7 @@ router.get('/me', authenticateToken, (req, res) => {
   // Här har vi access till req.user eftersom middleware har dekodat token
   res.json({
     id: req.user.id,
-    username: req.user.name,
+    email: req.user.email,
   });
 });
 

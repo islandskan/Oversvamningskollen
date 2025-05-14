@@ -36,6 +36,35 @@ router.post('/', async (req, res) => {
   }
 });
 
+//PATCH contact
+router.patch('/:contactID', async (req, res) => {
+  const { contactID } = req.params;
+  const allowedFields = ['name', 'phone_number'];
+  const updates = Object.keys(req.body).filter(key => allowedFields.includes(key));
+
+  if (updates.length === 0) {
+    return res.status(400).json({ message: 'Inga giltiga fält att uppdatera' });
+  }
+
+  const setClause = updates.map((field, index) => `${field} = $${index + 1}`).join(', ');
+  const values = updates.map(field => req.body[field]);
+
+  try {
+    const result = await query(
+      `UPDATE emergency_contacts SET ${setClause} WHERE id = $${values.length + 1} RETURNING *`,
+      [...values, contactID]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Kontakten hittades inte' });
+    }
+
+    res.json({ message: 'Kontakt uppdaterad', contact: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Fel vid uppdatering av kontakt', details: err.message });
+  }
+});
+
 // DELETE contact
 router.delete('/:contactID', async (req, res) => {
   const contactID = req.params.contactID;

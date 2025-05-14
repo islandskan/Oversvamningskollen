@@ -1,12 +1,9 @@
 // app.js
 import express from 'express';
 import dotenv from 'dotenv';
-// import logger from './logger/logger.js';
-// import morganMiddleware from './middleware/loggerMiddleware.js';
 import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import emergencyContactsRouter from './routes/emergencyContacts.js';
-import errorHandler from './middleware/errorHandler.js';
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
 import loginRouter from './routes/login.js';
@@ -40,7 +37,5 @@ app.use((req, res) => {
   res.status(404).json({ error: message });
 });
 
-// Global error handler
-app.use(errorHandler);
 
 export default app;

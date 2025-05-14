@@ -1,28 +1,4 @@
-
-/*RadioLib LoRaWAN Starter Example
-
-!Please refer to the included notes to get started !
-
-This example joins a LoRaWAN network and will send
-uplink packets.Before you start, you will have to
-register your device at https ://www.thethingsnetwork.org/
-After your device is registered, you can run this example.
-The device will join the network and start uploading data.
-
-Running this examples REQUIRES you to check "Resets DevNonces"
-on your LoRaWAN dashboard.Refer to the network's
-documentation on how to do this.
-
-For default module settings, see the wiki page
-https ://github.com/jgromes/RadioLib/wiki/Default-configuration
-
-For full API reference, see the GitHub Pages
-https ://jgromes.github.io/RadioLib/
-
-For LoRaWAN details, see the wiki page
-https ://github.com/jgromes/RadioLib/wiki/LoRaWAN*/
-
-#include <Arduino.h>
+/*#include <Arduino.h>
 #include "../lib/config.h"
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -32,8 +8,7 @@ https ://github.com/jgromes/RadioLib/wiki/LoRaWAN*/
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
-#define SCREEN_ADDRESS 0x3C // double check address from data sheet. 0x3C should be for the 128x32
-// to do: write a I2C-test scanner
+#define SCREEN_ADDRESS 0x3C
 const uint8_t builtin_led{ 25 };
 const unsigned long blink_delay{ 500 };
 unsigned long timer{ 0 };
@@ -70,7 +45,6 @@ void setup() {
 
   display.display();  // Push buffer to screen
 
-  // we're going to get the device's real DevEUI
   uint8_t mac[6];
   esp_read_mac(mac, ESP_MAC_WIFI_STA);
 
@@ -162,7 +136,7 @@ void blink_func() {
 void display_func(Adafruit_SSD1306& display) {
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
-    for (;;); // Don't proceed, loop forever
+    for (;;);
   }
   display.clearDisplay();
   display.setTextSize(1);
@@ -171,7 +145,7 @@ void display_func(Adafruit_SSD1306& display) {
   display.println("OLED Display Test");
   display.println("TTGO T3 V1.6.1");
   display.println("Hello, world!");
-  display.display();  // Push buffer to screen
+  display.display();
 }
 
 void log_func(Adafruit_SSD1306& display) {
@@ -183,3 +157,4 @@ void log_func(Adafruit_SSD1306& display) {
     timer2 = millis();
   }
 }
+*/

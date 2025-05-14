@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: Översvämningskollen API
+  version: 1.0.0
+  description: API för hantering av användare, sensorer och vattennivåer.
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/users:
+    get:
+      summary: Hämta alla användare
+      responses:
+        '200':
+          description: En lista över användare
+          content:
+            application/json:
+              example:
+                message: Hämtar alla användare
+                users:
+                  - id: 1
+                    name: Alice Admin
+                    email: alice@example.com
+                    role_id: 1
+                  - id: 2
+                    name: Bob Tech
+                    email: bob@example.com
+                    role_id: 2
+    post:
+      summary: Skapa ny användare
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              userName: Test Användare
+              mail: test@example.com
+              role: 3
+              password: test123
+      responses:
+        '201':
+          description: Användare skapad
+
+  /api/users/{id}:
+    get:
+      summary: Hämta en användare baserat på ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Användare hittad
+    patch:
+      summary: Uppdatera en användare
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              userName: Uppdaterat Namn
+      responses:
+        '200':
+          description: Användare uppdaterad
+    delete:
+      summary: Radera en användare
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Användare raderad
+
+  /api/sensors:
+    get:
+      summary: Hämta alla sensorer
+      responses:
+        '200':
+          description: Sensorer hämtade
+          content:
+            application/json:
+              example:
+                message: Hämtar alla sensorer
+                sensors:
+                  - id: 1
+                    installation_date: '2024-12-01T10:00:00Z'
+                    battery_status: 95
+                    longitude: 18012
+                    latitude: 598745
+                    location_description: Riverbank North
+                    sensor_failure: false
+                    lost_communication: false
+    post:
+      summary: Skapa en ny sensor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              installation_date: '2025-05-01T08:00:00Z'
+              battery_status: 90
+              longitude: 18000
+              latitude: 598000
+              location_description: "Ny plats"
+              sensor_failure: false
+              lost_communication: false
+      responses:
+        '201':
+          description: Sensor skapad
+
+  /api/sensors/waterlevels:
+    get:
+      summary: Hämta senaste vattennivån
+      responses:
+        '200':
+          description: Senaste vattennivå
+          content:
+            application/json:
+              example:
+                message: Aktuell vattennivå
+                latest:
+                  sensor_id: 5
+                  waterlevel: 4
+                  rate_of_change: 3
+                  measured_at: '2025-05-12T10:30:00Z'
+
+  /api/sensors/historicwaterlevels:
+    get:
+      summary: Hämta historiska vattennivåer
+      responses:
+        '200':
+          description: Lista av vattennivåer
+          content:
+            application/json:
+              example:
+                message: Alla vattennivåer för sensoren (senaste först)
+                data:
+                  - sensor_id: 1
+                    waterlevel: 2
+                    rate_of_change: 1
+                    measured_at: '2025-05-12T08:30:00Z'
+
+  /api/sensors/{sensorID}:
+    get:
+      summary: Hämta en specifik sensor
+      parameters:
+        - name: sensorID
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sensordata
+    patch:
+      summary: Uppdatera en sensor
+      parameters:
+        - name: sensorID
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              battery_status: 85
+              location_description: "Uppdaterad plats"
+      responses:
+        '200':
+          description: Sensor uppdaterad
+    delete:
+      summary: Radera en sensor
+      parameters:
+        - name: sensorID
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sensor raderad

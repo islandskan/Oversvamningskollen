@@ -7,8 +7,8 @@ import userRouter from './routes/user.js';
 import emergencyContactsRouter from './routes/emergencyContacts.js';
 import errorHandler from './middleware/errorHandler.js';
 import morganMiddleware from './middleware/loggerMiddleware.js';
-import { swaggerDocs } from './docs/swagger.js';  // Import the swaggerDocs
 import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
+import YAML from 'yamljs';
 import { saveSensorData } from './routes/sensor.js';
 
 dotenv.config();
@@ -19,15 +19,17 @@ const router = express.Router();
 app.use(express.json());
 app.use(morganMiddleware);
 
+// Läs in Swagger-specifikationen från YAML-filen
+const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');
+
 // Serve Swagger API Docs at /api-docs endpoint
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-
-
-// Other routes
-app.use('/api/sensors', sensorRouter, saveSensorData);
-app.use('/api/users', userRouter);
+// Andra rutter
+router.use('/api/sensors', sensorRouter);
+router.use('/api/users', userRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
+
 app.use(router);
 
 

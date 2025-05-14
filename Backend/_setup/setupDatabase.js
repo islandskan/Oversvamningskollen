@@ -1,4 +1,4 @@
-import { query } from './db.js';
+import { query } from '../db.js';
 
 console.log("PG_URI:", process.env.PG_URI);
 

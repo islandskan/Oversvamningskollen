@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Platform, TouchableOpacity, Alert, StyleSheet, View } from 'react-native';
+import { Platform, TouchableOpacity, StyleSheet, View } from 'react-native';
+import { showAlert } from '@/utils/alert';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -30,7 +31,7 @@ export default function HomeScreen() {
   const [selectedArea, setSelectedArea] = useState<FloodRiskArea | null>(null);
   // get flood data from our hook
   const { data: floodRiskAreas, loading } = useFloodData();
-  
+
   // Malmö, Sweden coordinates
   const [region, setRegion] = useState({
     latitude: 55.6050,
@@ -44,7 +45,7 @@ export default function HomeScreen() {
     switch(riskLevel) {
       case 'high': return 'rgba(255, 0, 0, 0.2)';
       case 'medium': return 'rgba(255, 165, 0, 0.2)';
-      case 'low': return 'rgba(255, 204, 0, 0.2)'; 
+      case 'low': return 'rgba(255, 204, 0, 0.2)';
       default: return 'rgba(0, 0, 255, 0.2)';
     }
   };
@@ -56,7 +57,7 @@ export default function HomeScreen() {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
-        Alert.alert('Permission Denied', 'Location permission is required to use this feature.');
+        showAlert('Permission Denied', 'Location permission is required to use this feature.', 'warning');
         return;
       }
 
@@ -74,7 +75,7 @@ export default function HomeScreen() {
         longitudeDelta: 0.01, // More zoomed in (smaller value = more zoom)
       });
     } catch (error: any) {
-      Alert.alert('Error', 'Could not get your location. Please try again.');
+      showAlert('Error', 'Could not get your location. Please try again.', 'error');
       console.error(error);
     }
   };
@@ -141,7 +142,7 @@ export default function HomeScreen() {
         />
       </TouchableOpacity>
 
-      <FloodRiskModal 
+      <FloodRiskModal
         visible={modalVisible}
         selectedArea={selectedArea}
         onClose={() => setModalVisible(false)}

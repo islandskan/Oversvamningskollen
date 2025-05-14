@@ -10,13 +10,15 @@ export async function isConnected(): Promise<boolean> {
 
 export function getApiBaseUrl(): string {
   // IMPORTANT: Change this to your computer's IPv 4 address
-  const LOCAL_IP = "192.168.0.103";
+  //10.2.2.2 for simulator
+  // need a library to automatically get this address
+  const LOCAL_IP = "192.168.51.142";
   const PORT = 3000;
 
   return Platform.select({
     web: `http://localhost:${PORT}`,
     ios: `http://localhost:${PORT}`,
-    // IMPORTANT For Android emulator and physical devices, use the computer's IPv 4  address
+    // IMPORTANT For Android physical devices, use the computer's IPv 4  address
     android: `http://${LOCAL_IP}:${PORT}`,
   }) || `http://${LOCAL_IP}:${PORT}`;
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as Location from 'expo-location';
-import { Alert } from 'react-native';
+import { showAlert } from '@/utils/alert';
 
 export const useLocationPermission = () => {
   const [hasPermission, setHasPermission] = useState(false);
@@ -8,14 +8,15 @@ export const useLocationPermission = () => {
   const requestLocationPermission = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      
+
       if (status === 'granted') {
         setHasPermission(true);
         return true;
       } else {
-        Alert.alert(
+        showAlert(
           'Permission Denied',
-          'Location permission is required to use this feature.'
+          'Location permission is required to use this feature.',
+          'warning'
         );
         setHasPermission(false);
         return false;

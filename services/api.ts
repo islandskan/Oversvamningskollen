@@ -1,12 +1,11 @@
-import { Alert } from 'react-native';
 import { getApiBaseUrl, isConnected, isServerReachable } from '@/utils/networkUtils';
 
 // Base URL for API requests
 // Use localhost for web and iOS simulator, use 10.0.2.2 for Android emulator
 const BASE_URL = getApiBaseUrl();
-// Leave this for now but can probably set it back to original value
+// Leave this for now but can probably set it back to original value of 5000
 // API request timeout in milliseconds (increased for slower connections)
-const TIMEOUT = 15000; // 15 seconds
+const TIMEOUT = 15000; 
 
 
 export class ApiError extends Error {
@@ -50,7 +49,7 @@ function timeoutPromise(ms: number) {
 
 
 export const api = {
-  
+
   async get<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
 
@@ -106,7 +105,7 @@ export const api = {
     }
   },
 
- 
+
   async post<T = any>(endpoint: string, data: any, options: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
 
@@ -163,7 +162,7 @@ export const api = {
     }
   },
 
-  
+
   async patch<T = any>(endpoint: string, data: any, options: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
 
@@ -193,7 +192,7 @@ export const api = {
     }
   },
 
- 
+
   async delete<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
 

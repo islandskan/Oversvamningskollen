@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/context/AuthContext';
+import CustomAlert from '@/components/CustomAlert';
 
 // keep splash screen visible until we're ready
 SplashScreen.preventAutoHideAsync();
@@ -37,6 +38,8 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="+not-found" />
         </Stack>
+        {/* Global custom alert component */}
+        <CustomAlert />
       </ThemeProvider>
     </AuthProvider>
   );

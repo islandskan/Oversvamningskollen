@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userService, User } from '@/services/userService';
-import { Alert } from 'react-native';
+import { showAlert } from '@/utils/alert';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(true);
       } else {
         console.log('AuthContext: Login failed - invalid credentials');
-        Alert.alert('Login Failed', 'Invalid email or password');
+        showAlert('Login Failed', 'Invalid email or password', 'error');
         throw new Error('Invalid credentials');
       }
     } catch (error) {
@@ -70,31 +70,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (error instanceof Error) {
         if (error.message.includes('timeout')) {
-          Alert.alert(
+          showAlert(
             'Connection Timeout',
             'The request timed out while trying to connect to the server. Please try again or check your connection.',
-            [{ text: 'OK' }]
+            'warning'
           );
         } else if (error.message.includes('network') || error.message.includes('connection')) {
-          Alert.alert(
+          showAlert(
             'Network Error',
             'Unable to connect to the server. Please check your internet connection and try again.',
-            [{ text: 'OK' }]
+            'warning'
           );
         } else if (error.message.includes('not reachable')) {
-          Alert.alert(
+          showAlert(
             'Server Unreachable',
             'The server is currently unreachable. Please ensure your backend server is running on 0.0.0.0 and accessible at 192.168.0.103:3000.',
-            [{ text: 'OK' }]
+            'warning'
           );
         } else if (error.message.includes('Invalid credentials')) {
           // This is already handled above, but just in case
-          Alert.alert('Login Failed', 'Invalid email or password');
+          showAlert('Login Failed', 'Invalid email or password', 'error');
         } else {
-          Alert.alert('Login Error', 'An error occurred during login. Please try again.');
+          showAlert('Login Error', 'An error occurred during login. Please try again.', 'error');
         }
       } else {
-        Alert.alert('Login Error', 'An unexpected error occurred. Please try again.');
+        showAlert('Login Error', 'An unexpected error occurred. Please try again.', 'error');
       }
 
       throw error;

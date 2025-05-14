@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { FloodRiskArea, floodRiskAreas as mockData } from '@/data/floodRiskData';
 import { floodRiskService, LocationQuery } from '@/services/floodRiskService';
+import { showAlert } from '@/utils/alert';
 
 // Hook to fetch flood risk data from the PostgreSQL database
 export function useFloodData() {
@@ -19,7 +19,7 @@ export function useFloodData() {
       setData(floodRisks);
     } catch (err) {
       console.error("Failed to load flood risk data:", err);
-      Alert.alert("Couldn't load flood data", "Please check your connection and try again");
+      showAlert("Couldn't load flood data", "Please check your connection and try again", "warning");
 
       // Fallback to mock data in case of error
       console.log("Using mock data as fallback");
@@ -41,7 +41,7 @@ export function useFloodData() {
       setData(floodRisks);
     } catch (err) {
       console.error("Failed to load flood risk data by location:", err);
-      Alert.alert("Couldn't load flood data", "Please check your connection and try again");
+      showAlert("Couldn't load flood data", "Please check your connection and try again", "warning");
 
       // Fallback to mock data in case of error
       console.log("Using mock data as fallback");
@@ -59,7 +59,7 @@ export function useFloodData() {
       return await floodRiskService.getFloodRiskById(id);
     } catch (err) {
       console.error(`Failed to fetch flood risk with ID ${id}:`, err);
-      Alert.alert("Error", `Failed to fetch flood risk with ID ${id}.`);
+      showAlert("Error", `Failed to fetch flood risk with ID ${id}.`, "error");
       return null;
     }
   }, []);

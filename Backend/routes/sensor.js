@@ -41,25 +41,59 @@ export const saveSensorData = async (req, res) => {
 // GET all waterlevels (historic)
 router.get('/historicwaterlevels', async (req, res) => {
   try {
-    const result = await query(`SELECT * FROM waterlevels ORDER BY id DESC`);
-    res.json({
-      message: 'Alla vattennivåer för sensoren (senaste först)',
-      data: result.rows
-    });
+    // Get sensor_id from query parameter if provided
+    const sensorId = req.query.sensor_id;
+
+    let result;
+    if (sensorId) {
+      // If sensor_id is provided, get historic data for that sensor
+      result = await query(`
+        SELECT * FROM waterlevels
+        WHERE sensor_id = $1
+        ORDER BY measured_at DESC
+      `, [sensorId]);
+
+      res.json({
+        message: `Historiska vattennivåer för sensor ${sensorId} (senaste först)`,
+        sensor_id: parseInt(sensorId),
+        data: result.rows
+      });
+    } else {
+      // Otherwise, get historic data for all sensors
+      result = await query(`
+        SELECT * FROM waterlevels
+        ORDER BY sensor_id, measured_at DESC
+      `);
+
+      res.json({
+        message: 'Historiska vattennivåer för alla sensorer (grupperade per sensor, senaste först)',
+        data: result.rows
+      });
+    }
   } catch (err) {
     res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });
   }
 });
 
 
-// GET latest waterlevel
+// GET latest waterlevel for each sensor
 router.get('/waterlevels', async (req, res) => {
   try {
-    const latestResult = await query(`SELECT * FROM waterlevels ORDER BY id DESC LIMIT 1`);
+    // This query gets the latest water level reading for each sensor
+    const latestResults = await query(`
+      WITH LatestWaterLevels AS (
+        SELECT
+          w.*,
+          ROW_NUMBER() OVER (PARTITION BY sensor_id ORDER BY measured_at DESC) as rn
+        FROM waterlevels w
+      )
+      SELECT * FROM LatestWaterLevels WHERE rn = 1
+      ORDER BY sensor_id
+    `);
 
     res.json({
-      message: 'Aktuell vattennivå',
-      latest: latestResult.rows[0] || null
+      message: 'Aktuella vattennivåer för alla sensorer',
+      latest_readings: latestResults.rows
     });
   } catch (err) {
     res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });

@@ -8,8 +8,10 @@
     "dev": "node --watch Backend/server.js",
     "archive": "node Backend/scripts/archiveOldMeasurements.js",
     "setup-db": "node setupPostgres.js",
-    "create-tables": "node Backend/setupDatabase.js",
-    "seed-db": "node Backend/data/mockdata/seed.js"
+    "create-tables": "node Backend/_setup/setupDatabase.js",
+    "seed-db": "node Backend/data/seed.js",
+    "update-sensors": "node Backend/data/updateSensors.js",
+    "update-sensors-reduced": "node Backend/data/updateSensorsReduced.js"
   },
   "repository": {
     "type": "git",

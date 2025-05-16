@@ -1,25 +1,23 @@
 import { query } from '../db.js';
 
-async function seed() {
+async function updateSensors() {
   try {
-    // Insert roles
-    await query(`
-      INSERT INTO roles (name) VALUES
-      ('Admin'),
-      ('Technician'),
-      ('Viewer');
-    `);
+    // First, delete existing sensor data and related records
+    console.log('Deleting existing waterlevels data...');
+    await query('DELETE FROM waterlevels');
 
-    // Insert users
-    await query(`
-      INSERT INTO users (role_id, name, email, password) VALUES
-      (1, 'Alice Admin', 'alice@example.com', 'securepassword1'),
-      (2, 'Bob Tech', 'bob@example.com', 'securepassword2'),
-      (3, 'Charlie Viewer', 'charlie@example.com', 'securepassword3');
-    `);
+    console.log('Deleting existing emergency_contacts data...');
+    await query('DELETE FROM emergency_contacts');
 
-    // Insert sensors with realistic Malmö, Sweden coordinates
-    // Note: Coordinates are stored as integers with 6 decimal precision (multiplied by 1,000,000)
+    console.log('Deleting existing sensors data...');
+    await query('DELETE FROM sensors');
+
+    // Reset the sequence for sensors
+    console.log('Resetting sensor ID sequence...');
+    await query('ALTER SEQUENCE sensors_id_seq RESTART WITH 1');
+
+    // Now insert the new sensor data with Malmö coordinates
+    console.log('Inserting new sensors with Malmö coordinates...');
     await query(`
       INSERT INTO sensors (
         installation_date,
@@ -42,7 +40,12 @@ async function seed() {
       ('2025-04-30T13:20:00Z', 82, 12967890, 55589012, 'Hyllie Stormwater Basin', false, true);
     `);
 
+    // Reset the sequence for emergency_contacts
+    console.log('Resetting emergency_contacts ID sequence...');
+    await query('ALTER SEQUENCE emergency_contacts_id_seq RESTART WITH 1');
+
     // Insert emergency contacts
+    console.log('Inserting emergency contacts...');
     await query(`
       INSERT INTO emergency_contacts (sensor_id, name, phone_number) VALUES
       (1, 'Nina Floodwatch', '+46700000001'),
@@ -57,7 +60,12 @@ async function seed() {
       (10, 'Johan Emergency', '+46700000010');
     `);
 
+    // Reset the sequence for waterlevels
+    console.log('Resetting waterlevels ID sequence...');
+    await query('ALTER SEQUENCE waterlevels_id_seq RESTART WITH 1');
+
     // Insert waterlevel readings
+    console.log('Inserting waterlevel readings...');
     await query(`
       INSERT INTO waterlevels (sensor_id, waterlevel, rate_of_change, measured_at) VALUES
       -- Original 5 sensors
@@ -84,10 +92,10 @@ async function seed() {
       (10, 2, 2, '2025-05-12T09:10:00Z');
     `);
 
-    console.log('✅ Mock data seeded successfully.');
+    console.log('✅ Sensor data updated successfully with Malmö coordinates.');
   } catch (err) {
-    console.error('❌ Error seeding mock data:', err);
+    console.error('❌ Error updating sensor data:', err);
   }
 }
 
-seed();
+updateSensors();

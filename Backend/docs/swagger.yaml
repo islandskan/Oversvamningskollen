@@ -108,10 +108,10 @@ paths:
                 sensors:
                   - id: 1
                     installation_date: '2024-12-01T10:00:00Z'
-                    battery_status: 3
-                    longitude: 18012
-                    latitude: 598745
-                    location_description: Riverbank North
+                    battery_status: 95
+                    longitude: 12994573
+                    latitude: 55609235
+                    location_description: Malmö Harbor - North Pier
                     sensor_failure: false
                     lost_communication: false
     post:
@@ -124,10 +124,10 @@ paths:
           application/json:
             example:
               installation_date: '2025-05-01T08:00:00Z'
-              battery_status: 3
-              longitude: 18000
-              latitude: 598000
-              location_description: "Ny plats"
+              battery_status: 90
+              longitude: 12987654
+              latitude: 55603456
+              location_description: "Slottsparken Canal"
               sensor_failure: false
               lost_communication: false
       responses:
@@ -190,11 +190,11 @@ paths:
                 message: Sensor + nödkontakter för sensor 5
                 sensor:
                   id: 5
-                  installation_date: "2025-04-01T06:20:00.000Z"
+                  installation_date: "2025-04-01T08:20:00.000Z"
                   battery_status: 88
-                  longitude: 18075
-                  latitude: 598900
-                  location_description: Floodplain Zone
+                  longitude: 12935681
+                  latitude: 55566789
+                  location_description: Limhamn Coastal Area
                   sensor_failure: true
                   lost_communication: true
                 emergency_contacts:

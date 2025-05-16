@@ -132,11 +132,13 @@ The database schema includes the following tables:
 - id (PRIMARY KEY)
 - installation_date (TIMESTAMP)
 - battery_status (INTEGER)
-- longitude (INTEGER)
-- latitude (INTEGER)
+- longitude (INTEGER) - GPS longitude coordinate multiplied by 1,000,000 (e.g., 12.994573 is stored as 12994573)
+- latitude (INTEGER) - GPS latitude coordinate multiplied by 1,000,000 (e.g., 55.609235 is stored as 55609235)
 - location_description (VARCHAR)
 - sensor_failure (BOOLEAN)
 - lost_communication (BOOLEAN)
+
+Note: The coordinates are stored as integers with 6 decimal precision to avoid floating-point issues. To convert back to standard GPS format, divide by 1,000,000.
 
 ### emergency_contacts
 - id (PRIMARY KEY)

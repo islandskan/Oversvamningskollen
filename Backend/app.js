@@ -8,6 +8,7 @@ import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
 import YAML from 'yamljs';
 import loginRouter from './routes/login.js';
 import googleRouter from './routes/google.js';
+import registerRouter from './routes/register.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ router.use('/api/sensors', sensorRouter);
 router.use('/api/users', userRouter);
 router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);
+router.use('/register', registerRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
 
@@ -35,7 +37,6 @@ app.use(router);
 // 404 handler
 app.use((req, res) => {
   const message = `404 - Not Found - ${req.originalUrl}`;
-  logger.warn(message);
   res.status(404).json({ error: message });
 });
 

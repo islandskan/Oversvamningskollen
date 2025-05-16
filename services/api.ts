@@ -1,4 +1,5 @@
 import { getApiBaseUrl, isConnected, isServerReachable } from '@/utils/networkUtils';
+import { authService } from './authService';
 
 const BASE_URL = getApiBaseUrl();
 const TIMEOUT = 15000;
@@ -53,12 +54,23 @@ export const api = {
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
 
     try {
+      // Get auth token
+      const token = await authService.getToken();
+
+      // Prepare headers
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      };
+
+      // Add Authorization header if token exists
+      if (token) {
+        (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
+      }
+
       const fetchOptions: RequestInit = {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
+        headers,
         signal: controller.signal,
         ...options,
       };
@@ -69,6 +81,12 @@ export const api = {
 
       const response = await fetch(url, fetchOptions);
       clearTimeout(timeoutId);
+
+      // Handle 401 Unauthorized - clear token
+      if (response.status === 401) {
+        await authService.setToken(null);
+        throw new ApiError('Authentication failed. Please log in again.', 401);
+      }
 
       console.log(`API response status: ${response.status}`);
       return handleResponse(response);
@@ -118,3 +136,4 @@ export const api = {
     return this.request<T>('DELETE', endpoint, undefined, options);
   },
 };
+

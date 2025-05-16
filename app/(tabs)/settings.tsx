@@ -14,21 +14,17 @@ export default function SettingsScreen() {
   const [locationEnabled, setLocationEnabled] = useState(false);
   const { logout } = useAuth();
 
-  // state for theme toggle
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
 
-  // update the theme toggle when colorScheme changes
   useEffect(() => {
     setIsDarkMode(colorScheme === 'dark');
   }, [colorScheme]);
 
-  // handle theme toggle
   const handleThemeToggle = (value: boolean) => {
     setIsDarkMode(value);
     setColorScheme(value ? 'dark' : 'light');
   };
 
-  // handle logout
   const handleLogout = async () => {
     try {
       await logout();

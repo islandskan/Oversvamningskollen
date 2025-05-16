@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
@@ -63,7 +63,7 @@ export default function LoginScreen() {
             end={{ x: 1, y: 1 }}
             className="absolute inset-0"
           />
-          
+
           {/* username input */}
           <TextInput
             placeholder="Username"
@@ -85,7 +85,7 @@ export default function LoginScreen() {
           />
 
           {/* sign In button */}
-          <TouchableOpacity 
+          <TouchableOpacity
             className="rounded-xl overflow-hidden"
             onPress={handleLogin}
             disabled={isLoading}
@@ -115,7 +115,7 @@ export default function LoginScreen() {
         {/* OAuth buttons */}
         <View className="w-full">
           {/* Google Sign In */}
-          <TouchableOpacity 
+          <TouchableOpacity
             className="flex-row items-center justify-center bg-white py-3 rounded-xl shadow mb-4"
             onPress={handleLogin}
             disabled={isLoading}
@@ -125,7 +125,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           {/* Facebook Sign In */}
-          <TouchableOpacity 
+          <TouchableOpacity
             className="flex-row items-center justify-center bg-blue-600 py-3 rounded-xl shadow"
             onPress={handleLogin}
             disabled={isLoading}

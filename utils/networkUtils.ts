@@ -11,8 +11,8 @@ export async function isConnected(): Promise<boolean> {
 export function getApiBaseUrl(): string {
   // IMPORTANT: Change this to your computer's IPv 4 address
   //10.2.2.2 for simulator
-  // need a library to automatically get this address
-  const LOCAL_IP = "192.168.51.142";
+  // Later it will deployed to vercel so no need for manual ipv4 checks
+  const LOCAL_IP = "192.168.0.105";
   const PORT = 3000;
 
   return Platform.select({

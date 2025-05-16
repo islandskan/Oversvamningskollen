@@ -1,30 +1,10 @@
 import { Redirect } from 'expo-router';
-import { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  useEffect(() => {
-    // check if user is logged in
-    const checkAuthStatus = async () => {
-      try {
-        // this is just temporary - we'll replace with real auth later
-        const isLoggedIn = false; // flip to true to skip login screen
-        
-        setIsAuthenticated(isLoggedIn);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('auth check failed:', error);
-        setIsAuthenticated(false);
-        setIsLoading(false);
-      }
-    };
-    
-    checkAuthStatus();
-  }, []);
-  
+  const { isAuthenticated, isLoading } = useAuth();
+
   // show spinner while checking login status
   if (isLoading) {
     return (
@@ -33,7 +13,7 @@ export default function Index() {
       </View>
     );
   }
-  
+
   // send user to the right place based on login status
   return isAuthenticated ? <Redirect href="/(tabs)" /> : <Redirect href="/login" />;
 }

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { userService } from '@/services/userService';
+import { authService } from '@/services/authService';
 import { showAlert } from '@/utils/alert';
 import { User } from '@/types';
 
@@ -14,8 +13,6 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const USER_STORAGE_KEY = 'user_data';
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,11 +22,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Check login status when app starts
     const checkAuthStatus = async () => {
       try {
-        // Get stored user data
-        const userData = await AsyncStorage.getItem(USER_STORAGE_KEY);
+        setIsLoading(true);
 
-        if (userData) {
-          const user = JSON.parse(userData) as User;
+        const token = await authService.getToken();
+
+        if (!token) {
+          setIsAuthenticated(false);
+          setCurrentUser(null);
+          return;
+        }
+
+        // Validate token by getting current user
+        const user = await authService.getCurrentUser();
+
+        if (user) {
           setCurrentUser(user);
           setIsAuthenticated(true);
         } else {
@@ -52,14 +58,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       console.log('AuthContext: Attempting login with email:', email);
 
-      const user = await userService.login({ email, password });
+      const user = await authService.login({ email, password });
 
-      if (!user) {
-        showAlert('Login Failed', 'Invalid email or password', 'error');
-        throw new Error('Invalid credentials');
-      }
-
-      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
       setCurrentUser(user);
       setIsAuthenticated(true);
     } catch (error) {
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       // Determine error type and show appropriate message
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-      const isCredentialError = message.includes('credentials');
+      const isCredentialError = message.includes('credentials') || message.includes('Authentication failed');
 
       const title = isCredentialError ? 'Login Failed' : 'Connection Error';
       const type = isCredentialError ? 'error' : 'warning';
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem(USER_STORAGE_KEY);
+      await authService.logout();
       setCurrentUser(null);
       setIsAuthenticated(false);
     } catch (error) {

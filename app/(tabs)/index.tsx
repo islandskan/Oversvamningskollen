@@ -38,7 +38,6 @@ export default function HomeScreen() {
         showsUserLocation={false}
         showsMyLocationButton={false}
       >
-        {/* display flood risk areas */}
         {floodRiskAreas.map((area) => (
           <React.Fragment key={area.id}>
             <Circle
@@ -59,7 +58,6 @@ export default function HomeScreen() {
           </React.Fragment>
         ))}
 
-        {/* display user location marker only when available */}
         {userLocation && (
           <Marker
             coordinate={{

@@ -16,7 +16,8 @@ add_executable(test
     fetcher/Fetcher.cpp
     main.cpp
     get_active_ids.cpp
+    output_sensors/output_sensors.cpp
 )
 
 # Link libraries
-target_link_libraries(test PRIVATE CURL::libcurl)
+target_link_libraries(test PRIVATE CURL::libcurl stdc++fs)

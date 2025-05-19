@@ -5,6 +5,7 @@
 #include "get_active_ids.h"
 #include <chrono>
 #include <thread>
+#include "output_sensors/output_sensors.h"
 
 void application_loop();
 
@@ -25,8 +26,9 @@ int main() {
 
 void application_loop() {
     Fetcher fetcher;
+    OutputSensors output_sensors;
 
-    int loop_interval = 3; // Seconds
+    int loop_interval = 15; // Seconds, ideally 300 in prod
 
     while (1) {
         std::cout << "Fetching active IDs" << std::endl;
@@ -56,6 +58,8 @@ void application_loop() {
                 std::cout << id.first << std::endl;
             }
         }
+
+        output_sensors.output_sensors(sensor_data);
 
         std::this_thread::sleep_for(std::chrono::seconds(loop_interval));
     }

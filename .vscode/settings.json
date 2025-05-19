@@ -3,7 +3,9 @@
         "floodcast",
         "myapp",
         "nativewind",
-        "paperplane"
+        "paperplane",
+        "waterlevel",
+        "waterlevels"
     ],
     "editor.tokenColorCustomizations": {
         "comments": "",

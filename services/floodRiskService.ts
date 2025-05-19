@@ -89,7 +89,7 @@ function getRiskRadius(riskLevel: string): number {
 
 function formatWaterLevel(level: number | undefined): string {
   if (level === undefined) return 'Data unavailable';
-  return `${level} meters above normal`;
+  return `${level/2} meters above normal`;
 }
 
 function calculateProbability(waterLevel: WaterLevelData | undefined): string {

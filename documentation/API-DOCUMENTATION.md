@@ -41,7 +41,42 @@ git checkout backend</code></pre>
   </li>
 </ol>
 <h3>Om du vill köra server online med Neon</h3>
-<ol start="6"> <li><strong>Skapa ett konto och en databas på Neon:</strong><br> Gå till <a href="https://neon.tech">https://neon.tech</a> och skapa ett konto. Skapa en ny projekt/databas. </li> <li><strong>Kopiera din anslutningssträng från Neon:</strong><br> I Neon, under din databas, klicka på "Connection details" och kopiera <code>PostgreSQL connection string</code>. Den ser ut ungefär så här:<br> <code>postgres://USER:PASSWORD@HOST/neondb?sslmode=require</code> </li> <li><strong>Uppdatera din <code>.env</code> med dessa detaljer:</strong><br> Ersätt de tidigare raderna med följande: <pre><code> DB_HOST=HOST från Neon DB_PORT=5432 DB_USER=USER från Neon DB_PASSWORD=PASSWORD från Neon DB_NAME=neondb DB_SSL=true </code></pre> Alternativt, om du använder en enda anslutningssträng: <pre><code>DATABASE_URL=din_postgres_url_från_neon</code></pre> <p>Och se till att din kod eller ORM (t.ex. Sequelize eller Prisma) stödjer <code>DATABASE_URL</code>.</p> </li> <li><strong>Kör eventuella migreringar eller skapa tabeller:</strong><br> Om du har ett SQL-schema, kör det mot Neon-databasen. Exempel med `psql`: <pre><code>psql &lt;din_neon_url&gt; &lt; schema.sql</code></pre> </li> </ol>
+<ol start="6">
+  <li>
+    <strong>Skapa ett konto och en databas på Neon:</strong><br>
+    Gå till <a href="https://neon.tech">https://neon.tech</a> och skapa ett konto. Skapa ett nytt projekt/databas.
+  </li>
+
+  <li>
+    <strong>Kopiera din anslutningssträng från Neon:</strong><br>
+    I Neon, under din databas, klicka på "Connection details" och kopiera 
+    <code>PostgreSQL connection string</code>. Den ser ut ungefär så här:<br>
+    <code>postgres://USER:PASSWORD@HOST/neondb?sslmode=require</code>
+  </li>
+
+  <li>
+    <strong>Uppdatera din <code>.env</code> med dessa detaljer:</strong><br>
+    Ersätt de tidigare raderna med följande:
+    <pre><code>
+      DB_HOST=HOST från Neon
+      DB_PORT=5432
+      DB_USER=USER från Neon
+      DB_PASSWORD=PASSWORD från Neon
+      DB_NAME=neondb
+      DB_SSL=true
+    </code></pre>
+    Alternativt, om du använder en enda anslutningssträng:
+    <pre><code>DATABASE_URL=din_postgres_url_från_neon</code></pre>
+    <p>Och se till att din kod eller ORM (t.ex. Sequelize eller Prisma) stödjer <code>DATABASE_URL</code>.</p>
+  </li>
+
+  <li>
+    <strong>Kör eventuella migreringar eller skapa tabeller:</strong><br>
+    Om du har ett SQL-schema, kör det mot Neon-databasen. Exempel med <code>psql</code>:
+    <pre><code>psql &lt;din_neon_url&gt; &lt; schema.sql</code></pre>
+  </li>
+</ol>
+
 
 <h2>📡 API-dokumentation</h2>
 

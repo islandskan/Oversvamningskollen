@@ -1,4 +1,10 @@
+<!-- FÖr att koppla till neon -->
+PG_URI=postgresql://neondb_owner:npg_QwdvlP6ND7Ej@ep-'hemligheten'-sun-a2xoaodw-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require
+<!-- För att koppla till psql localt -->
 PG_URI=postgres://postgres:'PasswordToYourDatabase'@localhost:5432/'nameOfDatabaseInPSQL'
 JWT_SECRET=securepassword1
 
 PORT='yourPreferedPortElseItWillUse3000'
+
+<!-- byt ut i strängen på rad 2 -->
+'hemligheten'=lively

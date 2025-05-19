@@ -7,12 +7,14 @@ export const authenticateToken = (req, res, next) => {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid token.' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Lägg till användardata i req
+    next(); // Fortsätt till nästa route
+  } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Din session har gått ut, logga in igen' });
     }
-
-    req.user = decoded;  // Lägg till användarinformation i requesten
-    next();  // Fortsätt till nästa middleware eller route
-  });
+    return res.status(401).json({ message: 'Ogiltig token' });
+  }
 };

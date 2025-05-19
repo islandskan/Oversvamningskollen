@@ -94,7 +94,8 @@ export const api = {
       clearTimeout(timeoutId);
       console.error(`API ${method} error for ${url}:`, error);
 
-      if (error instanceof DOMException && error.name === 'AbortError') {
+      // Check if this is an abort error (timeout)
+      if (error instanceof Error && error.name === 'AbortError') {
         console.log('Checking if server is reachable...');
         const isReachable = await isServerReachable(BASE_URL, 3000);
         if (!isReachable) {

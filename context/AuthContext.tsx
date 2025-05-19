@@ -8,6 +8,8 @@ type AuthContextType = {
   isLoading: boolean;
   currentUser: User | null;
   login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -77,6 +79,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      console.log('AuthContext: Attempting to register user with email:', email);
+      await authService.register({ name, email, password, role_id: 2 });
+    } catch (error) {
+      console.error('AuthContext: Registration failed:', error);
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      showAlert('Registration Failed', message, 'error');
+      throw error;
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      console.log('AuthContext: Attempting login with Google');
+      const user = await authService.loginWithGoogle();
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('AuthContext: Google login failed:', error);
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      showAlert('Google Login Failed', message, 'error');
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       await authService.logout();
@@ -94,6 +122,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isLoading,
       currentUser,
       login,
+      register,
+      loginWithGoogle,
       logout
     }}>
       {children}

@@ -6,41 +6,70 @@ import { router } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { googleLogo, facebookLogo } from '@/constants/logos';
+import { googleLogo } from '@/constants/logos';
+import { showAlert } from '@/utils/alert';
 
-export default function LoginScreen() {
+export default function SignupScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, loginWithGoogle } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
 
-  const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSignup = async () => {
+    if (!name.trim()) {
+      showAlert('Missing Information', 'Please enter your name', 'warning');
+      return;
+    }
+
+    if (!email.trim()) {
+      showAlert('Missing Information', 'Please enter your email', 'warning');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showAlert('Invalid Email', 'Please enter a valid email address', 'warning');
+      return;
+    }
+
+    if (!password || password.length < 6) {
+      showAlert('Password Too Short', 'Password must be at least 6 characters', 'warning');
       return;
     }
 
     try {
       setIsLoading(true);
-      console.log('Login screen: Attempting login with email:', email);
-      await login(email, password);
-      router.replace('/(tabs)');
+      console.log('Attempting to register user:', { name, email });
+      await register(name, email, password);
+      showAlert('Registration Successful', 'Your account has been created. Please log in.', 'success');
+      router.replace('/login');
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Registration failed:', error);
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      showAlert('Registration Failed', message, 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignup = async () => {
     try {
       setIsLoading(true);
-      console.log('Login screen: Attempting Google login');
-      await loginWithGoogle();
+      console.log('Signup screen: Attempting Google signup');
+      const user = await loginWithGoogle();
+      console.log('Google signup successful, user:', user);
       router.replace('/(tabs)');
     } catch (error) {
-      console.error('Google login failed:', error);
+      console.error('Google signup failed:', error);
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      showAlert('Google Signup Failed', message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +83,7 @@ export default function LoginScreen() {
           <MaskedView
             maskElement={
               <Text className="text-5xl font-bold">
-                FloodCast
+                Join FloodCast
               </Text>
             }
           >
@@ -64,7 +93,7 @@ export default function LoginScreen() {
               end={{ x: 1, y: 0 }}
             >
               <Text className="text-5xl font-bold opacity-0">
-                FloodCast
+                Join FloodCast
               </Text>
             </LinearGradient>
           </MaskedView>
@@ -73,13 +102,23 @@ export default function LoginScreen() {
           </Text>
         </View>
 
-        {/* login form */}
+        {/* signup form */}
         <View className="w-full rounded-3xl p-6 shadow-lg overflow-hidden">
           <LinearGradient
             colors={isDark ? ['#1f2937', '#111827'] : ['#f9fafb', '#f3f4f6']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             className="absolute inset-0"
+          />
+
+          {/* name input */}
+          <TextInput
+            placeholder="Full Name"
+            placeholderTextColor={isDark ? "#6b7280" : "#9ca3af"}
+            className={`${isDark ? 'bg-gray-800/80 text-white' : 'bg-white/90 text-gray-900'} rounded-xl px-4 py-3 mb-4`}
+            value={name}
+            onChangeText={setName}
+            autoCapitalize="words"
           />
 
           {/* email input */}
@@ -103,10 +142,10 @@ export default function LoginScreen() {
             onChangeText={setPassword}
           />
 
-          {/* sign In button */}
+          {/* sign up button */}
           <TouchableOpacity
             className="rounded-xl overflow-hidden"
-            onPress={handleLogin}
+            onPress={handleSignup}
             disabled={isLoading}
           >
             <LinearGradient
@@ -118,25 +157,18 @@ export default function LoginScreen() {
               {isLoading ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text className="text-white font-medium text-lg">Sign In</Text>
+                <Text className="text-white font-medium text-lg">Create Account</Text>
               )}
             </LinearGradient>
           </TouchableOpacity>
         </View>
 
-        {/* or separator */}
-        <View className="w-full flex-row items-center my-6">
-          <View className={`flex-1 h-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`} />
-          <Text className={`mx-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>or</Text>
-          <View className={`flex-1 h-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`} />
-        </View>
-
         {/* OAuth buttons */}
-        <View className="w-full">
-          {/* Google Sign In */}
+        <View className="w-full mt-6">
+          {/* Google Sign Up */}
           <TouchableOpacity
             className="flex-row items-center justify-center bg-white py-3 rounded-xl shadow mb-4"
-            onPress={handleGoogleLogin}
+            onPress={handleGoogleSignup}
             disabled={isLoading}
           >
             <SvgXml xml={googleLogo} width="18" height="18" />
@@ -146,12 +178,12 @@ export default function LoginScreen() {
         </View>
 
         {/* bottom Links */}
-        <View className="flex-row justify-between w-full mt-6">
-          <TouchableOpacity>
-            <Text className="text-purple-500">Forgot Password?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/signup')}>
-            <Text className="text-purple-500">Sign Up</Text>
+        <View className="flex-row justify-center w-full mt-6">
+          <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'} mr-1`}>
+            Already have an account?
+          </Text>
+          <TouchableOpacity onPress={() => router.replace('/login')}>
+            <Text className="text-purple-500">Sign In</Text>
           </TouchableOpacity>
         </View>
       </View>

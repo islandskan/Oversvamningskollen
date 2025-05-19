@@ -1,8 +1,14 @@
+import { Router } from 'express';
+import { query } from '../db.js'; 
+
+const router = Router();
+
+// Försöker hitta riskniva och sannolikhetsfunktion
 router.get('/flood-risk', async (req, res) => {
   try {
     const result = await query(`
       SELECT date, waterlevel
-      FROM water_levels
+      FROM waterlevels
       ORDER BY date DESC
       LIMIT 2
     `);

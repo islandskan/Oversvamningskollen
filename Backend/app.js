@@ -25,6 +25,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Andra rutter
 router.use('/api/sensors', sensorRouter);
+router.use('/api/waterlevels', sensorRouter);
 router.use('/api/users', userRouter);
 router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);

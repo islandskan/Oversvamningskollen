@@ -71,10 +71,18 @@ git checkout backend</code></pre>
   </li>
 
   <li>
-    <strong>Kör eventuella migreringar eller skapa tabeller:</strong><br>
-    Om du har ett SQL-schema, kör det mot Neon-databasen. Exempel med <code>psql</code>:
-    <pre><code>psql &lt;din_neon_url&gt; &lt; schema.sql</code></pre>
-  </li>
+  <strong>Kör databasens schema (dump.sql) mot din Neon-databas:</strong><br>
+  När du har skapat din databas och uppdaterat <code>.env</code>, kör kommandot nedan för att skapa tabeller och struktur:<br>
+  <pre><code>psql &lt;din_neon_url&gt; &lt; dump.sql</code></pre>
+  <p>
+    Detta förutsätter att du har <code>psql</code> installerat. Om du använder en <code>DATABASE_URL</code> i din <code>.env</code>, kan du kopiera den rakt in i kommandot:
+  </p>
+  <pre><code>psql $DATABASE_URL &lt; dump.sql</code></pre>
+  <p>
+    Efter detta är databasen redo att användas med API:t.
+  </p>
+</li>
+
 </ol>
 
 

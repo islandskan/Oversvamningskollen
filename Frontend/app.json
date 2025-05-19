@@ -1,0 +1,84 @@
+{
+  "expo": {
+    "name": "floodcast",
+    "slug": "floodcast",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/floodcast-logo.png",
+    "splash": {
+      "image": "./assets/images/floodcast-logo.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#101d2a"
+    },
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/floodcast-192.png"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.floodcast.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#101d2a"
+      },
+      "package": "com.floodcast.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#101d2a"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow FloodCast to use your location to show nearby flood risks."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#101d2a"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fd631fd1-eadf-4299-ae85-1d055bed0dd4"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fd631fd1-eadf-4299-ae85-1d055bed0dd4"
+    }
+  }
+}

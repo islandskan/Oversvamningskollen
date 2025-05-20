@@ -4,6 +4,54 @@ import { query } from '../db.js';
 
 const router = Router();
 
+//! Förberett för att ta emot från sensor
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
+
+// Simulerad funktion för att hämta sensordata
+const fetchSensorData = async (sensorId) => {
+  const endpoint = `https://internal-api.local/sensors/${sensorId}/latest`;
+  const response = await axios.get(endpoint);
+  return response.data;
+};
+
+const retry = async (fn, retries = MAX_RETRIES, delay = RETRY_DELAY_MS) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      console.warn(`Försök ${i + 1} misslyckades: ${err.message}`);
+      if (i < retries - 1) await new Promise(r => setTimeout(r, delay));
+    }
+  }
+  throw new Error('Alla försök att hämta sensordata misslyckades');
+};
+
+router.post('/signal', async (req, res) => {
+  try {
+    const signalData = req.body;
+
+    if (!signalData || typeof signalData !== 'object') {
+      return res.status(400).json({ error: 'Ogiltig signaldata' });
+    }
+
+    const sensorId = Object.keys(signalData)[0];
+    const signalValue = signalData[sensorId];
+
+    console.log(`Signal från sensor ${sensorId}: ${signalValue}`);
+
+    const sensorData = await retry(() => fetchSensorData(sensorId));
+
+    // Här kan du spara till DB eller logga
+    console.log('Hämtad data:', sensorData);
+
+    res.json({ message: 'Sensorhantering lyckades', data: sensorData });
+  } catch (err) {
+    console.error('Fel:', err.message);
+    res.status(500).json({ error: 'Kunde inte hämta sensordata' });
+  }
+});
+
 // GET all sensors
 router.get('/', async (req, res) => {
   try {

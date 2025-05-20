@@ -20,48 +20,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  // Function to handle authentication state changes
-  const handleAuthStateChange = (isAuth: boolean) => {
+  const handleAuthChange = (isAuth: boolean, user: User | null, isManualLogout = false) => {
     setIsAuthenticated(isAuth);
-    setCurrentUser(isAuth ? currentUser : null);
+    setCurrentUser(user);
 
-    // If authentication is lost, redirect to login screen
     if (!isAuth) {
-      console.log('Authentication lost, redirecting to login screen');
       router.replace('/login');
 
-      // Only show alert if we're not already on the login screen
-      if (router.canGoBack()) {
+      if (router.canGoBack() && !isManualLogout) {
         showAlert('Session Expired', 'Your session has expired. Please log in again.', 'warning');
       }
     }
   };
 
   useEffect(() => {
-    // Check login status when app starts
     const checkAuthStatus = async () => {
       try {
         setIsLoading(true);
-
         const token = await authService.getToken();
 
         if (!token) {
-          handleAuthStateChange(false);
+          handleAuthChange(false, null);
           return;
         }
 
-        // Validate token by getting current user
         const user = await authService.getCurrentUser();
-
-        if (user) {
-          setCurrentUser(user);
-          handleAuthStateChange(true);
-        } else {
-          handleAuthStateChange(false);
-        }
+        handleAuthChange(!!user, user);
       } catch (error) {
-        console.error('Failed to check login status:', error);
-        handleAuthStateChange(false);
+        handleAuthChange(false, null);
       } finally {
         setIsLoading(false);
       }
@@ -69,101 +55,53 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     checkAuthStatus();
 
-    // Set up a listener for token expiration
+    // Check token validity every 5 minutes
     const tokenCheckInterval = setInterval(async () => {
-      const token = await authService.getToken();
-      if (!token && isAuthenticated) {
-        console.log('Token expired or removed during app usage');
-        handleAuthStateChange(false);
+      if (isAuthenticated) {
+        const token = await authService.getToken();
+        if (!token) handleAuthChange(false, null);
       }
-    }, 60000); // Check every minute
+    }, 300000);
 
     return () => clearInterval(tokenCheckInterval);
-  }, [isAuthenticated]); // Add isAuthenticated as a dependency
+  }, [isAuthenticated]);
 
   const login = async (email: string, password: string) => {
     try {
-      console.log('AuthContext: Attempting login with email:', email);
-
       const user = await authService.login({ email, password });
-
-      setCurrentUser(user);
-      handleAuthStateChange(true);
+      handleAuthChange(true, user);
     } catch (error) {
-      console.error('AuthContext: Login failed:', error);
-
-      // Get error message from the error object
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
 
-      // Determine error type based on message content
+      // Determine alert type based on error message
+      let alertType: 'error' | 'warning' = 'error';
       let title = 'Login Failed';
-      let type: 'info' | 'success' | 'warning' | 'error' = 'error';
 
-      if (message.includes('Invalid email or password') ||
-          message.includes('Authentication failed')) {
-        title = 'Invalid Credentials';
-        type = 'error';
-      } else if (message.includes('Network connection') ||
-                message.includes('Server error') ||
-                message.includes('timeout')) {
+      if (message.includes('Network') || message.includes('Server') || message.includes('timeout')) {
+        alertType = 'warning';
         title = 'Connection Error';
-        type = 'warning';
-      } else if (message.includes('permission')) {
-        title = 'Access Denied';
-        type = 'error';
       }
 
-      showAlert(title, message, type);
+      showAlert(title, message, alertType);
       throw error;
     }
   };
 
   const register = async (name: string, email: string, password: string) => {
     try {
-      console.log('AuthContext: Attempting to register user with email:', email);
-      // Backend assigns the 'user' role automatically
       await authService.register({ name, email, password });
     } catch (error) {
-      console.error('AuthContext: Registration failed:', error);
-
-      // Get error message from the error object
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-
-      // Determine error type based on message content
-      let title = 'Registration Failed';
-      let type: 'info' | 'success' | 'warning' | 'error' = 'error';
-
-      if (message.includes('email is already registered') ||
-          message.includes('email') && message.includes('registered')) {
-        title = 'Email Already Exists';
-        type = 'error';
-      } else if (message.includes('Network connection') ||
-                message.includes('Server error') ||
-                message.includes('timeout')) {
-        title = 'Connection Error';
-        type = 'warning';
-      } else if (message.includes('Password')) {
-        title = 'Password Error';
-        type = 'error';
-      } else if (message.includes('Database configuration error')) {
-        title = 'Database Setup Error';
-        type = 'error';
-      }
-
-      showAlert(title, message, type);
+      showAlert('Registration Failed', message, 'error');
       throw error;
     }
   };
 
-
-
   const logout = async () => {
     try {
       await authService.logout();
-      setCurrentUser(null);
-      handleAuthStateChange(false);
+      handleAuthChange(false, null, true);
     } catch (error) {
-      console.error('Logout failed:', error);
       throw error;
     }
   };

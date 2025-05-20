@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { authService } from '@/services/authService';
 import { showAlert } from '@/utils/alert';
 import { User } from '@/types';
+import { router } from 'expo-router';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -20,6 +21,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+  // Function to handle authentication state changes
+  const handleAuthStateChange = (isAuth: boolean) => {
+    setIsAuthenticated(isAuth);
+    setCurrentUser(isAuth ? currentUser : null);
+
+    // If authentication is lost, redirect to login screen
+    if (!isAuth) {
+      console.log('Authentication lost, redirecting to login screen');
+      router.replace('/login');
+
+      // Only show alert if we're not already on the login screen
+      if (router.canGoBack()) {
+        showAlert('Session Expired', 'Your session has expired. Please log in again.', 'warning');
+      }
+    }
+  };
+
   useEffect(() => {
     // Check login status when app starts
     const checkAuthStatus = async () => {
@@ -29,8 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = await authService.getToken();
 
         if (!token) {
-          setIsAuthenticated(false);
-          setCurrentUser(null);
+          handleAuthStateChange(false);
           return;
         }
 
@@ -39,22 +56,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (user) {
           setCurrentUser(user);
-          setIsAuthenticated(true);
+          handleAuthStateChange(true);
         } else {
-          setCurrentUser(null);
-          setIsAuthenticated(false);
+          handleAuthStateChange(false);
         }
       } catch (error) {
         console.error('Failed to check login status:', error);
-        setCurrentUser(null);
-        setIsAuthenticated(false);
+        handleAuthStateChange(false);
       } finally {
         setIsLoading(false);
       }
     };
 
     checkAuthStatus();
-  }, []);
+
+    // Set up a listener for token expiration
+    const tokenCheckInterval = setInterval(async () => {
+      const token = await authService.getToken();
+      if (!token && isAuthenticated) {
+        console.log('Token expired or removed during app usage');
+        handleAuthStateChange(false);
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(tokenCheckInterval);
+  }, [isAuthenticated]); // Add isAuthenticated as a dependency
 
   const login = async (email: string, password: string) => {
     try {
@@ -63,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const user = await authService.login({ email, password });
 
       setCurrentUser(user);
-      setIsAuthenticated(true);
+      handleAuthStateChange(true);
     } catch (error) {
       console.error('AuthContext: Login failed:', error);
 
@@ -82,7 +108,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (name: string, email: string, password: string) => {
     try {
       console.log('AuthContext: Attempting to register user with email:', email);
-      await authService.register({ name, email, password, role_id: 2 });
+      // Backend assigns the 'user' role automatically
+      await authService.register({ name, email, password });
     } catch (error) {
       console.error('AuthContext: Registration failed:', error);
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
@@ -96,7 +123,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('AuthContext: Attempting login with Google');
       const user = await authService.loginWithGoogle();
       setCurrentUser(user);
-      setIsAuthenticated(true);
+      handleAuthStateChange(true);
     } catch (error) {
       console.error('AuthContext: Google login failed:', error);
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
@@ -109,7 +136,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await authService.logout();
       setCurrentUser(null);
-      setIsAuthenticated(false);
+      handleAuthStateChange(false);
     } catch (error) {
       console.error('Logout failed:', error);
       throw error;

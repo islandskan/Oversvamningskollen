@@ -16,12 +16,19 @@ interface RegisterData {
   name: string;
   email: string;
   password: string;
-  role_id: number;
+  role_id?: number; // Optional - backend assigns role automatically
 }
 
-interface AuthResponse {
+// Response types
+interface LoginResponse {
+  message: string;
   token: string;
-  user: User;
+}
+
+interface UserResponse {
+  id: number;
+  email: string;
+  // Other potential user fields from backend
 }
 
 interface JwtPayload {
@@ -61,17 +68,11 @@ export const authService = {
       return null;
     }
 
+    // If token is expired, clear it and force re-login
     if (isTokenExpired(token)) {
-      console.log('Token is expired, attempting to refresh');
-      try {
-        // Try to refresh the token if it's expired
-        const newToken = await this.refreshToken(token);
-        return newToken;
-      } catch (error) {
-        console.error('Failed to refresh token:', error);
-        await this.setToken(null);
-        return null;
-      }
+      console.log('Token is expired, clearing it');
+      await this.setToken(null);
+      return null;
     }
 
     return token;
@@ -85,37 +86,11 @@ export const authService = {
     }
   },
 
-  async refreshToken(oldToken: string): Promise<string | null> {
-    try {
-      console.log('Attempting to refresh token');
-
-      // Call the refresh token endpoint
-      const response = await api.post<{ token: string }>('/refresh-token', {}, {
-        headers: {
-          Authorization: `Bearer ${oldToken}`
-        }
-      });
-
-      if (response && response.token) {
-        console.log('Token refreshed successfully');
-        await this.setToken(response.token);
-        return response.token;
-      }
-
-      throw new Error('No token received from refresh endpoint');
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-      // If refresh fails, clear the token and force re-login
-      await this.setToken(null);
-      return null;
-    }
-  },
-
   async login(credentials: LoginCredentials): Promise<User> {
     try {
       console.log('Attempting login with credentials:', { email: credentials.email });
 
-      const response = await api.post<AuthResponse>('/login', {
+      const response = await api.post<LoginResponse>('/login', {
         email: credentials.email,
         password: credentials.password
       });
@@ -125,11 +100,16 @@ export const authService = {
       if (response.token) {
         console.log('Token received, storing it');
         await this.setToken(response.token);
+
+        // After storing the token, fetch the user data
+        const user = await this.getCurrentUser();
+        if (!user) {
+          throw new Error('Failed to get user info after login');
+        }
+        return user;
       } else {
         throw new Error('No token received from server');
       }
-
-      return response.user;
     } catch (error) {
       console.error('Login failed:', error);
 
@@ -176,11 +156,11 @@ export const authService = {
       console.log('Attempting to register user:', { email: data.email });
 
       // Send registration request to the backend
-      const response = await api.post<{ message: string }>('/register', {
+      // The backend assigns the 'user' role automatically
+      const response = await api.post<{ message: string, user: { id: number, name: string, email: string, role_id: number } }>('/register', {
         name: data.name,
         email: data.email,
-        password: data.password,
-        role_id: data.role_id
+        password: data.password
       });
 
       console.log('Registration successful:', response.message || 'User registered');
@@ -319,8 +299,19 @@ export const authService = {
       }
 
       console.log('Fetching current user info');
-      const user = await api.get<User>('/login/me');
+      const userData = await api.get<UserResponse>('/login/me');
       console.log('Current user info received');
+
+      // Convert the limited user data from backend to our full User type
+      // Note: The backend only returns id and email, so we need to create a User object
+      const user: User = {
+        id: userData.id,
+        email: userData.email,
+        name: userData.email.split('@')[0], // Use part of email as name if not provided
+        role_id: 2, // Default role_id if not provided
+        password: '' // We don't store the password client-side
+      };
+
       return user;
     } catch (error) {
       console.error('Get current user failed:', error);

@@ -1,6 +1,7 @@
 import { api } from './api';
 import { FloodRiskArea, LocationQuery } from '@/types';
 import { floodRiskAreas as mockData } from '@/data/floodRiskData';
+import { FLOOD_RISK_RADIUS } from '@/constants/FloodRiskConstants';
 
 // Backend data types
 interface SensorData {
@@ -80,10 +81,10 @@ function calculateRiskLevel(
 
 function getRiskRadius(riskLevel: string): number {
   switch (riskLevel) {
-    case 'high': return 800;
-    case 'medium': return 600;
-    case 'low': return 500;
-    default: return 500;
+    case 'high': return FLOOD_RISK_RADIUS.HIGH;
+    case 'medium': return FLOOD_RISK_RADIUS.MEDIUM;
+    case 'low': return FLOOD_RISK_RADIUS.LOW;
+    default: return FLOOD_RISK_RADIUS.DEFAULT;
   }
 }
 

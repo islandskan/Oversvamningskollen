@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
-import { SvgXml } from 'react-native-svg';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { googleLogo } from '@/constants/logos';
 import { showAlert } from '@/utils/alert';
 
 export default function SignupScreen() {
@@ -16,7 +14,7 @@ export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { register, loginWithGoogle } = useAuth();
+  const { register } = useAuth();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,21 +57,7 @@ export default function SignupScreen() {
     }
   };
 
-  const handleGoogleSignup = async () => {
-    try {
-      setIsLoading(true);
-      console.log('Signup screen: Attempting Google signup');
-      const user = await loginWithGoogle();
-      console.log('Google signup successful, user:', user);
-      router.replace('/(tabs)');
-    } catch (error) {
-      console.error('Google signup failed:', error);
-      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-      showAlert('Google Signup Failed', message, 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   return (
     <SafeAreaView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
@@ -163,19 +147,7 @@ export default function SignupScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* OAuth buttons */}
-        <View className="w-full mt-6">
-          {/* Google Sign Up */}
-          <TouchableOpacity
-            className="flex-row items-center justify-center bg-white py-3 rounded-xl shadow mb-4"
-            onPress={handleGoogleSignup}
-            disabled={isLoading}
-          >
-            <SvgXml xml={googleLogo} width="18" height="18" />
-            <Text className="ml-2 text-gray-800 font-medium">Continue with Google</Text>
-            {isLoading && <ActivityIndicator size="small" color="#4285F4" style={{ marginLeft: 8 }} />}
-          </TouchableOpacity>
-        </View>
+
 
         {/* bottom Links */}
         <View className="flex-row justify-center w-full mt-6">

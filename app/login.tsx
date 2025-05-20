@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
-import { SvgXml } from 'react-native-svg';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { googleLogo, facebookLogo } from '@/constants/logos';
 
 export default function LoginScreen() {
   const colorScheme = useColorScheme();
@@ -14,7 +12,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, loginWithGoogle } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -33,18 +31,7 @@ export default function LoginScreen() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      setIsLoading(true);
-      console.log('Login screen: Attempting Google login');
-      await loginWithGoogle();
-      router.replace('/(tabs)');
-    } catch (error) {
-      console.error('Google login failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   return (
     <SafeAreaView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
@@ -124,26 +111,9 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* or separator */}
-        <View className="w-full flex-row items-center my-6">
-          <View className={`flex-1 h-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`} />
-          <Text className={`mx-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>or</Text>
-          <View className={`flex-1 h-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`} />
-        </View>
 
-        {/* OAuth buttons */}
-        <View className="w-full">
-          {/* Google Sign In */}
-          <TouchableOpacity
-            className="flex-row items-center justify-center bg-white py-3 rounded-xl shadow mb-4"
-            onPress={handleGoogleLogin}
-            disabled={isLoading}
-          >
-            <SvgXml xml={googleLogo} width="18" height="18" />
-            <Text className="ml-2 text-gray-800 font-medium">Continue with Google</Text>
-            {isLoading && <ActivityIndicator size="small" color="#4285F4" style={{ marginLeft: 8 }} />}
-          </TouchableOpacity>
-        </View>
+
+
 
         {/* bottom Links */}
         <View className="flex-row justify-between w-full mt-6">

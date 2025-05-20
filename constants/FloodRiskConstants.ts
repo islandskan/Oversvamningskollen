@@ -1,0 +1,6 @@
+export const FLOOD_RISK_RADIUS = {
+  HIGH: 800,
+  MEDIUM: 600,
+  LOW: 500,
+  DEFAULT: 500
+};

@@ -1,7 +1,6 @@
 import { api } from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '@/types';
-import * as AuthSession from 'expo-auth-session';
 import { getApiBaseUrl } from '@/utils/networkUtils';
 
 const AUTH_TOKEN_KEY = 'auth_token';
@@ -205,82 +204,7 @@ export const authService = {
     }
   },
 
-  async loginWithGoogle(): Promise<User> {
-    try {
-      console.log('Attempting Google login');
 
-      // Create a redirect URI using the scheme in app.json
-      const redirectUri = AuthSession.makeRedirectUri();
-      console.log('Redirect URI:', redirectUri);
-
-      // Create the auth request
-      const discovery = { authorizationEndpoint: `${getApiBaseUrl()}/auth/google` };
-
-      // Create a request
-      const request = new AuthSession.AuthRequest({
-        clientId: 'client_id', // This is just a placeholder, as our backend handles the client ID
-        redirectUri,
-        responseType: AuthSession.ResponseType.Token,
-      });
-
-      console.log('Starting auth request with discovery:', discovery);
-
-      // Prompt the user with a web browser to authenticate
-      const result = await request.promptAsync(discovery);
-      console.log('Auth request result received');
-
-      if (result.type === 'success' && result.params?.token) {
-        const { token } = result.params;
-        console.log('Google auth token received, storing it');
-        await this.setToken(token);
-
-        // Get the user info
-        const user = await this.getCurrentUser();
-        if (!user) {
-          throw new Error('Failed to get user info after Google login');
-        }
-        return user;
-      }
-
-      throw new Error('Google authentication failed');
-    } catch (error) {
-      console.error('Google login failed:', error);
-
-      // Create a more user-friendly error message
-      let errorMessage = 'Google login failed. Please try again.';
-
-      if (error instanceof Error) {
-        console.log(`Error type: ${error.name}, message: ${error.message}`);
-
-        if (error.name === 'ApiError') {
-          const apiError = error as any;
-
-          // Handle specific API error codes
-          if (apiError.status === 401) {
-            errorMessage = 'Google authentication failed. Please try again.';
-          } else if (apiError.status === 403) {
-            errorMessage = 'Your Google account does not have permission to access this application.';
-          } else {
-            // Use the API error message if available
-            errorMessage = apiError.message || errorMessage;
-          }
-        } else if (error.message.includes('Network request failed')) {
-          errorMessage = 'Network connection error. Please check your internet connection.';
-        } else if (error.name === 'AbortError' || error.message.includes('timeout')) {
-          errorMessage = 'Request timed out. Please try again.';
-        } else if (error.message.includes('canceled')) {
-          errorMessage = 'Google login was canceled.';
-        } else {
-          // Use the original error message if it's meaningful
-          errorMessage = error.message;
-        }
-      }
-
-      // Create a new error with the user-friendly message
-      const userFriendlyError = new Error(errorMessage);
-      throw userFriendlyError;
-    }
-  },
 
   async logout(): Promise<void> {
     // Simply clear the token from AsyncStorage

@@ -11,7 +11,7 @@ import { LogoutButton } from '@/components/ui/LogoutButton';
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [locationEnabled, setLocationEnabled] = useState(false);
+  const [locationEnabled, setLocationEnabled] = useState(true);
   const { logout } = useAuth();
 
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');

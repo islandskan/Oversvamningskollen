@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '@/types';
-import { api } from './api';
+import { apiClient } from './apiClient';
 
 const AUTH_TOKEN_KEY = 'auth_token';
 
@@ -39,7 +39,7 @@ export const authService = {
 
   async login(credentials: LoginCredentials): Promise<User> {
     try {
-      const response = await api.post<LoginResponse>('/login', {
+      const response = await apiClient.post<LoginResponse>('/login', {
         email: credentials.email,
         password: credentials.password
       });
@@ -50,7 +50,9 @@ export const authService = {
 
       await this.saveToken(response.token);
 
-      const userData = await api.get<UserResponse>('/login/me');
+      // Get token we just saved
+      const token = await this.getToken();
+      const userData = await apiClient.get<UserResponse>('/login/me', {}, token);
 
       return {
         id: userData.id,
@@ -69,7 +71,7 @@ export const authService = {
 
   async register(data: RegisterData): Promise<void> {
     try {
-      await api.post('/register', {
+      await apiClient.post('/register', {
         name: data.name,
         email: data.email,
         password: data.password
@@ -91,7 +93,7 @@ export const authService = {
       const token = await this.getToken();
       if (!token) return null;
 
-      const userData = await api.get<UserResponse>('/login/me');
+      const userData = await apiClient.get<UserResponse>('/login/me', {}, token);
 
       return {
         id: userData.id,

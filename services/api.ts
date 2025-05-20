@@ -1,20 +1,20 @@
-import { getApiBaseUrl, isConnected } from '@/utils/networkUtils';
-import { authService } from './authService';
+import { apiClient, ApiError } from './apiClient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = getApiBaseUrl();
-const TIMEOUT = 15000;
+const AUTH_TOKEN_KEY = 'auth_token';
 
-export class ApiError extends Error {
-  status: number;
-  data: any;
+// Re-export ApiError for other modules to use
+export { ApiError };
 
-  constructor(message: string, status: number, data?: any) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
-    this.data = data;
-  }
-}
+// Helper function to get token
+const getToken = async (): Promise<string | null> => {
+  return AsyncStorage.getItem(AUTH_TOKEN_KEY);
+};
+
+// Helper function to handle 401 errors
+const handleUnauthorized = async (): Promise<void> => {
+  await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
+};
 
 export const api = {
   async request<T = any>(
@@ -23,71 +23,15 @@ export const api = {
     data?: any,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${BASE_URL}${endpoint}`;
-
-    const connected = await isConnected();
-    if (!connected) {
-      throw new ApiError('No network connection', 0);
-    }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
-
     try {
-      const token = await authService.getToken();
-
-      const headers: HeadersInit = {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      };
-
-      if (token) {
-        (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
-      }
-
-      const fetchOptions: RequestInit = {
-        method,
-        headers,
-        signal: controller.signal,
-        ...options,
-      };
-
-      if (data && (method === 'POST' || method === 'PATCH' || method === 'PUT')) {
-        fetchOptions.body = JSON.stringify(data);
-      }
-
-      const response = await fetch(url, fetchOptions);
-      clearTimeout(timeoutId);
-
-      if (response.status === 401) {
-        await authService.clearToken();
-        throw new ApiError('Authentication failed', 401);
-      }
-
-      const contentType = response.headers.get('content-type');
-      const isJson = contentType && contentType.includes('application/json');
-      const responseData = isJson ? await response.json() : await response.text();
-
-      if (!response.ok) {
-        throw new ApiError(
-          responseData.message || 'An error occurred',
-          response.status,
-          responseData
-        );
-      }
-
-      return responseData;
+      const token = await getToken();
+      const response = await apiClient.request<T>(method, endpoint, data, options, token);
+      return response;
     } catch (error) {
-      clearTimeout(timeoutId);
-
-      if (error instanceof ApiError) {
-        throw error;
+      if (error instanceof ApiError && error.status === 401) {
+        await handleUnauthorized();
       }
-
-      throw new ApiError(
-        error instanceof Error ? error.message : 'Network error',
-        0
-      );
+      throw error;
     }
   },
 

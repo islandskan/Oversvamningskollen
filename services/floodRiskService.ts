@@ -1,7 +1,84 @@
-import { api } from './api';
 import { FloodRiskArea, LocationQuery } from '@/types';
 import { floodRiskAreas as mockData } from '@/data/floodRiskData';
 import { FLOOD_RISK_RADIUS } from '@/constants/FloodRiskConstants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getApiBaseUrl, isConnected } from '@/utils/networkUtils';
+import { ApiError } from '@/context/AuthContext';
+
+const BASE_URL = getApiBaseUrl();
+const TIMEOUT = 15000;
+const AUTH_TOKEN_KEY = 'auth_token';
+
+// Helper function to get token
+const getToken = async (): Promise<string | null> => {
+  return AsyncStorage.getItem(AUTH_TOKEN_KEY);
+};
+
+// API request function
+async function apiRequest<T = any>(
+  method: string,
+  endpoint: string,
+  data?: any
+): Promise<T> {
+  const url = `${BASE_URL}${endpoint}`;
+
+  const connected = await isConnected();
+  if (!connected) {
+    throw new ApiError('No network connection', 0);
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+
+  try {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    const token = await getToken();
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const fetchOptions: RequestInit = {
+      method,
+      headers,
+      signal: controller.signal,
+    };
+
+    if (data && (method === 'POST' || method === 'PATCH' || method === 'PUT')) {
+      fetchOptions.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, fetchOptions);
+    clearTimeout(timeoutId);
+
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType && contentType.includes('application/json');
+    const responseData = isJson ? await response.json() : await response.text();
+
+    if (!response.ok) {
+      throw new ApiError(
+        responseData.message || 'An error occurred',
+        response.status,
+        responseData
+      );
+    }
+
+    return responseData;
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      error instanceof Error ? error.message : 'Network error',
+      0
+    );
+  }
+}
 
 // Backend data types
 interface SensorData {
@@ -54,17 +131,14 @@ function processFloodRiskData(
     latitude: sensor.latitude > 1000000 ? sensor.latitude / 1000000 : sensor.latitude / 1000
   };
 
-  // Calculate risk level and related data
   const level = waterLevel?.waterlevel ?? 0;
   const rate = waterLevel?.rate_of_change ?? 0;
 
-  // Determine risk level
   let riskLevel: 'high' | 'medium' | 'low';
   if (level > 3 || rate > 2) riskLevel = 'high';
   else if (level > 2 || rate > 1) riskLevel = 'medium';
   else riskLevel = 'low';
 
-  // Get radius based on risk level
   const radius = riskLevel === 'high' ? FLOOD_RISK_RADIUS.HIGH :
                 riskLevel === 'medium' ? FLOOD_RISK_RADIUS.MEDIUM :
                 FLOOD_RISK_RADIUS.LOW;
@@ -118,21 +192,20 @@ export const floodRiskService = {
   async getFloodRisks(): Promise<FloodRiskArea[]> {
     try {
       // Fetch sensors and water levels
-      const sensorsResponse = await api.get<SensorResponse>('/api/sensors');
-      const waterLevelsResponse = await api.get<WaterLevelResponse>('/api/sensors/waterlevels');
+      const sensorsResponse = await apiRequest<SensorResponse>('GET', '/api/sensors');
+      const waterLevelsResponse = await apiRequest<WaterLevelResponse>('GET', '/api/sensors/waterlevels');
 
-      const validSensors = (sensorsResponse.sensors || []).filter(sensor => !sensor.sensor_failure);
+      const validSensors = (sensorsResponse.sensors || []).filter((sensor: SensorData) => !sensor.sensor_failure);
       const waterLevelData = extractWaterLevelData(waterLevelsResponse);
 
       // Process each sensor with its corresponding water level data
       return validSensors
-        .map(sensor => {
+        .map((sensor: SensorData) => {
           const sensorWaterLevel = waterLevelData.find(wl => wl.sensor_id === sensor.id);
           return processFloodRiskData(sensor, sensorWaterLevel);
         })
         .filter(Boolean) as FloodRiskArea[];
     } catch (error) {
-      // Return mock data as fallback in case of API failure
       return mockData;
     }
   },
@@ -144,18 +217,17 @@ export const floodRiskService = {
 
   async getFloodRiskById(id: number): Promise<FloodRiskArea | null> {
     try {
-      const sensorResponse = await api.get<SensorResponse>(`/api/sensors/${id}`);
+      const sensorResponse = await apiRequest<SensorResponse>('GET', `/api/sensors/${id}`);
       const sensor = sensorResponse.sensor;
 
       if (!sensor || sensor.sensor_failure) return null;
 
-      const waterLevelsResponse = await api.get<WaterLevelResponse>('/api/sensors/waterlevels');
+      const waterLevelsResponse = await apiRequest<WaterLevelResponse>('GET', '/api/sensors/waterlevels');
       const waterLevelData = extractWaterLevelData(waterLevelsResponse);
       const sensorWaterLevel = waterLevelData.find(wl => wl.sensor_id === sensor.id);
 
       return processFloodRiskData(sensor, sensorWaterLevel);
     } catch (error) {
-      // Try to find the risk area in mock data as fallback
       const mockRisk = mockData.find(risk => risk.id === id);
       return mockRisk || null;
     }

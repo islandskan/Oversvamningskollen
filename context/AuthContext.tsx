@@ -20,69 +20,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  const handleAuthChange = (isAuth: boolean, user: User | null, isManualLogout = false) => {
-    setIsAuthenticated(isAuth);
-    setCurrentUser(user);
-
-    if (!isAuth) {
-      router.replace('/login');
-
-      if (router.canGoBack() && !isManualLogout) {
-        showAlert('Session Expired', 'Your session has expired. Please log in again.', 'warning');
-      }
-    }
-  };
-
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const checkAuth = async () => {
       try {
         setIsLoading(true);
-        const token = await authService.getToken();
-
-        if (!token) {
-          handleAuthChange(false, null);
-          return;
-        }
-
         const user = await authService.getCurrentUser();
-        handleAuthChange(!!user, user);
+
+        setIsAuthenticated(!!user);
+        setCurrentUser(user);
+
+        if (!user && router.canGoBack()) {
+          router.replace('/login');
+        }
       } catch (error) {
-        handleAuthChange(false, null);
+        setIsAuthenticated(false);
+        setCurrentUser(null);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkAuthStatus();
-
-    // Check token validity every 5 minutes
-    const tokenCheckInterval = setInterval(async () => {
-      if (isAuthenticated) {
-        const token = await authService.getToken();
-        if (!token) handleAuthChange(false, null);
-      }
-    }, 300000);
-
-    return () => clearInterval(tokenCheckInterval);
-  }, [isAuthenticated]);
+    checkAuth();
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const user = await authService.login({ email, password });
-      handleAuthChange(true, user);
+      setIsAuthenticated(true);
+      setCurrentUser(user);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-
-      // Determine alert type based on error message
-      let alertType: 'error' | 'warning' = 'error';
-      let title = 'Login Failed';
-
-      if (message.includes('Network') || message.includes('Server') || message.includes('timeout')) {
-        alertType = 'warning';
-        title = 'Connection Error';
-      }
-
-      showAlert(title, message, alertType);
+      const message = error instanceof Error ? error.message : 'Login failed';
+      showAlert('Login Failed', message, 'error');
       throw error;
     }
   };
@@ -91,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await authService.register({ name, email, password });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+      const message = error instanceof Error ? error.message : 'Registration failed';
       showAlert('Registration Failed', message, 'error');
       throw error;
     }
@@ -100,9 +68,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       await authService.logout();
-      handleAuthChange(false, null, true);
+      setIsAuthenticated(false);
+      setCurrentUser(null);
+      router.replace('/login');
     } catch (error) {
-      throw error;
+      console.error('Logout error:', error);
     }
   };
 

@@ -1,50 +1,164 @@
-# Welcome to your Expo app 👋
+# FloodCast - Flood Risk Monitoring System
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<div align="center">
+  <img src="./assets/images/floodcast-logo.png" alt="FloodCast Logo" width="200" />
+</div>
 
-## Get started
+## 📱 Project Overview
 
-1. Install dependencies
+FloodCast is a comprehensive mobile application designed to monitor and manage flood risks in urban areas. The system combines IoT sensor data with a user-friendly mobile interface to provide flood risk information, helping municipalities and citizens respond effectively to potential flooding events.
 
+This project was developed as part of a coding challenge to demonstrate full-stack development capabilities, with a focus on creating a robust, scalable, and user-friendly solution.
+
+## 🌟 Key Features
+
+- **Interactive Flood Risk Map**: Visualization of flood risk areas with color-coded risk levels
+- **Detailed Risk Information**: Comprehensive data on water levels, affected areas, and emergency contacts
+- **User Location Tracking**: Personalized risk assessment based on user's current location
+- **Dark/Light Mode Support**: Fully responsive UI with theme support for optimal viewing in all conditions
+- **Authentication System**: Secure JWT-based authentication 
+- **Emergency Contact System**: Quick access to emergency services during flood events
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React Native** with **Expo** framework for cross-platform mobile development
+- **TypeScript** for type safety and improved developer experience
+- **NativeWind** (Tailwind for React Native) for consistent, responsive styling (very limited use of stylesheet in occasions where Nativewind isn't supported)
+- **Expo Router** for declarative, file-based navigation
+- **React Native Maps** for interactive map functionality (Apple Maps on iOS, Google Maps on Android)
+
+### Backend
+- **Node.js** with **Express** for RESTful API development
+- **PostgreSQL** for reliable, relational data storage
+- **JWT** for secure authentication
+- **bcrypt** for password hashing
+- **Swagger/OpenAPI** for comprehensive API documentation
+
+### DevOps
+- **EAS Build** for streamlined deployment and testing
+- **Vercel** for backend hosting
+
+## 🏗️ Architecture
+
+The application follows a modern, modular architecture:
+
+1. **Frontend Layer**: React Native mobile application with component-based UI
+2. **API Layer**: Express.js RESTful API with middleware for authentication and validation
+3. **Data Layer**: PostgreSQL database with optimized schema for sensor data
+4. **IoT Integration**: Custom middleware for processing sensor data with bitflag decoding
+
+## 📂 Project Structure
+
+```
+floodcast/
+├── app/                    # Main application code (Expo Router)
+│   ├── (tabs)/             # Tab-based navigation screens
+│   ├── _layout.tsx         # Root layout component
+│   └── index.tsx           # Entry point
+├── assets/                 # Static assets (images, fonts)
+├── components/             # Reusable UI components
+├── constants/              # App constants and theme configuration
+├── context/                # React context providers
+├── hooks/                  # Custom React hooks
+├── services/               # API service layer
+├── types/                  # TypeScript type definitions
+├── utils/                  # Utility functions
+├── Backend/                # Backend Express.js application
+│   ├── routes/             # API route definitions
+│   ├── middleware/         # Express middleware
+│   ├── docs/               # API documentation
+│   └── data/               # Data processing scripts
+└── documentation/          # Project documentation
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js ≥ 14.x
+- npm or yarn
+- PostgreSQL ≥ 12
+- Expo CLI (`npm install -g expo-cli`)
+- EAS CLI (`npm install -g eas-cli`)
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/floodcast.git
+   cd floodcast
+   ```
+
+2. Install dependencies
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. Set up environment variables
    ```bash
-    npx expo start
+   cp .env.example .env
+   # Edit .env with your configuration
    ```
 
-In the output, you'll find options to open the app in a
+4. Set up the database (from backend branch if vercel is down)
+   ```bash
+   npm run setup-db
+   npm run create-tables
+   npm run seed-db
+   ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+5. Start the backend server
+   ```bash
+   npm run dev
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+6. Start the frontend application
+   ```bash
+   npx expo start or bun s 
+   ```
 
-## Get a fresh project
+### Testing on Physical Devices
 
-When you're ready, run:
+For testing on physical devices, we use EAS Preview builds:
 
-```bash
-npm run reset-project
-```
+1. Prebuild for your target platform
+   ```bash
+   npx expo prebuild --platform android  # or ios
+   ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Create a preview build
+   ```bash
+   eas build --profile preview --platform android  # or ios
+   ```
 
-## Learn more
+3. Scan the QR code with your device to install the preview build
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🧪 Design Decisions & Trade-offs
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Authentication
+I implemented JWT-based authentication with bcrypt password hashing for security. Token expiration is set to 1 hour as a balance between security and convenience.
 
-## Join the community
+### Map Implementation
+I chose React Native Maps for its cross-platform compatibility and performance. The map displays flood risk areas as color-coded circles with interactive markers. Risk levels are calculated based on water level and rate of change data from sensors.
 
-Join our community of developers creating universal apps.
+### Styling Approach
+NativeWind was selected for styling to maintain consistency across the application while leveraging the familiarity of Tailwind CSS. This approach significantly reduced development time and improved maintainability.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Data Fetching Strategy
+The application uses custom hooks for data fetching with built-in error handling and fallback to mock data when API calls fail. This ensures the app remains functional even with intermittent connectivity.
+
+
+
+
+
+## 📈 Future Improvements
+
+With additional time, the team would implement:
+
+1. **Predictive Analytics**: Machine learning models to predict flooding based on weather forecasts and historical data
+2. **Community Reporting**: Allow users to submit flood reports with photos and descriptions
+3. **Offline Map Caching**: Download map data for offline use in emergency situations
+4. **Multi-language Support**: Localization for multiple languages to serve diverse communities
+
+
+

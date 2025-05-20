@@ -92,12 +92,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('AuthContext: Login failed:', error);
 
-      // Determine error type and show appropriate message
+      // Get error message from the error object
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-      const isCredentialError = message.includes('credentials') || message.includes('Authentication failed');
 
-      const title = isCredentialError ? 'Login Failed' : 'Connection Error';
-      const type = isCredentialError ? 'error' : 'warning';
+      // Determine error type based on message content
+      let title = 'Login Failed';
+      let type: 'info' | 'success' | 'warning' | 'error' = 'error';
+
+      if (message.includes('Invalid email or password') ||
+          message.includes('Authentication failed')) {
+        title = 'Invalid Credentials';
+        type = 'error';
+      } else if (message.includes('Network connection') ||
+                message.includes('Server error') ||
+                message.includes('timeout')) {
+        title = 'Connection Error';
+        type = 'warning';
+      } else if (message.includes('permission')) {
+        title = 'Access Denied';
+        type = 'error';
+      }
 
       showAlert(title, message, type);
       throw error;
@@ -111,8 +125,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await authService.register({ name, email, password });
     } catch (error) {
       console.error('AuthContext: Registration failed:', error);
+
+      // Get error message from the error object
       const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-      showAlert('Registration Failed', message, 'error');
+
+      // Determine error type based on message content
+      let title = 'Registration Failed';
+      let type: 'info' | 'success' | 'warning' | 'error' = 'error';
+
+      if (message.includes('email is already registered') ||
+          message.includes('email') && message.includes('registered')) {
+        title = 'Email Already Exists';
+        type = 'error';
+      } else if (message.includes('Network connection') ||
+                message.includes('Server error') ||
+                message.includes('timeout')) {
+        title = 'Connection Error';
+        type = 'warning';
+      } else if (message.includes('Password')) {
+        title = 'Password Error';
+        type = 'error';
+      } else if (message.includes('Database configuration error')) {
+        title = 'Database Setup Error';
+        type = 'error';
+      }
+
+      showAlert(title, message, type);
       throw error;
     }
   };

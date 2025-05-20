@@ -6,6 +6,41 @@ import { getApiBaseUrl } from '@/utils/networkUtils';
 const AUTH_TOKEN_KEY = 'auth_token';
 const TOKEN_EXPIRY_BUFFER = 300; // 5 minutes buffer before actual expiration
 
+// Function to translate Swedish error messages to English
+function translateErrorMessage(message: string): string {
+  // Map of Swedish error messages to English translations
+  const translations: Record<string, string> = {
+    'E-postadressen är redan registrerad': 'This email is already registered',
+    'Standardrollen "user" saknas i databasen': 'Database configuration error: The "user" role is missing. Please contact support.',
+    'Serverfel vid registrering': 'Server error during registration',
+    'Användaren registrerad': 'User registered successfully',
+    'Fel användarnamn eller lösenord': 'Invalid username or password',
+    'Fel vid registrering': 'Error during registration'
+  };
+
+  // Check if we have a translation for this message
+  if (translations[message]) {
+    return translations[message];
+  }
+
+  // If no direct match, check for partial matches
+  if (message.includes('E-postadressen')) {
+    return 'This email is already registered';
+  }
+  if (message.includes('lösenord')) {
+    return 'Password error. Please check your password and try again.';
+  }
+  if (message.includes('Standardrollen') || message.includes('user saknas')) {
+    return 'Database configuration error: The "user" role is missing. Please contact support.';
+  }
+  if (message.includes('Serverfel')) {
+    return 'Server error. Please try again later.';
+  }
+
+  // Return the original message if no translation is found
+  return message;
+}
+
 interface LoginCredentials {
   email: string;
   password: string;
@@ -112,28 +147,57 @@ export const authService = {
     } catch (error) {
       console.error('Login failed:', error);
 
+      // Log detailed error information for debugging
+      if (error instanceof Error) {
+        console.log(`Error details - Type: ${error.name}, Message: ${error.message}`);
+        if (error.name === 'ApiError') {
+          const apiError = error as any;
+          console.log(`API Error Status: ${apiError.status}, Data:`, apiError.data);
+        }
+      }
+
       // Create a more user-friendly error message
       let errorMessage = 'Login failed. Please check your credentials and try again.';
 
       if (error instanceof Error) {
-        console.log(`Error type: ${error.name}, message: ${error.message}`);
-
         if (error.name === 'ApiError') {
           const apiError = error as any;
 
-          // Handle specific API error codes
-          if (apiError.status === 401) {
-            errorMessage = 'Invalid email or password. Please try again.';
-          } else if (apiError.status === 403) {
-            errorMessage = 'Your account does not have permission to access this application.';
-          } else if (apiError.status === 429) {
-            errorMessage = 'Too many login attempts. Please try again later.';
-          } else if (apiError.message.includes('fel lösenord')) {
-            // Handle the specific Swedish error message for wrong password
-            errorMessage = 'Invalid password. Please try again.';
-          } else {
-            // Use the API error message if available
-            errorMessage = apiError.message || errorMessage;
+          // First, check if there's an error message in the response data
+          if (apiError.data?.error) {
+            const dataErrorMessage = translateErrorMessage(apiError.data.error);
+            errorMessage = dataErrorMessage;
+
+            // Log the original error for debugging
+            console.log('Original error from backend data:', apiError.data.error);
+            console.log('Translated error message:', dataErrorMessage);
+          }
+          // Then try to translate the error message if it's in Swedish
+          else if (apiError.message) {
+            const translatedMessage = translateErrorMessage(apiError.message);
+
+            // If translation changed the message, use it
+            if (translatedMessage !== apiError.message) {
+              errorMessage = translatedMessage;
+            } else {
+              // Handle specific API error codes with English messages
+              if (apiError.status === 401) {
+                errorMessage = 'Invalid email or password. Please try again.';
+              } else if (apiError.status === 403) {
+                errorMessage = 'Your account does not have permission to access this application.';
+              } else if (apiError.status === 429) {
+                errorMessage = 'Too many login attempts. Please try again later.';
+              } else if (apiError.message.includes('fel lösenord') ||
+                         apiError.message.includes('Fel användarnamn eller lösenord')) {
+                // Handle the specific Swedish error messages for wrong credentials
+                errorMessage = 'Invalid email or password. Please try again.';
+              } else if (apiError.status === 500) {
+                errorMessage = 'Server error. Please try again later.';
+              } else {
+                // Use the translated message as fallback
+                errorMessage = translatedMessage;
+              }
+            }
           }
         } else if (error.message.includes('Network request failed')) {
           errorMessage = 'Network connection error. Please check your internet connection.';
@@ -143,6 +207,8 @@ export const authService = {
           errorMessage = 'Authentication failed. Please try again.';
         }
       }
+
+      console.log('Final user-friendly error message:', errorMessage);
 
       // Create a new error with the user-friendly message
       const userFriendlyError = new Error(errorMessage);
@@ -162,41 +228,105 @@ export const authService = {
         password: data.password
       });
 
-      console.log('Registration successful:', response.message || 'User registered');
+      // Translate success message if it's in Swedish
+      const translatedMessage = translateErrorMessage(response.message);
+      console.log('Registration successful:', translatedMessage || 'User registered');
     } catch (error) {
       console.error('Registration failed:', error);
+
+      // Log detailed error information for debugging
+      if (error instanceof Error) {
+        console.log(`Error details - Type: ${error.name}, Message: ${error.message}`);
+        if (error.name === 'ApiError') {
+          const apiError = error as any;
+          console.log(`API Error Status: ${apiError.status}, Data:`, apiError.data);
+        }
+      }
 
       // Create a more user-friendly error message
       let errorMessage = 'Registration failed. Please try again.';
 
       if (error instanceof Error) {
-        console.log(`Error type: ${error.name}, message: ${error.message}`);
-
         if (error.name === 'ApiError') {
           const apiError = error as any;
 
-          // Handle specific API error codes
-          if (apiError.status === 400) {
-            if (apiError.message.includes('email') || apiError.data?.errors?.email) {
-              errorMessage = 'This email is already registered or invalid. Please use a different email.';
-            } else if (apiError.message.includes('password') || apiError.data?.errors?.password) {
-              errorMessage = 'Password does not meet requirements. Please use a stronger password.';
-            } else {
-              // Use the API error message if available
-              errorMessage = apiError.message || errorMessage;
-            }
-          } else if (apiError.status === 409) {
-            errorMessage = 'This email is already registered. Please use a different email or try to log in.';
-          } else {
-            // Use the API error message if available
-            errorMessage = apiError.message || errorMessage;
+          // First, check if there's an error message in the response data
+          if (apiError.data?.error) {
+            const dataErrorMessage = translateErrorMessage(apiError.data.error);
+            errorMessage = dataErrorMessage;
+
+            // Log the original error for debugging
+            console.log('Original error from backend data:', apiError.data.error);
+            console.log('Translated error message:', dataErrorMessage);
           }
-        } else if (error.message.includes('Network request failed')) {
+          // Then try to translate the error message if it's in Swedish
+          else if (apiError.message) {
+            const translatedMessage = translateErrorMessage(apiError.message);
+
+            // If translation changed the message, use it
+            if (translatedMessage !== apiError.message) {
+              errorMessage = translatedMessage;
+            } else {
+              // Handle specific API error codes with English messages
+              if (apiError.status === 400) {
+                // Check for email-related errors
+                if (apiError.message.includes('email') ||
+                    apiError.message.includes('E-post') ||
+                    apiError.data?.errors?.email) {
+                  errorMessage = 'This email is already registered or invalid. Please use a different email.';
+                }
+                // Check for password-related errors
+                else if (apiError.message.includes('password') ||
+                         apiError.message.includes('lösenord') ||
+                         apiError.data?.errors?.password) {
+                  errorMessage = 'Password does not meet requirements. Please use a stronger password.';
+                }
+                // Use translated message as fallback
+                else {
+                  errorMessage = translatedMessage;
+                }
+              }
+              // Handle duplicate email errors
+              else if (apiError.status === 409) {
+                errorMessage = 'This email is already registered. Please use a different email or try to log in.';
+              }
+              // Handle server errors
+              else if (apiError.status === 500) {
+                // Check for the specific database role error
+                if (apiError.data?.error &&
+                    (apiError.data.error.includes('Standardrollen "user" saknas') ||
+                     apiError.data.error.includes('user role is missing'))) {
+                  errorMessage = 'Database configuration error: The "user" role is missing. Please contact support.';
+
+                  // Log detailed instructions for developers
+                  console.error('DATABASE SETUP ERROR: The "user" role is missing in the database.');
+                  console.error('To fix this issue:');
+                  console.error('1. Check if the roles table exists and has been properly initialized');
+                  console.error('2. Run the database setup script: npm run create-tables');
+                  console.error('3. Or manually add the role with SQL: INSERT INTO roles (name) VALUES (\'user\');');
+                  console.error('4. Restart the server after fixing the database');
+                } else {
+                  errorMessage = 'Server error. Please try again later.';
+                }
+              }
+              // Use translated message for other status codes
+              else {
+                errorMessage = translatedMessage;
+              }
+            }
+          }
+        }
+        // Handle network errors
+        else if (error.message.includes('Network request failed')) {
           errorMessage = 'Network connection error. Please check your internet connection.';
-        } else if (error.name === 'AbortError' || error.message.includes('timeout')) {
+        }
+        // Handle timeout errors
+        else if (error.name === 'AbortError' || error.message.includes('timeout')) {
           errorMessage = 'Request timed out. Please try again.';
         }
       }
+
+      console.log('Final user-friendly error message:', errorMessage);
 
       // Create a new error with the user-friendly message
       const userFriendlyError = new Error(errorMessage);

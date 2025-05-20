@@ -50,8 +50,7 @@ export default function SignupScreen() {
       router.replace('/login');
     } catch (error) {
       console.error('Registration failed:', error);
-      const message = error instanceof Error ? error.message : 'An unexpected error occurred';
-      showAlert('Registration Failed', message, 'error');
+      // Error alert is already shown in AuthContext, no need to show it again here
     } finally {
       setIsLoading(false);
     }

@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
+import { showAlert } from '@/utils/alert';
 
 export default function LoginScreen() {
   const colorScheme = useColorScheme();
@@ -16,6 +17,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
+      showAlert('Missing Information', 'Please enter both email and password', 'warning');
       return;
     }
 
@@ -26,6 +28,7 @@ export default function LoginScreen() {
       router.replace('/(tabs)');
     } catch (error) {
       console.error('Login failed:', error);
+      // Error alert is already shown in AuthContext, no need to show it again here
     } finally {
       setIsLoading(false);
     }

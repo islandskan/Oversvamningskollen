@@ -24,10 +24,14 @@ export default function CustomAlert() {
       transparent={true}
       visible={isAlertVisible}
       onRequestClose={hideAlert}
+      accessibilityViewIsModal={true}
     >
       <Pressable
         className="flex-1 justify-center items-center bg-black/50"
         onPress={hideAlert}
+        accessibilityLabel="Alert backdrop"
+        accessibilityHint="Tap anywhere outside the alert to dismiss it"
+        accessibilityRole="button"
       >
         <Pressable
           className={`w-[80%] rounded-2xl p-4 ${isDark ? 'bg-gray-800' : 'bg-white'}`}
@@ -49,6 +53,9 @@ export default function CustomAlert() {
             <Pressable
               onPress={hideAlert}
               className={`w-8 h-8 rounded-full items-center justify-center ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`}
+              accessibilityLabel="Close alert"
+              accessibilityHint="Tap to dismiss this alert"
+              accessibilityRole="button"
             >
               <MaterialIcons
                 name="close"

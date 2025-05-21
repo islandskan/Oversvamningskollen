@@ -36,6 +36,9 @@ export const RiskHeader: React.FC<RiskHeaderProps> = ({ title, riskLevel, onClos
       <TouchableOpacity
         onPress={onClose}
         className="w-8 h-8 rounded-full bg-white/30 justify-center items-center"
+        accessibilityLabel="Close flood risk details"
+        accessibilityHint="Tap to close this flood risk information panel"
+        accessibilityRole="button"
       >
         <Text className="text-base font-bold text-white">✕</Text>
       </TouchableOpacity>

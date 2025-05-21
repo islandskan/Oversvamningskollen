@@ -72,7 +72,6 @@ export default function LoginScreen() {
             className="absolute inset-0"
           />
 
-          {/* email input */}
           <TextInput
             placeholder="Email"
             placeholderTextColor={isDark ? "#6b7280" : "#9ca3af"}
@@ -81,9 +80,11 @@ export default function LoginScreen() {
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
+            accessibilityLabel="Email address input"
+            accessibilityHint="Enter your email address to sign in"
+            accessibilityRole="text"
           />
 
-          {/* password input */}
           <TextInput
             placeholder="Password"
             placeholderTextColor={isDark ? "#6b7280" : "#9ca3af"}
@@ -91,13 +92,18 @@ export default function LoginScreen() {
             className={`${isDark ? 'bg-gray-800/80 text-white' : 'bg-white/90 text-gray-900'} rounded-xl px-4 py-3 mb-4`}
             value={password}
             onChangeText={setPassword}
+            accessibilityLabel="Password input"
+            accessibilityHint="Enter your password to sign in"
+            accessibilityRole="text"
           />
 
-          {/* sign In button */}
           <TouchableOpacity
             className="rounded-xl overflow-hidden"
             onPress={handleLogin}
             disabled={isLoading}
+            accessibilityLabel="Sign in button"
+            accessibilityHint="Tap to sign in with your email and password"
+            accessibilityRole="button"
           >
             <LinearGradient
               colors={['#a855f7', '#ec4899']}
@@ -118,12 +124,20 @@ export default function LoginScreen() {
 
 
 
-        {/* bottom Links */}
         <View className="flex-row justify-between w-full mt-6">
-          <TouchableOpacity>
+          <TouchableOpacity
+            accessibilityLabel="Forgot Password"
+            accessibilityHint="Tap to reset your password"
+            accessibilityRole="link"
+          >
             <Text className="text-purple-500">Forgot Password?</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/signup')}>
+          <TouchableOpacity
+            onPress={() => router.push('/signup')}
+            accessibilityLabel="Sign Up"
+            accessibilityHint="Tap to create a new account"
+            accessibilityRole="link"
+          >
             <Text className="text-purple-500">Sign Up</Text>
           </TouchableOpacity>
         </View>

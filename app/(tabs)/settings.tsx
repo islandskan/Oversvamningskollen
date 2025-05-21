@@ -54,6 +54,9 @@ export default function SettingsScreen() {
                 trackColor={{ false: '#767577', true: '#795de2' }}
                 thumbColor={isDarkMode ? '#ffffff' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
+                accessibilityLabel="Dark Mode"
+                accessibilityHint="Tap to toggle between light and dark theme"
+                accessibilityRole="switch"
               />
             }
           />
@@ -72,6 +75,9 @@ export default function SettingsScreen() {
                 trackColor={{ false: '#767577', true: '#795de2' }}
                 thumbColor={notificationsEnabled ? '#ffffff' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
+                accessibilityLabel="Push Notifications"
+                accessibilityHint="Tap to enable or disable push notifications for flood risks"
+                accessibilityRole="switch"
               />
             }
           />
@@ -87,6 +93,9 @@ export default function SettingsScreen() {
                 trackColor={{ false: '#767577', true: '#795de2' }}
                 thumbColor={locationEnabled ? '#ffffff' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
+                accessibilityLabel="Location Services"
+                accessibilityHint="Tap to enable or disable access to your location"
+                accessibilityRole="switch"
               />
             }
           />
@@ -101,7 +110,12 @@ export default function SettingsScreen() {
             <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Current theme: {isDarkMode ? 'Dark' : 'Light'}
             </Text>
-            <TouchableOpacity className="mt-3">
+            <TouchableOpacity
+              className="mt-3"
+              accessibilityLabel="Check for updates"
+              accessibilityHint="Tap to check if there are any app updates available"
+              accessibilityRole="button"
+            >
               <Text className="text-modern-purple">Check for updates</Text>
             </TouchableOpacity>
           </View>

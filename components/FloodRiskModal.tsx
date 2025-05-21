@@ -1,4 +1,4 @@
-import { View, Text, Modal, ScrollView } from 'react-native';
+import { View, Text, Modal, ScrollView, Pressable } from 'react-native';
 import { FloodRiskArea } from '@/types';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import {
@@ -38,9 +38,16 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
+      accessibilityViewIsModal={true}
     >
-      <View className="flex-1 justify-center items-center bg-black/50 dark:bg-black/70">
-        <View className="w-[90%] max-h-[80%] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+      <Pressable
+        className="flex-1 justify-center items-center bg-black/50 dark:bg-black/70"
+        onPress={onClose}
+      >
+        <Pressable
+          className="w-[90%] max-h-[80%] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg"
+          onPress={(e) => e.stopPropagation()}
+        >
           <RiskHeader
             title={selectedArea.title}
             riskLevel={selectedArea.riskLevel}
@@ -118,8 +125,8 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
               onPress={handleEmergencyCall}
             />
           </ScrollView>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 }

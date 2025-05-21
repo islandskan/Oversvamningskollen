@@ -10,6 +10,9 @@ export const LogoutButton = ({ onPress }: LogoutButtonProps) => (
     <TouchableOpacity
       className="rounded-xl overflow-hidden"
       onPress={onPress}
+      accessibilityLabel="Log out"
+      accessibilityHint="Tap to log out of your account"
+      accessibilityRole="button"
     >
       <LinearGradient
         colors={['#ef4444', '#b91c1c']}

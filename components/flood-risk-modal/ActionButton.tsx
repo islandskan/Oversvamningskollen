@@ -8,11 +8,11 @@ interface ActionButtonProps {
   onPress: () => void;
 }
 
-export const ActionButton: React.FC<ActionButtonProps> = ({ 
-  label, 
-  riskLevel, 
-  iconName, 
-  onPress 
+export const ActionButton: React.FC<ActionButtonProps> = ({
+  label,
+  riskLevel,
+  iconName,
+  onPress
 }) => {
   const getButtonBgColor = (level: string): string => {
     const normalizedLevel = level.toLowerCase();
@@ -23,9 +23,12 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       className={`mt-4 py-3 rounded-lg items-center ${getButtonBgColor(riskLevel)}`}
       onPress={onPress}
+      accessibilityLabel={label}
+      accessibilityHint={`Tap to ${label.toLowerCase()}`}
+      accessibilityRole="button"
     >
       <View className="flex-row items-center">
         <Ionicons

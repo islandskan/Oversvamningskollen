@@ -32,11 +32,12 @@ export default function HomeScreen() {
         style={StyleSheet.absoluteFillObject}
         region={region}
         onRegionChangeComplete={setRegion}
-        // defaults to Apple Maps on iOS
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
         customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}
         showsUserLocation={false}
         showsMyLocationButton={false}
+        accessibilityRole="image"
+        accessibilityLabel="Map showing flood risk areas in Malmö, Sweden"
       >
         {floodRiskAreas.map((area) => (
           <React.Fragment key={area.id}>
@@ -54,7 +55,9 @@ export default function HomeScreen() {
                 setSelectedArea(area);
                 setModalVisible(true);
               }}
+              tracksViewChanges={false}
             />
+
           </React.Fragment>
         ))}
 
@@ -64,7 +67,7 @@ export default function HomeScreen() {
               latitude: userLocation.coords.latitude,
               longitude: userLocation.coords.longitude,
             }}
-            title="Your Location"
+            tracksViewChanges={false}
           >
             <View className="w-6 h-6 rounded-full bg-blue-500 border-2 border-white items-center justify-center">
               <View className="w-2 h-2 rounded-full bg-white" />
@@ -73,11 +76,13 @@ export default function HomeScreen() {
         )}
       </MapView>
 
-      {/* center to user location icon  */}
       <TouchableOpacity
         className={`absolute bottom-24 right-4 w-12 h-12 rounded-full justify-center items-center shadow-md ${colorScheme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
         onPress={() => centerOnUser(setRegion)}
         activeOpacity={0.7}
+        accessibilityLabel="Center map on your location"
+        accessibilityHint="Tap to center the map on your current location"
+        accessibilityRole="button"
       >
         <IconSymbol
           name="location.fill"

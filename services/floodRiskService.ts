@@ -9,12 +9,10 @@ const BASE_URL = getApiBaseUrl();
 const TIMEOUT = 15000;
 const AUTH_TOKEN_KEY = 'auth_token';
 
-// Helper function to get token
 const getToken = async (): Promise<string | null> => {
   return AsyncStorage.getItem(AUTH_TOKEN_KEY);
 };
 
-// API request function
 async function apiRequest<T = any>(
   method: string,
   endpoint: string,

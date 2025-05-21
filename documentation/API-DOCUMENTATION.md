@@ -48,7 +48,7 @@ git checkout backend</code></pre>
   <li>
     <strong>Uppdatera din <code>.env</code> med dessa detaljer:</strong><br>
     Ersätt de tidigare raderna med följande:
-    <pre><code>DATABASE_URL=din_postgres_url_från_neon</code></pre>
+    <pre><code>PG_URI='postgres://USER:PASSWORD@HOST/neondb?sslmode=require'</code></pre>
     <p>Och se till att din kod eller ORM (t.ex. Sequelize eller Prisma) stödjer <code>DATABASE_URL</code>.</p>
   </li>
 
@@ -95,8 +95,19 @@ git checkout backend</code></pre>
   <li>DELETE /{contactID} – Ta bort kontakt</li>
 </ul>
 
+<h3>/login</h3>
+<ul>
+  <li>POST – Få token från JWT</li>
+  <li>GET /me – Skyddad route</li>
+</ul>
+
+<h3>/register</h3>
+<ul>
+  <li>POST – Skapa ny user</li>
+</ul>
+
+
 <h3>🧪 Testa API</h3>
-<p>Mockserver: <a href="https://virtserver.swaggerhub.com/chasacademy-135/floodcast/1.0.0">SwaggerHub Mock</a><br>
 Swagger-spec: <a href="https://app.swaggerhub.com/apis/chasacademy-135/floodcast/1.0.0">Floodcast API</a></p>
 
 <h2>📄 Licens</h2>

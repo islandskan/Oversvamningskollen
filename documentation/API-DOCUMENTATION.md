@@ -24,13 +24,15 @@ git checkout backend</code></pre>
   <li><strong>Skapa och fyll i <code>.env</code>:</strong>
     <pre><code>cp .envexample .env</code></pre>
     <p>Redigera sedan <code>.env</code>:</p>
-    <pre><code>DB_HOST=localhost
+    <pre><code>
       DB_PORT=3000
+      PG_URI='se nedan steg för att hitta denna'
       </code></pre>
   </li>
+</ol>
   
 <h3>För att köra server online med Neon</h3>
-<ol start="6">
+<ol>
   <li>
     <strong>Skapa ett konto och en databas på Neon:</strong><br>
     Gå till <a href="https://neon.tech">https://neon.tech</a> och skapa ett konto. Skapa ett nytt projekt/databas.
@@ -51,19 +53,16 @@ git checkout backend</code></pre>
   </li>
 
   <li>
-  <strong>Kör databasens schema (dump.sql) mot din Neon-databas:</strong><br>
-  När du har skapat din databas och uppdaterat <code>.env</code>, kör kommandot nedan för att skapa tabeller och struktur:<br>
-  <pre><code>psql &lt;din_neon_url&gt; &lt; dump.sql</code></pre>
-  <p>
-    Detta förutsätter att du har <code>psql</code> installerat. Om du använder en <code>DATABASE_URL</code> i din <code>.env</code>, kan du kopiera den rakt in i kommandot:
-  </p>
-  <pre><code>psql $DATABASE_URL &lt; dump.sql</code></pre>
-  <p>
-    Efter detta är databasen redo att användas med API:t.
-  </p>
-</li>
-
+    <strong>Kör databasens schema (dump.sql) mot din Neon-databas:</strong><br>
+    När du har skapat din databas och uppdaterat <code>.env</code>, kör kommandot nedan för att skapa tabeller och struktur:<br>
+    <pre><code>psql &lt;din_neon_url&gt; &lt; dump.sql</code></pre>
+    <p>
+      Efter detta är databasen redo att användas med API:t.
+    </p>
+  </li>
 </ol>
+
+
 
 
 <h2>📡 API-dokumentation</h2>

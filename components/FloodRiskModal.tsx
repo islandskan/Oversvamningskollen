@@ -1,4 +1,4 @@
-import { View, Text, Modal, ScrollView, Pressable } from 'react-native';
+import { View, Text, Modal, ScrollView, Pressable, Linking, Platform } from 'react-native';
 import { FloodRiskArea } from '@/types';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import {
@@ -29,7 +29,16 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
   };
 
   const handleEmergencyCall = () => {
-    // Handle emergency call logic
+    const emergencyNumber = '112';
+    const phoneUrl = Platform.OS === 'android' ? `tel:${emergencyNumber}` : `telprompt:${emergencyNumber}`;
+
+    Linking.canOpenURL(phoneUrl)
+      .then(supported => {
+        if (supported) {
+          return Linking.openURL(phoneUrl);
+        }
+      })
+      .catch(error => console.error('Error making phone call:', error));
   };
 
   return (

@@ -33,8 +33,8 @@ export default function HomeScreen() {
         region={region}
         onRegionChangeComplete={setRegion}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
-        customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}
-        showsUserLocation={false}
+        customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}        
+        showsUserLocation={true}
         showsMyLocationButton={false}
         accessibilityRole="image"
         accessibilityLabel="Map showing flood risk areas in Malmö, Sweden"
@@ -57,6 +57,7 @@ export default function HomeScreen() {
               }}
               tracksViewChanges={false}
             />
+            
 
           </React.Fragment>
         ))}

@@ -350,3 +350,183 @@ paths:
           description: Kontakt hittades inte
         '500':
           description: Fel vid radering av kontakt
+
+  /register:               
+    post:
+      summary: Registrera en ny användare
+      description: Skapar en ny användare med hashat och saltat lösenord.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  example: Test Användare
+                email:
+                  type: string
+                  example: test@example.com
+                password:
+                  type: string
+                  example: test123
+      responses:
+        '201':
+          description: Användaren registrerad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Användaren registrerad
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Test Användare
+                      email:
+                        type: string
+                        example: test@example.com
+                      role_id:
+                        type: integer
+                        example: 3
+        '400':
+          description: E-postadressen är redan registrerad
+        '500':
+          description: Serverfel vid registrering
+      
+  /auth/google:
+    post:
+      summary: Logga in eller registrera med Google OAuth
+      description: Verifierar en Google ID-token, skapar användare om den inte finns, och returnerar en JWT.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id_token
+              properties:
+                id_token:
+                  type: string
+                  description: Google ID-token från klienten
+                  example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...
+      responses:
+        '200':
+          description: Inloggning/registrering lyckades, JWT returneras
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT för sessionen
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Test Användare
+                      email:
+                        type: string
+                        example: test@example.com
+                      google_id:
+                        type: string
+                        example: 1234567890abcdef
+        '401':
+          description: Ogiltig Google-token
+
+    /login:
+    post:
+      summary: Logga in med e-post och lösenord
+      description: Returnerar en JWT vid lyckad inloggning.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: test@example.com
+                password:
+                  type: string
+                  example: test123
+      responses:
+        '200':
+          description: Inloggning lyckades, JWT returneras
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen, test@example.com
+                  token:
+                    type: string
+                    description: JWT för sessionen
+        '401':
+          description: Fel användarnamn eller lösenord
+        '500':
+          description: Server login error
+
+  /login/me:
+    get:
+      summary: Hämta information om inloggad användare
+      description: Returnerar användarens id och e-post om giltig JWT skickas i Authorization-headern.
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Användarinformation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: test@example.com
+        '401':
+          description: Ogiltig eller saknad token
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

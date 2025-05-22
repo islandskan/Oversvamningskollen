@@ -10,6 +10,7 @@ import loginRouter from './routes/login.js';
 import googleRouter from './routes/google.js';
 import registerRouter from './routes/register.js';
 
+
 dotenv.config();
 
 const app = express();
@@ -25,7 +26,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Andra rutter
 router.use('/api/sensors', sensorRouter);
-router.use('/api/waterlevels', sensorRouter);
 router.use('/api/users', userRouter);
 router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);

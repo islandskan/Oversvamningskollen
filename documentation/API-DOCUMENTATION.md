@@ -22,16 +22,21 @@ git checkout backend</code></pre>
   </li>
 
   <li><strong>Skapa och fyll i <code>.env</code>:</strong>
+    <p>Kopiera nedan rad och lägg in i terminalen för att göra en kopia av .envexampel som heter .env</p>
     <pre><code>cp .envexample .env</code></pre>
     <p>Redigera sedan <code>.env</code>:</p>
-    <pre><code>
-      DB_PORT=3000
-      PG_URI='se nedan steg för att hitta denna'
-      </code></pre>
+    <p>Följ instruktionerna i .env för att komma åt vår databas, ta bort onödig kod</p>
+    <pre><code>DB_PORT=3000
+PG_URI='följ intruktionerna eller gå till nästa steg om du vill ha en egen databas'
+    </code></pre>
+
   </li>
+
+  <li>Starta server:</li>
+  <pre><code>npm run dev</code></pre>
 </ol>
   
-<h3>För att köra server online med Neon</h3>
+<h3>Om du vill köra en egen server online med Neon</h3>
 <ol>
   <li>
     <strong>Skapa ett konto och en databas på Neon:</strong><br>

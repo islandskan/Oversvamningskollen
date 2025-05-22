@@ -1,27 +1,28 @@
 import { useState, useEffect, useCallback } from 'react';
 import { floodRiskAreas as mockData } from '@/data/floodRiskData';
-import { floodRiskService } from '@/services/floodRiskService';
+import { getFloodRisks, getFloodRiskById, updateUserLocation } from '@/services/floodRiskService';
 import { showAlert } from '@/utils/alert';
-import { FloodRiskArea, LocationQuery } from '@/types';
+import { FloodRiskArea } from '@/types';
 
 export function useFloodData() {
   const [data, setData] = useState<FloodRiskArea[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async (locationQuery?: LocationQuery) => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const floodRisks = locationQuery
-        ? await floodRiskService.getFloodRisksByLocation(locationQuery)
-        : await floodRiskService.getFloodRisks();
+      const floodRisks = await getFloodRisks();
       setData(floodRisks);
     } catch (err) {
-      showAlert("Couldn't load flood data", "Please check your connection", "warning");
+      const errorMessage = "Failed to fetch flood risk data";
+      setError(errorMessage);
+
+      // Show user-friendly message and fall back to mock data
+      showAlert("Couldn't load flood data", "Using offline data instead", "warning");
       setData(mockData);
-      setError("Failed to fetch flood risk data");
     } finally {
       setLoading(false);
     }
@@ -29,16 +30,16 @@ export function useFloodData() {
 
   const fetchFloodRiskById = useCallback(async (id: number) => {
     try {
-      return await floodRiskService.getFloodRiskById(id);
+      return await getFloodRiskById(id);
     } catch (err) {
       showAlert("Error", `Failed to fetch flood risk with ID ${id}.`, "error");
-      return null;
+      return mockData.find(risk => risk.id === id) || null;
     }
   }, []);
 
-  const updateUserLocation = useCallback(async (location: { latitude: number; longitude: number }) => {
+  const updateLocationSafe = useCallback(async (location: { latitude: number; longitude: number }) => {
     try {
-      await floodRiskService.updateUserLocation(location);
+      await updateUserLocation(location);
       return true;
     } catch {
       return false;
@@ -53,9 +54,8 @@ export function useFloodData() {
     data,
     loading,
     error,
-    fetchFloodRisks: () => fetchData(),
-    fetchFloodRisksByLocation: (location: LocationQuery) => fetchData(location),
+    fetchFloodRisks: fetchData,
     fetchFloodRiskById,
-    updateUserLocation
+    updateUserLocation: updateLocationSafe
   };
 }

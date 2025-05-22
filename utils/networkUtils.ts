@@ -7,7 +7,8 @@ export async function isConnected(): Promise<boolean> {
 }
 
 export function getApiBaseUrl(): string {
-  const LOCAL_IP = "192.168.0.102";
+  // const LOCAL_IP = "192.168.0.102";
+  const LOCAL_IP = "192.168.51.142";
   const PORT = 3000;
 
   return Platform.select({

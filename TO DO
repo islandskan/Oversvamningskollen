@@ -1,5 +1,10 @@
 -Set google provider for both?
 -Better style centralization
 -Add ui for maptype selection mapType	'standard', 'satellite', 'hybrid'
--
+-Export map into own component
+-Export login form into own component
+-Switch to HSL.colours
+-Remove duplicate checks for colour scheme, use hook only if possible
+
+
 

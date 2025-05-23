@@ -30,7 +30,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 relative">
       <MapView
-        className='absolute inset-0'
+        style={StyleSheet.absoluteFillObject}
         region={region}
         onRegionChangeComplete={setRegion}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}

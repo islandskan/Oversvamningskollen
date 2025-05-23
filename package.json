@@ -28,16 +28,17 @@
     "google-auth-library": "^9.15.1",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.9",
     "path": "^0.12.7",
     "pg": "^8.15.6",
+    "react-scripts": "^5.0.1",
     "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
-    "yamljs": "^0.3.0",
-    "react-scripts": "^5.0.1"
+    "yamljs": "^0.3.0"
   }
 }

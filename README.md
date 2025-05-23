@@ -16,7 +16,7 @@ This project was developed as part of a coding challenge to demonstrate full-sta
 - **Detailed Risk Information**: Comprehensive data on water levels, affected areas, and emergency contacts
 - **User Location Tracking**: Personalized risk assessment based on user's current location
 - **Dark/Light Mode Support**: Fully responsive UI with theme support for optimal viewing in all conditions
-- **Authentication System**: Secure JWT-based authentication 
+- **Authentication System**: Secure JWT-based authentication
 - **Emergency Contact System**: Quick access to emergency services during flood events
 
 ## 🛠️ Technology Stack
@@ -100,6 +100,17 @@ floodcast/
    # Edit .env with your configuration
    ```
 
+   For Google Maps to work properly, you need to:
+   - Obtain a Google Maps API key from the [Google Cloud Console](https://console.cloud.google.com/)
+   - Enable the Maps SDK for Android and Maps SDK for iOS
+   - Add your API key to the .env file:
+     ```
+     MAPS_API_KEY=your_google_maps_api_key_here
+     ```
+   - For production builds, you'll need to add restrictions to your API key in the Google Cloud Console:
+     - For Android: Add your app's package name and SHA-1 certificate fingerprint
+     - For iOS: Add your app's bundle identifier
+
 4. Set up the database (from backend branch if vercel is down)
    ```bash
    npm run setup-db
@@ -114,7 +125,7 @@ floodcast/
 
 6. Start the frontend application
    ```bash
-   npx expo start or bun s 
+   npx expo start or bun s
    ```
 
 ### Testing on Physical Devices

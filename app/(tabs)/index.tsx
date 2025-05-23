@@ -10,6 +10,7 @@ import { useFloodData } from '@/hooks/useFloodData';
 import { useLocation } from '@/hooks/useLocation';
 import { FloodRiskArea, Region } from '@/types';
 import { getRiskStyle } from '@/utils/styleUtils';
+import env from '@/utils/env';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -33,7 +34,7 @@ export default function HomeScreen() {
         region={region}
         onRegionChangeComplete={setRegion}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
-        customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}        
+        customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}
         showsUserLocation={true}
         showsMyLocationButton={false}
         accessibilityRole="image"
@@ -57,7 +58,7 @@ export default function HomeScreen() {
               }}
               tracksViewChanges={false}
             />
-            
+
 
           </React.Fragment>
         ))}

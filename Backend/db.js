@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import pkg from 'pg';
 
-dotenv.config(); // .env kommer nu att laddas från rotmappen automatiskt
+dotenv.config(); // .env will be loaded here automatically
 
 const pgUri = process.env.PG_URI;
 

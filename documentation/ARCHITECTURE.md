@@ -36,7 +36,7 @@
 * `GET /api/sensors/waterlevels` → senaste nivån
 * `GET /api/sensors/historicwaterlevels` → historik
 
-## 📊 Databasmodell
+## Databasmodell
 
 ```sql
 sensors(id, installation_date, battery_status, longitude, latitude, location_description, sensor_failure, lost_communication)

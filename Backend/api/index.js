@@ -1,15 +1,22 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const sensorRouter = require('../routes/sensor.js');
-const userRouter = require('../routes/user.js');
-const emergencyContactsRouter = require('../routes/emergencyContacts.js');
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const loginRouter = require('../routes/login.js');
-const googleRouter = require('../routes/google.js');
-const registerRouter = require('../routes/register.js');
+import express from 'express';
+import dotenv from 'dotenv';
+import sensorRouter from '../routes/sensor.js';
+import userRouter from '../routes/user.js';
+import emergencyContactsRouter from '../routes/emergencyContacts.js';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import loginRouter from '../routes/login.js';
+import googleRouter from '../routes/google.js';
+import registerRouter from '../routes/register.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
+// Load environment variables
 dotenv.config();
+
+// For handling __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const router = express.Router();
@@ -17,7 +24,7 @@ const router = express.Router();
 app.use(express.json());
 
 // Swagger Docs
-const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');
+const swaggerDocument = YAML.load(join(__dirname, '../docs/swagger.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
@@ -35,4 +42,4 @@ app.use((req, res) => {
   res.status(404).json({ error: message });
 });
 
-module.exports = app;
+export default app;

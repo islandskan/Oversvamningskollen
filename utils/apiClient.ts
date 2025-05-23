@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getApiBaseUrl, isConnected } from '@/utils/networkUtils';
+import { API_BASE_URL, isConnected } from '@/utils/networkUtils';
 
-const BASE_URL = getApiBaseUrl();
+const BASE_URL = API_BASE_URL;
 const TIMEOUT = 15000;
 const AUTH_TOKEN_KEY = 'auth_token';
 
@@ -68,8 +68,8 @@ export async function apiRequest<T = any>(
     clearTimeout(timeoutId);
 
     const contentType = response.headers.get('content-type');
-    const responseData = contentType?.includes('application/json') 
-      ? await response.json() 
+    const responseData = contentType?.includes('application/json')
+      ? await response.json()
       : await response.text();
 
     if (!response.ok) {
@@ -83,9 +83,9 @@ export async function apiRequest<T = any>(
     return responseData;
   } catch (error) {
     clearTimeout(timeoutId);
-    
+
     if (error instanceof ApiError) throw error;
-    
+
     throw new ApiError(
       error instanceof Error ? error.message : 'Network error',
       0

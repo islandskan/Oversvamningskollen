@@ -1,24 +1,13 @@
 import NetInfo from '@react-native-community/netinfo';
-import { Platform } from 'react-native';
 
 export async function isConnected(): Promise<boolean> {
   const state = await NetInfo.fetch();
   return state.isConnected === true;
 }
 
-export function getApiBaseUrl(): string {
-  // const LOCAL_IP = "192.168.0.102";
-  const LOCAL_IP = "192.168.51.142";
-  const PORT = 3000;
+export const API_BASE_URL = 'https://oversvamningskollen.vercel.app';
 
-  return Platform.select({
-    web: `http://localhost:${PORT}`,
-    ios: `http://localhost:${PORT}`,
-    android: `http://${LOCAL_IP}:${PORT}`,
-  }) || `http://${LOCAL_IP}:${PORT}`;
-}
-
-export async function isServerReachable(baseUrl: string = getApiBaseUrl(), timeout: number = 5000): Promise<boolean> {
+export async function isServerReachable(baseUrl: string = API_BASE_URL, timeout: number = 5000): Promise<boolean> {
   try {
     const connected = await isConnected();
     if (!connected) return false;

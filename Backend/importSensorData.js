@@ -16,14 +16,14 @@ const main = async () => {
       } = extractSensorFlags(bitField);
 
     try {
-      // Spara vattennivå
+      // Save waterlevel data
       await query(
         `INSERT INTO waterlevels (sensor_id, waterlevel, rate_of_change, measured_at)
          VALUES ($1, $2, $3, NOW())`,
         [sensorId, thresholdLevel, rateOfChangeLevel]
       );
 
-      // Uppdatera batteristatus i sensors-tabellen
+      // Update battery status in sensors table
       await query(
         `UPDATE sensors 
         SET battery_status = $1, 
@@ -34,10 +34,10 @@ const main = async () => {
       );
 
 
-      console.log(`✅ Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}, battery=${batteryLevel} 
+      console.log(` Sparade sensor ${sensorId}: level=${thresholdLevel}, rate=${rateOfChangeLevel}, battery=${batteryLevel} 
         sensorFailure=${sensorFailure} lostCommunication=${lostCommunication}`);
     } catch (err) {
-      console.error(`❌ Fel för sensor ${sensorId}:`, err);
+      console.error(` Fel för sensor ${sensorId}:`, err);
     }
   }
 };

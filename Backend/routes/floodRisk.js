@@ -3,7 +3,7 @@ import { query } from '../db.js';
 
 const router = Router();
 
-// Försöker hitta riskniva och sannolikhetsfunktion
+// Trying to get the latest water level and calculate the rate of change
 router.get('/flood-risk', async (req, res) => {
   try {
     const result = await query(`
@@ -23,7 +23,7 @@ router.get('/flood-risk', async (req, res) => {
     const deltaTimeHours = (new Date(latest.date) - new Date(previous.date)) / (1000 * 60 * 60);
     const rateOfChange = deltaLevel / deltaTimeHours;
 
-    // Anropa sannolikhetsfunktionen
+    // Call the function to calculate flood probability and pass the rate of change to it
     const floodProbability = calculateFloodProbability(rateOfChange);
 
     res.json({
@@ -39,7 +39,8 @@ router.get('/flood-risk', async (req, res) => {
   }
 });
 
-// Sannolikhetsfunktion
+// Probability calculation function
+// The function uses a piecewise linear function to determine the flood probability
 function calculateFloodProbability(rateOfChange) {
   if (rateOfChange < 0.05) return 5;
   if (rateOfChange >= 0.05 && rateOfChange < 0.15) {

@@ -70,7 +70,7 @@ PG_URI='följ intruktionerna eller gå till nästa steg om du vill ha en egen da
 
 
 
-<h2>📡 API-dokumentation</h2>
+<h2>API-dokumentation</h2>
 
 <h3>/api/users</h3>
 <ul>
@@ -112,8 +112,8 @@ PG_URI='följ intruktionerna eller gå till nästa steg om du vill ha en egen da
 </ul>
 
 
-<h3>🧪 Testa API</h3>
+<h3>Testa API</h3>
 Swagger-spec: <a href="https://app.swaggerhub.com/apis/chasacademy-135/floodcast/1.0.0">Floodcast API</a></p>
 
-<h2>📄 Licens</h2>
+<h2>Licens</h2>
 <p>MIT-licens. Se <code>LICENSE</code>-filen i repo:t.</p>

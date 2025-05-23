@@ -4,11 +4,11 @@ import { query } from '../db.js';
 
 const router = Router();
 
-//! Förberett för att ta emot från sensor
+//!Prepared to handle sensor data
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2000;
 
-// Simulerad funktion för att hämta sensordata
+// Simulate fetching sensor data from an internal API
 const fetchSensorData = async (sensorId) => {
   const endpoint = `https://internal-api.local/sensors/${sensorId}/latest`;
   const response = await axios.get(endpoint);
@@ -42,7 +42,7 @@ router.post('/signal', async (req, res) => {
 
     const sensorData = await retry(() => fetchSensorData(sensorId));
 
-    // Här kan du spara till DB eller logga
+    // Here you can save to DB or log
     console.log('Hämtad data:', sensorData);
 
     res.json({ message: 'Sensorhantering lyckades', data: sensorData });

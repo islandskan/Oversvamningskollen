@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
   const { id_token } = req.body;
 
   try {
-    // Verifiera tokenen med Google
+    // Verify the Google ID token
     const ticket = await client.verifyIdToken({
       idToken: id_token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     const email = payload.email;
     const name = payload.name;
 
-    // Kolla om användaren redan finns i din databas
+    // Check if the user already exists in your database
     const existingUser = await query('SELECT * FROM users WHERE google_id = $1', [googleId]);
 
     let user;
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     if (existingUser.rows.length > 0) {
       user = existingUser.rows[0];
     } else {
-      // Skapa ny användare
+      // Create a new user in your database
       const result = await query(
         'INSERT INTO users (name, email, google_id) VALUES ($1, $2, $3) RETURNING *',
         [name, email, googleId]
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
       user = result.rows[0];
     }
 
-    // Skapa JWT för din egen session
+    // Create a JWT token
     const token = jwt.sign(
       { id: user.id, username: user.name, email: user.email },
       process.env.JWT_SECRET,
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     res.status(200).json({ token, user });
 
   } catch (error) {
-    console.error('❌ Google login error:', error);
+    console.error(' Google login error:', error);
     res.status(401).json({ error: 'Ogiltig Google-token' });
   }
 });

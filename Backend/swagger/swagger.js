@@ -1,4 +1,3 @@
-// swagger.js
 import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 
@@ -19,7 +18,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [path.resolve('Backend', 'docs', '*.js')], // Resolving absolute path, independent of working directory
+  apis: [path.resolve('Backend', 'swagger', '*.js')], // Resolving absolute path, independent of working directory
   /* apis: ['Backend/routes/*.js', 'Backend/docs/*.js'], */
 };
 

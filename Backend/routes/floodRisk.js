@@ -3,7 +3,7 @@ import { query } from '../db.js';
 
 const router = Router();
 
-// Försöker hitta riskniva och sannolikhetsfunktion
+// Trying to get the latest water level and calculate the rate of change
 router.get('/flood-risk', async (req, res) => {
   try {
     const result = await query(`

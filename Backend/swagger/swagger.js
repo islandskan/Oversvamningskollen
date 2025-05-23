@@ -1,4 +1,3 @@
-// swagger.js
 import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 

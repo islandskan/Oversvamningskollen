@@ -18,7 +18,7 @@ const router = express.Router();
 
 app.use(express.json());
 
-// Läs in Swagger-specifikationen från YAML-filen
+// Read the Swagger specification from the YAML file
 const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');
 
 // Serve Swagger API Docs at /api-docs endpoint

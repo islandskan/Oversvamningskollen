@@ -9,8 +9,8 @@ export const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Lägg till användardata i req
-    next(); // Fortsätt till nästa route
+    req.user = decoded; // Add decoded token data to request object
+    next(); 
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Din session har gått ut, logga in igen' });

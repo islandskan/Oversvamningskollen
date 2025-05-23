@@ -36,6 +36,11 @@ router.use('/register', registerRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
 
+// ✅ Add this route for the root
+app.get('/', (req, res) => {
+  res.send('API is running 🚀');
+});
+
 // 404 Handler
 app.use((req, res) => {
   const message = `404 - Not Found - ${req.originalUrl}`;

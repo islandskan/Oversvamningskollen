@@ -1,2 +1,2 @@
 
-npx eas update --branch frontend-rework2 --message "Update from frontend-rework2 branch"
+npx eas update --branch frontend-vercel --message "preview with vercel db"

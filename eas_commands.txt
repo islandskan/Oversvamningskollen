@@ -1,2 +1,2 @@
 
-npx eas update --branch frontend-vercel --message "preview with vercel db"
+npx eas update --branch frontend-vercel-plus --message "preview with vercel db"

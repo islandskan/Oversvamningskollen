@@ -5,6 +5,7 @@ import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { FloodRiskModal } from '@/components/FloodRiskModal';
+import { LocationSearchBar } from '@/components/search/LocationSearchBar';
 import { mapDarkStyle } from '@/constants/mapStyles';
 import { useFloodData } from '@/hooks/useFloodData';
 import { useLocation } from '@/hooks/useLocation';
@@ -30,7 +31,7 @@ export default function HomeScreen() {
 
   const handleCenterOnUser = async () => {
     isAnimatingRef.current = true;
-    const success = await centerOnUser(mapRef);
+    await centerOnUser(mapRef);
     // Add a small delay to prevent immediate region change conflicts
     setTimeout(() => {
       isAnimatingRef.current = false;
@@ -41,6 +42,16 @@ export default function HomeScreen() {
     // Only update region state if not currently animating programmatically
     if (!isAnimatingRef.current) {
       setRegion(newRegion);
+    }
+  };
+
+  const handleLocationSelect = (selectedRegion: Region) => {
+    if (mapRef.current) {
+      isAnimatingRef.current = true;
+      mapRef.current.animateToRegion(selectedRegion, 1000);
+      setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 1200);
     }
   };
 
@@ -126,6 +137,8 @@ export default function HomeScreen() {
           />
         )}
       </Pressable>
+
+      <LocationSearchBar onLocationSelect={handleLocationSelect} />
 
       <FloodRiskModal
         visible={modalVisible}

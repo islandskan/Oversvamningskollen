@@ -63,3 +63,24 @@ export interface Region {
   latitudeDelta: number;
   longitudeDelta: number;
 }
+
+export interface LocationSearchResult {
+  place_id: string;
+  display_name: string;
+  lat: string;
+  lon: string;
+  type: string;
+  importance: number;
+  boundingbox: [string, string, string, string];
+}
+
+export interface SearchSuggestion {
+  id: string;
+  title: string;
+  subtitle: string;
+  coordinate: {
+    latitude: number;
+    longitude: number;
+  };
+  type: string;
+}

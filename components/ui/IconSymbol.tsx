@@ -15,6 +15,8 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'gear': 'settings',
   'location.fill': 'my-location',
+  'magnifyingglass': 'search',
+  'xmark': 'close',
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

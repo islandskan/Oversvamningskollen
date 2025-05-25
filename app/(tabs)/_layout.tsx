@@ -7,6 +7,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { PlatformPressable } from '@react-navigation/elements';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -17,7 +18,15 @@ export default function TabLayout() {
         
         tabBarActiveTintColor: Colors[colorScheme as 'light' | 'dark'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarButton: (props) => (
+      <PlatformPressable
+        {...props}
+        pressColor="transparent" 
+        pressOpacity={0.3} //for ios
+        >
+          {props.children}
+        </PlatformPressable>
+        ),
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {

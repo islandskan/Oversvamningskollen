@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Platform, TouchableOpacity, StyleSheet, View } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Platform, StyleSheet, View, Pressable, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,14 +10,15 @@ import { useFloodData } from '@/hooks/useFloodData';
 import { useLocation } from '@/hooks/useLocation';
 import { FloodRiskArea, Region } from '@/types';
 import { getRiskStyle } from '@/utils/styleUtils';
-import env from '@/utils/env';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedArea, setSelectedArea] = useState<FloodRiskArea | null>(null);
   const { data: floodRiskAreas } = useFloodData();
-  const { userLocation, centerOnUser } = useLocation();
+  const { userLocation, centerOnUser, isLoading } = useLocation();
+  const mapRef = useRef<MapView>(null);
+  const isAnimatingRef = useRef(false);
 
   // Malmö, Sweden coordinates
   const [region, setRegion] = useState<Region>({
@@ -27,12 +28,29 @@ export default function HomeScreen() {
     longitudeDelta: 0.0421,
   });
 
+  const handleCenterOnUser = async () => {
+    isAnimatingRef.current = true;
+    const success = await centerOnUser(mapRef);
+    // Add a small delay to prevent immediate region change conflicts
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 1200); // Slightly longer than animation duration
+  };
+
+  const handleRegionChangeComplete = (newRegion: Region) => {
+    // Only update region state if not currently animating programmatically
+    if (!isAnimatingRef.current) {
+      setRegion(newRegion);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 relative">
       <MapView
+        ref={mapRef}
         style={StyleSheet.absoluteFillObject}
         region={region}
-        onRegionChangeComplete={setRegion}
+        onRegionChangeComplete={handleRegionChangeComplete}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
         customMapStyle={colorScheme === 'dark' ? mapDarkStyle : []}
         showsUserLocation={true}
@@ -78,20 +96,36 @@ export default function HomeScreen() {
         )}
       </MapView>
 
-      <TouchableOpacity
-        className={`absolute bottom-24 right-4 w-12 h-12 rounded-full justify-center items-center shadow-md ${colorScheme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
-        onPress={() => centerOnUser(setRegion)}
-        activeOpacity={0.7}
+      <Pressable
+        className={`absolute bottom-24 right-4 w-12 h-12 rounded-full justify-center items-center shadow-md ${
+          colorScheme === 'dark' ? 'bg-gray-800' : 'bg-white'
+        } ${isLoading ? 'opacity-70' : ''}`}
+        onPress={handleCenterOnUser}
+        disabled={isLoading}
         accessibilityLabel="Center map on your location"
         accessibilityHint="Tap to center the map on your current location"
         accessibilityRole="button"
+        hitSlop={5}
+        style={({ pressed }) => [
+          {
+            opacity: pressed && !isLoading ? 0.7 : 1,
+            transform: [{ scale: pressed && !isLoading ? 0.95 : 1 }],
+          },
+        ]}
       >
-        <IconSymbol
-          name="location.fill"
-          size={24}
-          color={colorScheme === 'dark' ? '#ffffff' : '#000000'}
-        />
-      </TouchableOpacity>
+        {isLoading ? (
+          <ActivityIndicator
+            size="small"
+            color={colorScheme === 'dark' ? '#ffffff' : '#000000'}
+          />
+        ) : (
+          <IconSymbol
+            name="location.fill"
+            size={24}
+            color={colorScheme === 'dark' ? '#ffffff' : '#000000'}
+          />
+        )}
+      </Pressable>
 
       <FloodRiskModal
         visible={modalVisible}

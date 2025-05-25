@@ -1,4 +1,4 @@
-# Google Maps API Setup Guide
+**# Google Maps API Setup Guide
 
 This guide explains how to set up and secure your Google Maps API key for the FloodCast application.
 

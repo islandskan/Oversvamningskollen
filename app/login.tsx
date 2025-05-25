@@ -35,7 +35,6 @@ export default function LoginScreen() {
       router.replace("/(tabs)");
     } catch (error) {
       console.error("Login failed:", error);
-      // Error alert is already shown in AuthContext, no need to show it again here
     } finally {
       setIsLoading(false);
     }

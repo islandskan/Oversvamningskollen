@@ -19,7 +19,7 @@ public:
     SensorManager();
     float get_water_level() const;
     float get_rate_of_change() const;
-    void update();
+    void update(uint32_t elapsed_ms);
     void print_history() const; // just for debugging
 };
 

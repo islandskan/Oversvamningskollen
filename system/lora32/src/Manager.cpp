@@ -65,19 +65,15 @@ void Manager::sleep_interval(uint32_t duration_ms) {
 
 
 void Manager::cycle() {
-    // mostly to time the duration of the sleep
     static uint32_t last_wake_time = millis();
     uint32_t lap_time = millis() - last_wake_time;
-    Serial.print("Time since last wake time (seconds): ");
-    Serial.println(lap_time / 1000.0);
     last_wake_time = millis();
-    water_sensor.update();
+    water_sensor.update(lap_time);
     float level = water_sensor.get_water_level();
     float rate_of_change = water_sensor.get_rate_of_change();
     float percent = battery.get_battery();
     transmitter.send(level, rate_of_change, percent);
     // Log to display
-    // sleep_interval(30000UL); // 30 seconds
     sleep_interval(60000UL); // 1 minute
     // sleep_interval(120000UL); // 2 minutes
     // sleep_interval(300000UL); // 5 minutes

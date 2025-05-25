@@ -21,7 +21,7 @@ float SensorManager::get_rate_of_change() const {
     return rate_of_change;
 }
 
-void SensorManager::update() {
+void SensorManager::update(uint32_t elapsed_ms) {
 #if MOCK_MODE
     int raw_sensor_reading = analogRead(A1);
     current_level = map(raw_sensor_reading, 0, 4095, 0, 100);
@@ -36,8 +36,9 @@ void SensorManager::update() {
         rate_of_change = 0.0f;
     }
     else {
+        // this will give us the % change every 5 minute
         delta = static_cast<int16_t>(water_level_history[new_index]) - static_cast<int16_t>(water_level_history[old_index]);
-        rate_of_change = (static_cast<float>(delta) / static_cast<float>(water_level_history[old_index])) * 100.0f;
+        rate_of_change = static_cast<float>(delta) / (elapsed_ms / 1000.0f);
     }
 
     Serial.print("Previous: "); Serial.println(water_level_history[old_index]);

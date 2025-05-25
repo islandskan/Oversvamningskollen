@@ -1,24 +1,26 @@
 #include "../include/TransmitterManager.h"
+#include <Arduino.h>
 
-TransmitterManager::TransmitterManager(Mode mode) : _mode(mode)
+TransmitterManager::TransmitterManager()
 {
 }
 
 void TransmitterManager::begin()
 {
-    if (_mode == PROD) {
-        // lora
-    }
-    else {
-        // Serial or Wifi
-    }
+#if MOCK_MODE
+    // Serial or Wifi
+// test and set up
+#else
+    // lora
+// test and set up
+#endif
 }
 
-void TransmitterManager::transmit(/*params*/) {
-    if (_mode == PROD) {
-        // LoRa packet sending
-    }
-    else {
-        // Serial or Wifi
-    }
+void TransmitterManager::send(float level, float rate, float battery) {
+#if MOCK_MODE
+    String data = "[MOCK] Transmitting data: \nWater Level: " + String(level) + " | Rate: " + String(rate) + " | Battery percentage: " + String(battery);
+    Serial.println(data);
+#else
+    // LoRa packet sending
+#endif
 }

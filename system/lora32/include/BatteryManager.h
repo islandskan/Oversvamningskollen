@@ -1,11 +1,10 @@
 #ifndef BATTERYMANAGER_H
 #define BATTERYMANAGER_H
 #include <Arduino.h>
-#include "../lib/Mode.h"
+#include "../lib/config.h"
 class BatteryManager
 {
 private:
-    Mode _mode;
     float voltage;
     float mock_voltage;
     float battery_percentage;
@@ -18,7 +17,7 @@ private:
     float voltage_to_percentage(float voltage);
 
 public:
-    BatteryManager(Mode mode, unsigned long test_time = 3600000UL);
+    BatteryManager(unsigned long test_time = 3600000UL);
     float get_voltage();
     float get_battery();
 };

@@ -1,20 +1,17 @@
 #include <Arduino.h>
 #include "../include/Manager.h"
-#include "../lib/Mode.h"
+#include "../lib/config.h"
 
-Manager system(Mode::MOCK);
+Manager app;
 
 
 void setup() {
-#ifdef ESP32
     Serial.begin(115200);
-#else
-    Serial.begin(9200);
-#endif
     delay(1000);
+    while (!Serial);
     Serial.println("System starting...");
 }
 
 void loop() {
-    system.cycle();
+    app.cycle();
 }

@@ -1,28 +1,26 @@
 #ifndef SENSORMANAGER_h
 #define SENSORMANAGER_H
-#include "../lib/Mode.h"
-#define EEPROM_HISTORY_START 0
-#define HISTORY_SIZE 3
-#define HISTORY_BYTES (HISTORY_SIZE * sizeof(int))
+#include <Arduino.h>
+#include "../lib/config.h"
+// #define EEPROM_HISTORY_START 0
+#define HISTORY_SIZE 2 // change to 12 when the sleep funktion is tested
 
 class SensorManager
 {
 private:
-    const int threshold = 50; // just for now
+    uint8_t current_level;
+    uint8_t water_level_history[HISTORY_SIZE] = { 0 };
+    uint8_t reference_index;
+    int16_t delta;
     float rate_of_change;
-    int current_level;
-    Mode _mode;
-    int water_level_history[HISTORY_SIZE];
-    int history_index = 0;
-    float delta;
-    void save_history();
-    void load_history();
+    // void save_history();
+    // void load_history();
 public:
-    SensorManager(Mode mode);
-    float get_water_level();
-    float get_rate_of_change();
+    SensorManager();
+    float get_water_level() const;
+    float get_rate_of_change() const;
     void update();
-    void print_history(); // just for debugging
+    void print_history() const; // just for debugging
 };
 
 

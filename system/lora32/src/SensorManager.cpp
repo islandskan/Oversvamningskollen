@@ -1,55 +1,53 @@
 #include "../include/SensorManager.h"
-#include <Arduino.h>
-#include <EEPROM.h>
-// #define EEPROM_HISTORY_START 0
-// #define HISTORY_SIZE 3
-// #define HISTORY_BYTES (HISTORY_SIZE * sizeof(int))
+// #include <EEPROM.h>
 
-SensorManager::SensorManager(Mode mode) : _mode(mode), rate_of_change(0.0), current_level(0), delta(0.0) {
-    if (_mode == MOCK) {
-        analogReadResolution(12);
-        pinMode(A1, INPUT);
-    }
-    else {
-        // scan I2C to check connection to the real water sensor
-        // set the Grove Water Level Sensor
-        // read from Grove Water Level Sensor
-    }
+SensorManager::SensorManager() : rate_of_change(0.0), current_level(0), delta(0.0), reference_index(0) {
+#if MOCK_MODE
+    analogReadResolution(12);
+    pinMode(A1, INPUT);
+#else
+    // scan I2C to check connection to the real water sensor
+    // set the Grove Water Level Sensor
+#endif
+// load_history();
 }
 
 
-float SensorManager::get_water_level() {
-    return current_level;
+float SensorManager::get_water_level() const {
+    return static_cast<float>(current_level);
 }
 
-float SensorManager::get_rate_of_change() {
+float SensorManager::get_rate_of_change() const {
     return rate_of_change;
 }
 
 void SensorManager::update() {
+#if MOCK_MODE
     int raw_sensor_reading = analogRead(A1);
     current_level = map(raw_sensor_reading, 0, 4095, 0, 100);
-    if (current_level > threshold) {
-        water_level_history[history_index] = current_level;
-        history_index = (history_index + 1) % HISTORY_SIZE;
-        save_history();
-        int new_index = (history_index - 1 + HISTORY_SIZE) % HISTORY_SIZE;
-        int previous_index = (history_index - 2 + HISTORY_SIZE) % HISTORY_SIZE;
-        if (water_level_history[previous_index] != 0) {
-            delta = water_level_history[new_index] - water_level_history[previous_index];
-            rate_of_change = (delta / (float)water_level_history[previous_index]) * 100.0;
-        }
-        else {
-            rate_of_change = 0.0;
-        }
+#else
+    // Grove Water Level Sensor Logic
+#endif
+
+    water_level_history[reference_index] = current_level;
+    uint8_t new_index = reference_index;
+    uint8_t old_index = (reference_index + 1) % HISTORY_SIZE;
+    if (water_level_history[old_index] < 0.01f) {
+        rate_of_change = 0.0f;
     }
     else {
-        rate_of_change = 0.0;
+        delta = static_cast<int16_t>(water_level_history[new_index]) - static_cast<int16_t>(water_level_history[old_index]);
+        rate_of_change = (static_cast<float>(delta) / static_cast<float>(water_level_history[old_index])) * 100.0f;
     }
 
+    Serial.print("Previous: "); Serial.println(water_level_history[old_index]);
+    Serial.print("Current: "); Serial.println(current_level);
+    Serial.print("Rate of Change: "); Serial.println(rate_of_change);
+
+    reference_index = (reference_index + 1) % HISTORY_SIZE;
 }
 
-void SensorManager::save_history() {
+/*void SensorManager::save_history() {
     if (_mode == PROD) EEPROM.begin();
     for (int i = 0; i < HISTORY_SIZE; ++i) {
         int address = EEPROM_HISTORY_START + i * sizeof(int);
@@ -63,16 +61,16 @@ void SensorManager::load_history() {
     for (int i = 0; i < HISTORY_SIZE; ++i) {
         int address = EEPROM_HISTORY_START + i * sizeof(int);
         EEPROM.get(address, water_level_history[i]);
-    }
+
     EEPROM.get(EEPROM_HISTORY_START + HISTORY_BYTES, history_index);
     Serial.println("Water level history loaded from EEPROM: ");
     print_history();
-}
+}*/
 
-void SensorManager::print_history() {
+void SensorManager::print_history() const {
     Serial.print("History: ");
-    for (byte i = 0; i < HISTORY_SIZE; ++i) {
-        int index = (history_index - 1 - i + HISTORY_SIZE) % HISTORY_SIZE;
+    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
+        uint8_t index = (reference_index - 1 - i + HISTORY_SIZE) % HISTORY_SIZE;
         Serial.print(water_level_history[index]);
         Serial.print(" ");
     }

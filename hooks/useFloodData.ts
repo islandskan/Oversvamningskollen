@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { floodRiskAreas as mockData } from '@/data/floodRiskData';
-import { getFloodRisks, getFloodRiskById, updateUserLocation } from '@/services/floodRiskService';
+import { getFloodRisks, getFloodRiskById} from '@/services/floodRiskService';
 import { showAlert } from '@/utils/alert';
 import { FloodRiskArea } from '@/types';
 
@@ -37,14 +37,7 @@ export function useFloodData() {
     }
   }, []);
 
-  const updateLocationSafe = useCallback(async (location: { latitude: number; longitude: number }) => {
-    try {
-      await updateUserLocation(location);
-      return true;
-    } catch {
-      return false;
-    }
-  }, []);
+  
 
   useEffect(() => {
     fetchData();
@@ -56,6 +49,5 @@ export function useFloodData() {
     error,
     fetchFloodRisks: fetchData,
     fetchFloodRiskById,
-    updateUserLocation: updateLocationSafe
   };
 }

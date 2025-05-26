@@ -148,9 +148,6 @@ export async function getFloodRiskById(id: number): Promise<FloodRiskArea | null
   }
 }
 
-export async function updateUserLocation(location: { latitude: number; longitude: number }): Promise<void> {
-  // Implementation when needed
-  console.log('Location update not implemented yet:', location);
-}
+
 
 

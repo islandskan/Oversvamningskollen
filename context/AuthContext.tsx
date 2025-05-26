@@ -146,5 +146,4 @@ export const useAuth = () => {
   return context;
 };
 
-// Export ApiError for use in other files
 export { ApiError };

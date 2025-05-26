@@ -30,7 +30,6 @@ export default function LoginScreen() {
 
     try {
       setIsLoading(true);
-      console.log("Login screen: Attempting login with email:", email);
       await login(email, password);
       router.replace("/(tabs)");
     } catch (error) {

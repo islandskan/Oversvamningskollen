@@ -44,13 +44,11 @@ export default function SignupScreen() {
 
     try {
       setIsLoading(true);
-      console.log('Attempting to register user:', { name, email });
       await register(name, email, password);
       showAlert('Registration Successful', 'Your account has been created. Please log in.', 'success');
       router.replace('/login');
     } catch (error) {
       console.error('Registration failed:', error);
-      // Error alert is already shown in AuthContext, no need to show it again here
     } finally {
       setIsLoading(false);
     }

@@ -55,7 +55,7 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
       >
         <Pressable
           className="w-[90%] max-h-[80%] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg"
-          onPress={(e) => e.stopPropagation()}
+          onPress={() => {}}
         >
           <RiskHeader
             title={selectedArea.title}

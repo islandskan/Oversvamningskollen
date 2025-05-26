@@ -8,15 +8,14 @@ export default function CustomAlert() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Don't render if no active alert
   if (!activeAlert || !isAlertVisible) return null;
 
-  // Function to prevent event propagation
+  
   const handleInnerPress = () => {
-    // This prevents the parent's onPress from firing
+    // This prevents the parent's onPress from firing when pressing the inner content
+    // This is useful when the modal is nested within other pressable components
   };
 
-  // Determine alert background color based on type (not used in this version but kept for future use)
 
   return (
     <Modal

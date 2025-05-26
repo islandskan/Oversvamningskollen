@@ -116,6 +116,7 @@ export default function HomeScreen() {
         accessibilityLabel="Center map on your location"
         accessibilityHint="Tap to center the map on your current location"
         accessibilityRole="button"
+        // Cool little find to make the button easier to press
         hitSlop={5}
         style={({ pressed }) => [
           {

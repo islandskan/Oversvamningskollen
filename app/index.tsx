@@ -5,7 +5,6 @@ import { useAuth } from '@/context/AuthContext';
 export default function Index() {
   const { isAuthenticated, isLoading } = useAuth();
 
-  // show spinner while checking login status
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
@@ -14,6 +13,5 @@ export default function Index() {
     );
   }
 
-  // send user to the right place based on login status
   return isAuthenticated ? <Redirect href="/(tabs)" /> : <Redirect href="/login" />;
 }

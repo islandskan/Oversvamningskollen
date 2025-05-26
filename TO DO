@@ -1,9 +1,7 @@
 -Set google provider for both?
--Better style centralization
--Export map into own component
 -Switch to HSL colours
 -Integrate smhi api for rain data
-
+-fix: ome color values are still just about under 4.5 contrast 
 
 
 

@@ -59,7 +59,7 @@ router.get('/waterlevels', async (req, res) => {
       SELECT DISTINCT ON (sensor_id) *
       FROM waterlevels
       WHERE sensor_id IN (1, 2, 3, 4)
-      ORDER BY sensor_id, timestamp DESC
+      ORDER BY sensor_id, measured_at DESC
     `);
 
     res.json({

@@ -103,11 +103,16 @@ router.get('/historicwaterlevels', async (req, res) => {
 // GET latest waterlevel
 router.get('/waterlevels', async (req, res) => {
   try {
-    const latestResult = await query(`SELECT * FROM waterlevels ORDER BY id DESC LIMIT 1`);
+    const latestResults = await query(`
+      SELECT DISTINCT ON (sensor_id) *
+      FROM waterlevels
+      WHERE sensor_id IN (1, 2, 3, 4)
+      ORDER BY sensor_id, timestamp DESC
+    `);
 
     res.json({
-      message: 'Aktuell vattennivå',
-      latest: latestResult.rows[0] || null
+      message: 'Senaste vattennivåer per sensor',
+      latest: latestResults.rows
     });
   } catch (err) {
     res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });

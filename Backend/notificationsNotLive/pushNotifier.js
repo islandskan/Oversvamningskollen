@@ -1,25 +1,24 @@
-export async function sendPushNotification(expoPushToken, message) {
+export async function pushNotifier(message) {
   const payload = {
-    to: expoPushToken,
-    sound: 'default',
+    app_id: process.env.NATIVE_NOTIFY_APP_ID,
+    app_token: process.env.NATIVE_NOTIFY_APP_TOKEN,
     title: 'Varning: Vattennivån ökar snabbt!',
-    body: message,
+    message: message,
   };
 
   try {
-    const response = await fetch('https://exp.host/--/api/v2/push/send', {
+    const response = await fetch('https://app.nativenotify.com/api/notification', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip, deflate',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     });
 
     const data = await response.json();
-    console.log('Push skickad:', data);
+    console.log('Push skickad till ALLA:', data);
   } catch (error) {
-    console.error('Fel vid push-notis:', error);
+    console.error('Fel vid broadcast-push:', error);
   }
 }
+

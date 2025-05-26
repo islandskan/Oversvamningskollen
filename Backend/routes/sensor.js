@@ -182,7 +182,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PATCH uppdatera sensor
+// PATCH uppdate sensor
 router.patch('/:sensorID', async (req, res) => {
   const { sensorID } = req.params;
   const fields = ['battery_status', 'longitude', 'latitude', 'location_description', 'sensor_failure', 'lost_communication'];
@@ -226,6 +226,19 @@ router.delete('/:sensorID', async (req, res) => {
     res.json({ message: `Tog bort en sensor med id: ${sensorID}`, sensor: result.rows[0] });
   } catch (err) {
     res.status(500).json({ error: 'Fel vid borttagning av sensor', details: err.message });
+  }
+});
+
+// POST notify high rate of change
+router.post('/notify', async (req, res) => {
+  const sensorId = Object.keys(req.body)[0];
+
+  try {
+    await rateOfChangeNotify(sensorId);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunde inte skicka push' });
   }
 });
 

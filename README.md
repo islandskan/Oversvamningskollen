@@ -1,5 +1,15 @@
 # FloodCast - Flood Risk Monitoring App
 
+##  LOGIN CREDENTIALS FOR TESTING (OR SIGN UP FOR FREE)
+- alice@example.com
+- securepassword1
+
+## EXPO GO PREVIEW (REQUIRES EXPO GO APP)
+
+- https://expo.dev/preview/update?message=added%20search%20bar&updateRuntimeVersion=1.0.0&createdAt=2025-05-25T23%3A56%3A12.917Z&slug=exp&projectId=fd631fd1-eadf-4299-ae85-1d055bed0dd4&group=1f4657d8-309e-4a05-9872-8067c9d334fa
+
+--!IMPORTANT , select expo go not development build in the preview page!--
+
 
 ## 📱 Project Overview
 

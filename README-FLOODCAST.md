@@ -1,8 +1,6 @@
 ****# FloodCast - Flood Risk Monitoring System
 
-<div align="center">
-  <img src="./assets/images/floodcast-logo.png" alt="FloodCast Logo" width="200" />
-</div>
+
 
 ## 📱 Project Overview
 

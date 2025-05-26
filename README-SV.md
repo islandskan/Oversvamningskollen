@@ -1,5 +1,13 @@
 # FloodCast - Översvämningsriskövervakningssystem
 
+#LOGIN CREDENTIALS FOR TESTING (OR SIGN UP FOR FREE)
+- alice@example.com
+- securepassword1
+
+# EXPO GO PREVIEW (REQUIRES EXPO GO APP)
+- https://expo.dev/preview/update?message=added%20search%20bar&updateRuntimeVersion=1.0.0&createdAt=2025-05-25T23%3A56%3A12.917Z&slug=exp&projectId=fd631fd1-eadf-4299-ae85-1d055bed0dd4
+- --!IMPORTANT , select expo go not development build in the preview page!--
+
 ## 📱 Projektöversikt
 
 FloodCast är en omfattande mobilapplikation designad för att övervaka och hantera översvämningsrisker i urbana områden. Systemet kombinerar IoT-sensordata med ett användarvänligt mobilgränssnitt för att tillhandahålla realtidsinformation om översvämningsrisker, vilket hjälper kommuner och medborgare att reagera effektivt på potentiella översvämningshändelser.
@@ -63,9 +71,11 @@ floodcast/
 
 ### Förutsättningar
 - Node.js ≥ 18.x
-- npm (yarn används inte i detta projekt)
+- npm 
 - Expo CLI: `npm install -g @expo/cli`
 - EAS CLI: `npm install -g eas-cli`
+
+### Valfria förutsättningar
 - Android Studio (för Android-utveckling)
 - Xcode (för iOS-utveckling, endast macOS)
 
@@ -82,7 +92,7 @@ floodcast/
    npm install
    ```
 
-3. **Konfigurera miljövariabler**
+3. **Konfigurera miljövariabler** (behöver endast Google Maps API-nyckel för Android och inte i expo go preview)
    ```bash
    cp .env.example .env
    ```

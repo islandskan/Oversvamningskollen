@@ -64,7 +64,7 @@ router.get('/waterlevels', async (req, res) => {
 
     res.json({
       message: 'Senaste vattennivåer per sensor',
-      latest: latestResults.rows
+      latest_readings: latestResults.rows
     });
   } catch (err) {
     res.status(500).json({ error: 'Fel vid hämtning av vattennivåer', details: err.message });

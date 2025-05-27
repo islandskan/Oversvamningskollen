@@ -7,11 +7,11 @@ const router = Router();
 // GET all sensor data from VPS
 router.get('/get', async (req, res) => {
   try {
-    const response = await fetch('http://134.255.219.209:3000/api/get', {
+    const response = await fetch(process.env.VPS_API_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer TEST_KEY'
+        'Authorization': `Bearer ${process.env.VPS_API_KEY}`
       }
     });
 
@@ -23,6 +23,7 @@ router.get('/get', async (req, res) => {
     res.status(500).json({ error: 'Fel vid hämtning av data', details: err.message });
   }
 });
+
 
 
 

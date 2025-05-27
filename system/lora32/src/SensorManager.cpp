@@ -1,13 +1,13 @@
 #include "../include/SensorManager.h"
 
-SensorManager::SensorManager() : rate_of_change(0.0), current_level(0), count(0) {
+SensorManager::SensorManager() : rate_of_change(0.0) {
 #if MOCK_MODE
     analogReadResolution(12);
     pinMode(A1, INPUT);
 #else
     // scan I2C to check connection to the real water sensor
     // set the Grove Water Level Sensor
-    EEPROM.begin();
+
 #endif
     load_history();
 }
@@ -15,51 +15,40 @@ SensorManager::SensorManager() : rate_of_change(0.0), current_level(0), count(0)
 void SensorManager::update(uint32_t elapsed_ms) {
 #if MOCK_MODE
     int raw_sensor_reading = analogRead(A1);
-    current_level = map(raw_sensor_reading, 0, 4095, 0, 100);
+    state.current_level = map(raw_sensor_reading, 0, 4095, 0, 100);
 #else
     // Grove Water Level Sensor Logic
 #endif
 
-    for (uint8_t i = HISTORY_SIZE - 1; i > 0; --i) {
-        water_level_history[i] = water_level_history[i - 1];
-    }
-    water_level_history[0] = current_level;
-
-    if (count < HISTORY_SIZE) {
-        ++count;
-        Serial.print(count);
+    state.water_level_history[state.head_index] = state.current_level;
+    state.head_index = (state.head_index + 1) % HISTORY_SIZE;
+    if (state.count < HISTORY_SIZE) {
+        ++state.count;
+        Serial.println("Count: " + String(state.count));
     }
 
-    int address = EEPROM_BASE_ADDRESS;
-
-    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        EEPROM.put(address, water_level_history[i]);
-        address += sizeof(uint8_t);
-    }
-
-    EEPROM.put(address, count);
-
-    if (elapsed_ms > 0 && count >= HISTORY_SIZE) {
-        Serial.print("Delta");
-        int16_t delta = static_cast<int16_t>(water_level_history[0]) - static_cast<int16_t>(water_level_history[HISTORY_SIZE - 1]);
+    if (elapsed_ms > 0 && state.count >= HISTORY_SIZE) {
+        uint8_t oldest_index = (state.head_index) % HISTORY_SIZE;
+        int16_t delta = static_cast<int16_t>(state.current_level) - static_cast<int16_t>(state.water_level_history[oldest_index]);
         rate_of_change = static_cast<float>(delta) / (elapsed_ms / 1000.0f);
-        Serial.print(delta);
     }
     else {
         rate_of_change = 0.0f;
     }
 
-    save_history();
+    if (state.last_saved_level != state.current_level) {
+        persist();
+    }
 
     // remove after debugging
-    Serial.print("Current: "); Serial.println(current_level);
-    Serial.print("Previous: "); Serial.println(water_level_history[HISTORY_SIZE - 1]);
+    Serial.print("Current: "); Serial.println(state.current_level);
+    Serial.print("Previous: "); Serial.println(state.water_level_history[(state.head_index) % HISTORY_SIZE]);
     Serial.print("Rate of Change: "); Serial.println(rate_of_change, 2);
 
     Serial.println("Queue snapshot: ");
 
     for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        Serial.print(water_level_history[i]);
+        Serial.print(state.water_level_history[i]);
         Serial.print(" ");
     }
     Serial.println();
@@ -67,7 +56,7 @@ void SensorManager::update(uint32_t elapsed_ms) {
 
 
 float SensorManager::get_water_level() const {
-    return static_cast<float>(current_level);
+    return static_cast<float>(state.current_level);
 }
 
 float SensorManager::get_rate_of_change() const {
@@ -75,31 +64,22 @@ float SensorManager::get_rate_of_change() const {
 }
 
 void SensorManager::save_history() {
-    int address = EEPROM_BASE_ADDRESS;
-    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        EEPROM.put(address, water_level_history[i]);
-        address += sizeof(uint8_t);
-    }
+    EEPROM.put(EEPROM_BASE_ADDRESS, state);
+}
+
+void SensorManager::persist() {
+    state.last_saved_level = state.current_level;
+    save_history();
 }
 
 void SensorManager::load_history() {
-    int address = EEPROM_BASE_ADDRESS;
-    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        EEPROM.get(address, water_level_history[i]);
-        address += sizeof(uint8_t); // rewrite as a struct instead, going to brute force it at the moment
+    EEPROM.get(EEPROM_BASE_ADDRESS, state);
+    if (state.count > HISTORY_SIZE) {
+        clear_history();
     }
-    EEPROM.get(address, count);
 }
 
 void SensorManager::clear_history() {
-    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        water_level_history[i] = 0;
-    }
-
-    int address = EEPROM_BASE_ADDRESS;
-    for (uint8_t i = 0; i < HISTORY_SIZE; ++i) {
-        EEPROM.put(address, static_cast<uint8_t>(0));
-        address += sizeof(uint8_t);
-    }
-    EEPROM.put(address, static_cast<uint8_t>(0));
+    memset(&state, 0, sizeof(HistoryState));
+    save_history();
 }

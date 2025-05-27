@@ -1,13 +1,13 @@
 #ifndef TRANSMITTERMANAGER_H
 #define TRANSMITTERMANAGER_H
-#include <Arduino.h>
-#include <HttpClient.h>
 #include "../lib/config.h"
-#include "../include/BatteryManager.h"
-#include "../include/SensorManager.h"
 // include utility function to encode the values into bit flags?
 #ifdef MOCK_MODE
-// includes for Serial, Wifi, HTTP etc
+#include <Arduino.h>
+#include <ArduinoHttpClient.h>
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <ArduinoJson.h>
 #else
     // includes for LoRaWAN
 #include <RadioLib.h>
@@ -17,6 +17,7 @@ class TransmitterManager
 {
 private:
     const char* sensor_id;
+    WiFiClient wifi_client;
     uint32_t convert_to_flags(float battery, float water_level, float rate);
     enum SensorFlags : uint32_t {
         BATTERY_FULL = 1u << 0, // 1
@@ -44,7 +45,7 @@ private:
 
 public:
     TransmitterManager(const char* id);
-    void send_data(BatteryManager& battery, SensorManager& sensor);
+    void send_data(float battery, float water_level, float rate);
 
 };
 

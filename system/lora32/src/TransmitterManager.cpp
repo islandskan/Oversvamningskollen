@@ -1,26 +1,77 @@
 #include "../include/TransmitterManager.h"
-#include <ArduinoJson.h>
-
-#define SERVER_URL ""
-#define API_KEY ""
+#include "../lib/transmit_config.h"
 
 TransmitterManager::TransmitterManager(const char* id) : sensor_id(id)
 {
-    // #if MOCK_MODE
-
-    //     // test and set up
-    // #else
-    //     // lora
-    // // test and set up
-    // #endif
 }
 
-void TransmitterManager::send_data(BatteryManager& battery, SensorManager& sensor) {
-#if MOCK_MODE
-    //
-#else
-    // LoRa packet sending
+void TransmitterManager::send_data(float battery, float water_level, float rate) {
+#ifdef MOCK_MODE
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Disconnected. Attempting to reconnect...");
+        WiFi.begin(SSID, PASSWORD);
+        uint32_t start_attempt = millis();
+        while (WiFi.status() != WL_CONNECTED && millis() - start_attempt < 10000 /*can be whatever time we want*/) {
+            delay(500);
+            Serial.print(".");
+        }
+        if (WiFi.status() != WL_CONNECTED) {
+            Serial.println("Failed to reconnect to WiFi. Skipping transmission.");
+            return;
+        }
+
+        Serial.println("WiFi reconnected.");
+    }
 #endif
+    uint32_t flags = convert_to_flags(battery, water_level, rate);
+
+    JsonDocument doc;
+    doc["id"] = sensor_id;
+    doc["value"] = flags;
+
+    String payload;
+    if (serializeJson(doc, payload) == 0) {
+        Serial.println("Failed to serialize JSON. Abort transmission.");
+        return;
+    }
+
+    // String serial_transmission = "[MOCK TRANSMISSION]\nServer: " + String(SERVER_NAME) + "\nPort: " + String(PORT) + "\nPath: " + String(URL_PATH) + "\nAuthorization: Bearer " + String(API_KEY) + "\nPayload: " + String(payload) + "[END OF MOCK TRANSMISSION]";
+    // Serial.println(serial_transmission);
+#ifdef MOCK_MODE
+    HttpClient http_client(wifi_client, SERVER_NAME, PORT);
+    const int8_t max_attempts = 3; // we can pick any other number of retries
+    bool success = false;
+    for (int8_t attempt = 1; attempt <= max_attempts && !success; ++attempt) {
+        http_client.beginRequest();
+        http_client.post(URL_PATH);
+        http_client.sendHeader("Content-Type", "application/json");
+        http_client.sendHeader("Authorization", "Bearer " + String(API_KEY));
+        http_client.sendHeader("Content-Length", payload.length());
+        http_client.beginBody();
+        http_client.print(payload);
+        http_client.endRequest();
+
+        int status_code = http_client.responseStatusCode();
+        String response = http_client.responseBody();
+
+        if (status_code >= 200 && status_code < 300) {
+            Serial.println("Success. Status: " + String(status_code));
+            Serial.println("Response: " + String(response));
+            success = true;
+        }
+        else {
+            Serial.println("HTTP Error. Status: " + String(status_code));
+            Serial.println("Response: " + String(response));
+            delay(1000);
+        }
+    }
+
+    if (!success) {
+        Serial.println("Failed to transmit data after " + String(max_attempts) + ".");
+    }
+
+#endif
+
 }
 
 uint32_t TransmitterManager::convert_to_flags(float battery, float water_level, float rate) {
@@ -64,16 +115,15 @@ uint32_t TransmitterManager::convert_to_flags(float battery, float water_level, 
         flags |= THRESHOLD_ABOVE_10;
     }
 
-    if (rate > 10.0f) {
+    if (rate > 12.0f) {
         flags |= RATE_OF_CHANGE_LARGE;
     }
-    else if (rate > 5.0f) {
+    else if (rate > 7.0f) {
         flags |= RATE_OF_CHANGE_MEDIUM;
     }
-    else if (rate > 1.0f) {
+    else if (rate > 2.0f) {
         flags |= RATE_OF_CHANGE_SMALL;
     }
     Serial.println(flags, BIN);
-    // other values should also be LOST_COMMUNICATION, SENSOR_FAILURE, RATE_OF_CHANGE_SMALL, RATE_OF_CHANGE_MEDIUM, RATE_OF_CHANGE_LARGE
     return flags;
 }

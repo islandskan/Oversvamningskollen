@@ -9,7 +9,6 @@ void setup() {
     Serial.begin(115200);
     delay(1000);
     while (!Serial);
-    Serial.println("System starting...");
 }
 
 void loop() {

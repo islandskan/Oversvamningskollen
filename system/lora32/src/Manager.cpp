@@ -4,7 +4,7 @@ volatile bool flag = false;
 volatile uint32_t sleep_counter = 0;
 uint32_t target = 0;
 
-Manager::Manager() : water_sensor(), battery(), transmitter()
+Manager::Manager() : water_sensor(), battery(), transmitter("SOME_ID6")
 {
 }
 
@@ -17,7 +17,6 @@ void timer_callback(timer_callback_args_t *args) {
 }
 
 void Manager::config_sleep_timer() {
-    // float freq_hz = 1.0f / (duration_ms / 1000.0f);
     float freq_hz = 1.0f;
     uint8_t type;
     // generally, fsptimer can't really handle low frequenzies(not without configurations), so atm just clamp the value if it's to low
@@ -58,23 +57,34 @@ void Manager::sleep_interval(uint32_t duration_ms) {
     }
     sleep_timer.stop();
     sleep_timer.close();
-    Serial.println("Woke up from sleep");
 }
 
 #endif
 
 
 void Manager::cycle() {
+    static bool first_run = true;
     static uint32_t last_wake_time = millis();
-    uint32_t lap_time = millis() - last_wake_time;
-    last_wake_time = millis();
-    water_sensor.update(lap_time);
-    float level = water_sensor.get_water_level();
-    float rate_of_change = water_sensor.get_rate_of_change();
-    float percent = battery.get_battery();
-    transmitter.send(level, rate_of_change, percent);
+
+    if (first_run) {
+        Serial.println("Boot complete. Starting first measurement cycle");
+        first_run = false;
+    }
+    uint32_t now = millis();
+    uint32_t elapsed = now - last_wake_time;
+    // water_sensor.update(elapsed);
+    last_wake_time = now;
+
+    // float level = water_sensor.get_water_level();
+    // float rate_of_change = water_sensor.get_rate_of_change();
+    // float percent = battery.get_battery();
+    // transmitter.send_data(percent, level, rate_of_change);
+    float test_battery = 50.0f;
+    float test_water_level = 75.0f;
+    float test_rate = 4.0f;
+    transmitter.send_data(test_battery, test_water_level, test_rate);
     // Log to display
-    sleep_interval(60000UL); // 1 minute
-    // sleep_interval(120000UL); // 2 minutes
+    sleep_interval(6000UL); // 6 seconds
+    // sleep_interval(60000UL); // 1 minute
     // sleep_interval(300000UL); // 5 minutes
 }

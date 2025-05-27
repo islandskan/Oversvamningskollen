@@ -4,12 +4,10 @@ Sensordata som skickas till backend:
 - Backend läser datan som en integer
 - Integern är summan av bitflaggornas nummerrepresentation av deras positionsvärde
 
-  <!-- Lägg in exempel på vad ett mottaget integervärde ger för data -->
-
 
 ## Reserverade, interna flaggor
 Sätts inte av sensorn, används för att felmarkera om senordatan har blivit fel
-<!-- Fyra reserverade bits -->
+<!-- Four reserved bits -->
 | Binärt värde | Decimalt värde | Namn på bitflagga | Status|
 |--- | ---|--- | ---| 
 | 10^28 | 268435456 | INTERNAL_FLAG_01 | reserverad flag 01|
@@ -17,7 +15,8 @@ Sätts inte av sensorn, används för att felmarkera om senordatan har blivit fe
 | 10^30 | 1073741824 | INTERNAL_FLAG_03 | reserverad flag 03|
 | 10^31 | 2147483648 | INTERNAL_FLAG_04 | reserverad flag 04|
 
-<!-- Utrymme för att lägga till fler flaggor mellan 10^12 - 10^27 längre fram -->
+
+<!-- Space to add more bitflags between 10^12 - 10^27 in the future -->
 
 ## Varning
 | Binärt värde | Decimalt värde | Namn på bitflagga | Status |

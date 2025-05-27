@@ -117,7 +117,7 @@ Teamleader bestämt på teamnivå.
 
 ### Frontendutvecklare
 
-**Medlemmar:** Alessandro, Shabbir
+**Medlemmar:** Alessandro
 
 **Ansvar:**
 
@@ -128,7 +128,7 @@ Teamleader bestämt på teamnivå.
 
 ### Fullstackutvecklare
 
-**Medlemmar:** Gustav, Benjamin, Rebecca, Thomas
+**Medlemmar:** Gustav, Benjamin, Thomas
 
 **Ansvar:**
 

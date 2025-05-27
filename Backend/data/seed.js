@@ -61,9 +61,9 @@ async function seed() {
       (5, 4, 3, '2025-05-12T10:30:00Z');
     `);
 
-    console.log('✅ Mock data seeded successfully.');
+    console.log(' Mock data seeded successfully.');
   } catch (err) {
-    console.error('❌ Error seeding mock data:', err);
+    console.error(' Error seeding mock data:', err);
   }
 }
 

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { query } from '../db.js'; // Importera databasfrågefunktionen
+import { query } from '../db.js'; 
 
 
 const router = Router();
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await query('SELECT * FROM users WHERE id = $1', [id]); // Hämta användare baserat på ID
+    const result = await query('SELECT * FROM users WHERE id = $1', [id]); 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Användare kan inte hittas' });
     }
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // Skapa användare i databasen
+    // Create new user in the database
     const result = await query(
       'INSERT INTO users (name, email, password, role_id) VALUES ($1, $2, $3, $4) RETURNING *', 
       [userName, mail, password, role]
@@ -74,7 +74,8 @@ router.patch('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Användaren hittades inte' });
     }
 
-    // Uppdatera användaren i databasen
+    // Update user in the database
+    // Use existing values if not provided in the request body
     const updatedUser = await query(
       'UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4 RETURNING *',
       [req.body.userName || result.rows[0].name, req.body.mail || result.rows[0].email, req.body.password || result.rows[0].password, id]

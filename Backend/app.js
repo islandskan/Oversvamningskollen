@@ -1,14 +1,14 @@
-// app.js
 import express from 'express';
 import dotenv from 'dotenv';
 import sensorRouter from './routes/sensor.js';
 import userRouter from './routes/user.js';
 import emergencyContactsRouter from './routes/emergencyContacts.js';
-import swaggerUi from 'swagger-ui-express';  // Import swagger-ui-express
+import swaggerUi from 'swagger-ui-express';  
 import YAML from 'yamljs';
 import loginRouter from './routes/login.js';
 import googleRouter from './routes/google.js';
 import registerRouter from './routes/register.js';
+
 
 dotenv.config();
 
@@ -17,13 +17,13 @@ const router = express.Router();
 
 app.use(express.json());
 
-// Läs in Swagger-specifikationen från YAML-filen
-const swaggerDocument = YAML.load('./Backend/docs/swagger.yaml');
+// Read the Swagger specification from the YAML file
+const swaggerDocument = YAML.load('./Backend/swagger/swagger.yaml');
 
 // Serve Swagger API Docs at /api-docs endpoint
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Andra rutter
+// Other routes
 router.use('/api/sensors', sensorRouter);
 router.use('/api/users', userRouter);
 router.use('/login', loginRouter);

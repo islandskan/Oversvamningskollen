@@ -4,6 +4,54 @@ import { query } from '../db.js';
 
 const router = Router();
 
+//!Prepared to handle sensor data
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
+
+// Simulate fetching sensor data from an internal API
+const fetchSensorData = async (sensorId) => {
+  const endpoint = `https://internal-api.local/sensors/${sensorId}/latest`;
+  const response = await axios.get(endpoint);
+  return response.data;
+};
+
+const retry = async (fn, retries = MAX_RETRIES, delay = RETRY_DELAY_MS) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      console.warn(`Försök ${i + 1} misslyckades: ${err.message}`);
+      if (i < retries - 1) await new Promise(r => setTimeout(r, delay));
+    }
+  }
+  throw new Error('Alla försök att hämta sensordata misslyckades');
+};
+
+router.post('/signal', async (req, res) => {
+  try {
+    const signalData = req.body;
+
+    if (!signalData || typeof signalData !== 'object') {
+      return res.status(400).json({ error: 'Ogiltig signaldata' });
+    }
+
+    const sensorId = Object.keys(signalData)[0];
+    const signalValue = signalData[sensorId];
+
+    console.log(`Signal från sensor ${sensorId}: ${signalValue}`);
+
+    const sensorData = await retry(() => fetchSensorData(sensorId));
+
+    // Here you can save to DB or log
+    console.log('Hämtad data:', sensorData);
+
+    res.json({ message: 'Sensorhantering lyckades', data: sensorData });
+  } catch (err) {
+    console.error('Fel:', err.message);
+    res.status(500).json({ error: 'Kunde inte hämta sensordata' });
+  }
+});
+
 // GET all sensors
 router.get('/', async (req, res) => {
   try {
@@ -140,7 +188,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PATCH uppdatera sensor
+// PATCH uppdate sensor
 router.patch('/:sensorID', async (req, res) => {
   const { sensorID } = req.params;
   const fields = ['battery_status', 'longitude', 'latitude', 'location_description', 'sensor_failure', 'lost_communication'];
@@ -184,6 +232,19 @@ router.delete('/:sensorID', async (req, res) => {
     res.json({ message: `Tog bort en sensor med id: ${sensorID}`, sensor: result.rows[0] });
   } catch (err) {
     res.status(500).json({ error: 'Fel vid borttagning av sensor', details: err.message });
+  }
+});
+
+// POST notify high rate of change
+router.post('/notify', async (req, res) => {
+  const sensorId = Object.keys(req.body)[0];
+
+  try {
+    await rateOfChangeNotify(sensorId);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunde inte skicka push' });
   }
 });
 

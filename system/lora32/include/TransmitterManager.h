@@ -16,7 +16,7 @@
 class TransmitterManager
 {
 private:
-    const char* sensor_id;
+    uint16_t sensor_id;
     WiFiClient wifi_client;
     uint32_t convert_to_flags(float battery, float water_level, float rate);
     enum SensorFlags : uint32_t {
@@ -44,7 +44,7 @@ private:
     };
 
 public:
-    TransmitterManager(const char* id);
+    TransmitterManager(uint16_t id);
     void send_data(float battery, float water_level, float rate);
 
 };

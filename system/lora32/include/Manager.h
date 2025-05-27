@@ -14,7 +14,10 @@ class Manager
 private:
     SensorManager water_sensor;
     BatteryManager battery;
-    TransmitterManager transmitter;
+    TransmitterManager transmitter1;
+    TransmitterManager transmitter2;
+    TransmitterManager transmitter3;
+    TransmitterManager transmitter4;
     // DisplayManager display;
 #ifdef MOCK_MODE
     FspTimer sleep_timer;

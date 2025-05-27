@@ -1,7 +1,7 @@
 #include "../include/TransmitterManager.h"
 #include "../lib/transmit_config.h"
 
-TransmitterManager::TransmitterManager(const char* id) : sensor_id(id)
+TransmitterManager::TransmitterManager(uint16_t id) : sensor_id(id)
 {
 }
 
@@ -62,7 +62,7 @@ void TransmitterManager::send_data(float battery, float water_level, float rate)
         else {
             Serial.println("HTTP Error. Status: " + String(status_code));
             Serial.println("Response: " + String(response));
-            delay(1000);
+
         }
     }
 
@@ -115,13 +115,13 @@ uint32_t TransmitterManager::convert_to_flags(float battery, float water_level, 
         flags |= THRESHOLD_ABOVE_10;
     }
 
-    if (rate > 12.0f) {
+    if (rate > 0.12f) {
         flags |= RATE_OF_CHANGE_LARGE;
     }
-    else if (rate > 7.0f) {
+    else if (rate > 0.05f) {
         flags |= RATE_OF_CHANGE_MEDIUM;
     }
-    else if (rate > 2.0f) {
+    else if (rate > 0.001f) {
         flags |= RATE_OF_CHANGE_SMALL;
     }
     Serial.println(flags, BIN);

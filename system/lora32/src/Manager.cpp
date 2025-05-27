@@ -4,7 +4,7 @@ volatile bool flag = false;
 volatile uint32_t sleep_counter = 0;
 uint32_t target = 0;
 
-Manager::Manager() : water_sensor(), battery(), transmitter("SOME_ID6")
+Manager::Manager() : water_sensor(), battery(), transmitter1(1), transmitter2(2), transmitter3(3), transmitter4(4)
 {
 }
 
@@ -72,19 +72,16 @@ void Manager::cycle() {
     }
     uint32_t now = millis();
     uint32_t elapsed = now - last_wake_time;
-    // water_sensor.update(elapsed);
+    water_sensor.update(elapsed);
     last_wake_time = now;
 
-    // float level = water_sensor.get_water_level();
-    // float rate_of_change = water_sensor.get_rate_of_change();
-    // float percent = battery.get_battery();
-    // transmitter.send_data(percent, level, rate_of_change);
-    float test_battery = 50.0f;
-    float test_water_level = 75.0f;
-    float test_rate = 4.0f;
-    transmitter.send_data(test_battery, test_water_level, test_rate);
+    float level = water_sensor.get_water_level();
+    float rate_of_change = water_sensor.get_rate_of_change();
+    float percent = battery.get_battery();
+    transmitter1.send_data(percent, level, rate_of_change);
+    transmitter2.send_data(percent, level, rate_of_change);
+    transmitter3.send_data(percent, level, rate_of_change);
+    transmitter4.send_data(percent, level, rate_of_change);
     // Log to display
-    sleep_interval(6000UL); // 6 seconds
-    // sleep_interval(60000UL); // 1 minute
-    // sleep_interval(300000UL); // 5 minutes
+    sleep_interval(300000UL); // 5 minutes
 }

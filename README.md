@@ -10,6 +10,9 @@
 
 --!IMPORTANT , select expo go not development build in the preview page!--
 
+##!IMPORTANT
+- When trying the app from console press s after bun s to use expo go, dev build will not work. 
+
 
 ## 📱 Project Overview
 

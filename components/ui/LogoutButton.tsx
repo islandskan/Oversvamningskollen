@@ -17,8 +17,8 @@ export const LogoutButton = ({ onPress }: LogoutButtonProps) => (
     >
       <LinearGradient
         colors={['#ef4444', '#b91c1c']}
-        start={{ x: 0.4, y: 0 }}
-        end={{ x: 1, y: 0.85 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0.5, y: 0.85 }}
         className="py-3 px-4 items-center flex-row justify-center"
       >
         <IconSymbol
@@ -26,7 +26,7 @@ export const LogoutButton = ({ onPress }: LogoutButtonProps) => (
           size={20}
           color="white"
         />
-        <Text className="text-white font-bold text-xl ml-2">Log Out</Text>
+        <Text className="text-white font-bold text-lg ml-2">Log Out</Text>
       </LinearGradient>
     </TouchableOpacity>
   </View>

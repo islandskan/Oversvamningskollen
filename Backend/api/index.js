@@ -24,7 +24,7 @@ const router = express.Router();
 app.use(express.json());
 
 // Swagger Docs
-const swaggerDocument = YAML.load(join(__dirname, '../docs/swagger.yaml'));
+const swaggerDocument = YAML.load(join(__dirname, '../swagger/swagger.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes

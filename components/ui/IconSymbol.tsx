@@ -17,6 +17,7 @@ const MAPPING = {
   'location.fill': 'my-location',
   'magnifyingglass': 'search',
   'xmark': 'close',
+  'rectangle.portrait.and.arrow.right': 'logout',
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

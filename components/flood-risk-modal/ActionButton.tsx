@@ -16,15 +16,15 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 }) => {
   const getButtonBgColor = (level: string): string => {
     const normalizedLevel = level.toLowerCase();
-    if (normalizedLevel === 'high') return 'bg-red-600';
-    if (normalizedLevel === 'medium') return 'bg-orange-600';
+    if (normalizedLevel === 'high') return 'bg-red-500';
+    if (normalizedLevel === 'medium') return 'bg-orange-500';
     if (normalizedLevel === 'low') return 'bg-yellow-500';
     return 'bg-blue-600';
   };
 
   return (
     <TouchableOpacity
-      className={`mt-4 py-3 rounded-lg items-center ${getButtonBgColor(riskLevel)}`}
+      className={` mt-4 py-3 rounded-lg items-center ${getButtonBgColor(riskLevel)}`}
       onPress={onPress}
       accessibilityLabel={label}
       accessibilityHint={`Tap to ${label.toLowerCase()}`}
@@ -34,10 +34,10 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
         <Ionicons
           name={iconName}
           size={20}
-          color="white"
+          color="black"
           style={{ marginRight: 8 }}
         />
-        <Text className="text-white text-lg font-extrabold">{label}</Text>
+        <Text className="text-black/80 text-lg font-extrabold">{label}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -22,9 +22,9 @@ export function FloodRiskModal({ visible, selectedArea, onClose }: FloodRiskModa
 
   const getTextColor = (level: string): string => {
     const riskLevel = level.toLowerCase();
-    if (riskLevel === 'high') return 'text-red-600';
-    if (riskLevel === 'medium') return 'text-orange-600';
-    if (riskLevel === 'low') return 'text-yellow-600';
+    if (riskLevel === 'high') return 'text-red-500';
+    if (riskLevel === 'medium') return 'text-orange-500';
+    if (riskLevel === 'low') return 'text-yellow-500';
     return 'text-blue-600';
   };
 

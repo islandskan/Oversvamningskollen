@@ -26,7 +26,7 @@ export const RiskHeader: React.FC<RiskHeaderProps> = ({ title, riskLevel, onClos
   return (
     <View className={`p-4 flex-row justify-between items-center ${getBgColor(riskLevel)}`}>
       <View className="flex-row items-center">
-        <Text className="text-lg font-bold text-white mr-2">{title}</Text>
+        <Text className="text-2xl font-extrabold text-white mr-2">{title}</Text>
         {/* <View className="px-2 py-1 bg-white/20 rounded-full">
           <Text className="text-xs font-bold text-white uppercase">
             {getRiskLevelLabel(riskLevel)}

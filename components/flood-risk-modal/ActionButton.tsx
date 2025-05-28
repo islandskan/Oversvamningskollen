@@ -18,7 +18,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
     const normalizedLevel = level.toLowerCase();
     if (normalizedLevel === 'high') return 'bg-red-600';
     if (normalizedLevel === 'medium') return 'bg-orange-600';
-    if (normalizedLevel === 'low') return 'bg-yellow-600';
+    if (normalizedLevel === 'low') return 'bg-yellow-500';
     return 'bg-blue-600';
   };
 
@@ -37,7 +37,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
           color="white"
           style={{ marginRight: 8 }}
         />
-        <Text className="text-white font-medium">{label}</Text>
+        <Text className="text-white text-lg font-extrabold">{label}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -100,6 +100,9 @@ export default function SignupScreen() {
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
+            accessibilityLabel="Full name input"
+            accessibilityHint="Enter your full name to create an account"
+            accessibilityRole="text"
           />
 
           {/* email input */}
@@ -111,6 +114,9 @@ export default function SignupScreen() {
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
+            accessibilityLabel="Email address input"
+            accessibilityHint="Enter your email address to create an account"
+            accessibilityRole="text"
           />
 
           {/* password input */}
@@ -121,6 +127,9 @@ export default function SignupScreen() {
             className={`${isDark ? 'bg-gray-800/80 text-white' : 'bg-white/90 text-gray-900'} rounded-xl px-4 py-3 mb-4`}
             value={password}
             onChangeText={setPassword}
+            accessibilityLabel="Password input"
+            accessibilityHint="Enter a password to create an account"
+            accessibilityRole="text"
           />
 
           {/* sign up button */}
@@ -128,6 +137,7 @@ export default function SignupScreen() {
             className="rounded-xl overflow-hidden"
             onPress={handleSignup}
             disabled={isLoading}
+            
           >
             <LinearGradient
               colors={['#a855f7', '#ec4899']}

@@ -40,6 +40,8 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarAccessibilityLabel: 'Home',
+          
         }}
       />
       <Tabs.Screen
@@ -47,6 +49,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+          tabBarAccessibilityLabel: 'Settings',
         }}
       />
     </Tabs>

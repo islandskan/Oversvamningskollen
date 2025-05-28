@@ -23,15 +23,23 @@ export const RiskHeader: React.FC<RiskHeaderProps> = ({ title, riskLevel, onClos
     return 'Unknown Risk';
   };
 
+  const getTextColor = (level: string): string => {
+    const riskLevel = level.toLowerCase();
+    if (riskLevel === 'high') return 'text-red-500';
+    if (riskLevel === 'medium') return 'text-orange-500';
+    if (riskLevel === 'low') return 'text-yellow-500';
+    return 'text-blue-600';
+  };
+
   return (
     <View className={`p-4 flex-row justify-between items-center ${getBgColor(riskLevel)}`}>
       <View className="flex-row items-center">
-        <Text className="text-lg font-bold text-white mr-2">{title}</Text>
-        {/* <View className="px-2 py-1 bg-white/20 rounded-full">
-          <Text className="text-xs font-bold text-white uppercase">
+        {/* <Text className="text-lg font-bold text-white mr-2">{title}</Text> */}
+        <View className="px-2 py-1 bg-black/80 rounded-full">
+          <Text className={`text-lg font-bold ${getTextColor(riskLevel)} uppercase`}>
             {getRiskLevelLabel(riskLevel)}
           </Text>
-        </View> */}
+        </View>
       </View>
       <TouchableOpacity
         onPress={onClose}

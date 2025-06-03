@@ -13,20 +13,20 @@ async function fetchAndStoreSensorData() {
   try {
     const response = await fetch('http://134.255.219.209:3000/api/get', {
       headers: {
-        'Authorization': 'Bearer TEST_KEY'
+        Authorization: `Bearer TEST_KEY`
       }
     });
-
-    if (!response.ok) throw new Error(`HTTP-fel: ${response.status}`);
-
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     const content = await response.json();
 
-    for (const [sensorId, bitField] of Object.entries(content)) {
+    for (const [sensorId, data] of Object.entries(content)) {
       const numericSensorId = extractNumericId(sensorId);
       if (!numericSensorId) {
         console.warn(`Kunde inte extrahera numeriskt ID från ${sensorId}. Skipping.`);
         continue;
       }
+
+      const bitField = data.value;
 
       const {
         thresholdLevel,
@@ -38,8 +38,8 @@ async function fetchAndStoreSensorData() {
 
       await query(
         `INSERT INTO waterlevels (sensor_id, waterlevel, rate_of_change, measured_at)
-         VALUES ($1, $2, $3, NOW())`,
-        [numericSensorId, thresholdLevel, rateOfChangeLevel]
+         VALUES ($1, $2, $3, $4)`,
+        [numericSensorId, thresholdLevel, rateOfChangeLevel, measuredAt]
       );
 
       await query(
@@ -59,10 +59,8 @@ async function fetchAndStoreSensorData() {
   }
 }
 
-
-// Define the cron route
+// Cron route
 router.get('/cron', async (req, res) => {
-  // Authorization check
   const authHeader = req.headers.authorization || '';
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).send('Unauthorized');

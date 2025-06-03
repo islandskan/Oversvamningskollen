@@ -53,7 +53,7 @@ const extractNumericId = (id) => {
 };
 
 export async function GET(req) {
-  // Check authorization header for secret
+  // Check authorization header for secre
   const authHeader = req.headers.get('Authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response('Unauthorized', { status: 401 });

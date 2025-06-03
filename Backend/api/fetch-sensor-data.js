@@ -1,13 +1,12 @@
-
-import extractSensorFlags from "./middleware/bitflagDecoder/extractSensorFlags.js";
-import { query } from './db.js';
+import extractSensorFlags from "../../middleware/bitflagDecoder/extractSensorFlags.js";
+import { query } from '../../db.js';
 
 const extractNumericId = (id) => {
   const match = id.match(/\d+$/);
   return match ? parseInt(match[0], 10) : null;
 };
 
-const fetchAndStoreSensorData = async () => {
+export default async function handler(req, res) {
   try {
     const response = await fetch('http:/oversvamningskollen.vercel.app/api/sensors/get');
     if (!response.ok) throw new Error(`HTTP-fel: ${response.status}`);
@@ -45,10 +44,10 @@ const fetchAndStoreSensorData = async () => {
 
       console.log(`Sensor ${sensorId} (ID: ${numericSensorId}) importerad.`);
     }
+
+    res.status(200).json({ message: "Sensor data fetched and stored." });
   } catch (err) {
     console.error("Fel vid import av sensordata:", err.message);
+    res.status(500).json({ error: err.message });
   }
-};
-
-setInterval(fetchAndStoreSensorData, 5 * 60 * 1000);
-fetchAndStoreSensorData();
+}

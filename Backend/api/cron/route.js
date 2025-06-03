@@ -1,14 +1,11 @@
-import extractSensorFlags from "../../middleware/bitflagDecoder/extractSensorFlags.js";
-import { query } from '../../db.js';
+import { NextResponse } from 'next/server';
+import extractSensorFlags from "../../../middleware/bitflagDecoder/extractSensorFlags.js";
+import { query } from '../../../db.js';
 
-const extractNumericId = (id) => {
-  const match = id.match(/\d+$/);
-  return match ? parseInt(match[0], 10) : null;
-};
-
-export default async function handler(req, res) {
+// Your existing fetchAndStoreSensorData logic, modified to be called inside the GET handler
+async function fetchAndStoreSensorData() {
   try {
-    const response = await fetch('http:/oversvamningskollen.vercel.app/api/sensors/get');
+    const response = await fetch('http://oversvamningskollen.vercel.app/api/sensors/get');
     if (!response.ok) throw new Error(`HTTP-fel: ${response.status}`);
     const content = await response.json();
 
@@ -44,10 +41,28 @@ export default async function handler(req, res) {
 
       console.log(`Sensor ${sensorId} (ID: ${numericSensorId}) importerad.`);
     }
-
-    res.status(200).json({ message: "Sensor data fetched and stored." });
   } catch (err) {
     console.error("Fel vid import av sensordata:", err.message);
-    res.status(500).json({ error: err.message });
+    throw err;  // Re-throw so caller knows it failed
+  }
+}
+
+const extractNumericId = (id) => {
+  const match = id.match(/\d+$/);
+  return match ? parseInt(match[0], 10) : null;
+};
+
+export async function GET(req) {
+  // Check authorization header for secret
+  const authHeader = req.headers.get('Authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+
+  try {
+    await fetchAndStoreSensorData();
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return new Response(`Failed: ${error.message}`, { status: 500 });
   }
 }

@@ -7,3 +7,5 @@ PORT='yourPreferedPortElseItWillUse3000'
 
 <!-- byt ut i strängen på rad 2 -->
 'hemligheten'=lively
+
+CRONSECRET= s3cR3tToK3n123

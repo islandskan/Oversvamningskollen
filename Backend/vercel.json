@@ -6,9 +6,9 @@
       "destination": "/api"
     }
   ],
-  "cron": [
+  "crons": [
     {
-      "path": "/api/fetch-sensor-data",
+      "path": "/api/cron",
       "schedule": "*/5 * * * *"
     }
   ]

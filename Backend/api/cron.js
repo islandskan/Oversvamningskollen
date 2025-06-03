@@ -36,6 +36,11 @@ async function fetchAndStoreSensorData() {
         lostCommunication
       } = extractSensorFlags(bitField);
 
+      const measuredAt =
+        typeof data.timestamp === 'number'
+          ? new Date(data.timestamp)
+          : new Date(); // fallback till nu om timestamp saknas
+
       await query(
         `INSERT INTO waterlevels (sensor_id, waterlevel, rate_of_change, measured_at)
          VALUES ($1, $2, $3, $4)`,

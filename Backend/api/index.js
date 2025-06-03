@@ -36,7 +36,7 @@ router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);
 router.use('/register', registerRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
-app.use(cronRouter);
+app.use('/api/cron', cronRouter);
 app.use(router);
 
 // ✅ Add this route for the root

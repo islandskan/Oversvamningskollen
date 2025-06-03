@@ -1,5 +1,8 @@
-import extractSensorFlags from '../../middleware/bitflagDecoder/extractSensorFlags.js';
-import { query } from '../../db.js';
+import express from 'express';
+import extractSensorFlags from '../middleware/bitflagDecoder/extractSensorFlags.js';
+import { query } from '../db.js';
+
+const router = express.Router();
 
 const extractNumericId = (id) => {
   const match = id.match(/\d+$/);
@@ -50,18 +53,20 @@ async function fetchAndStoreSensorData() {
   }
 }
 
-export default async function handler(req, res) {
-  // Check Authorization header for CRON_SECRET
+// Define the cron route
+router.get('/api/cron', async (req, res) => {
+  // Authorization check
   const authHeader = req.headers.authorization || '';
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    res.status(401).send('Unauthorized');
-    return;
+    return res.status(401).send('Unauthorized');
   }
 
   try {
     await fetchAndStoreSensorData();
-    res.status(200).json({ ok: true });
+    res.json({ ok: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
+
+export default router;

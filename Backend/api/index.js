@@ -10,6 +10,8 @@ import googleRouter from '../routes/google.js';
 import registerRouter from '../routes/register.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import cronRouter from './path/to/cron-router.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -34,6 +36,7 @@ router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);
 router.use('/register', registerRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
+app.use(cronRouter);
 app.use(router);
 
 // ✅ Add this route for the root

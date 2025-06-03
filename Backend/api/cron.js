@@ -11,8 +11,14 @@ const extractNumericId = (id) => {
 
 async function fetchAndStoreSensorData() {
   try {
-    const response = await fetch('http://oversvamningskollen.vercel.app/api/sensors/get');
+    const response = await fetch('http://134.255.219.209:3000/api/get', {
+      headers: {
+        'Authorization': 'Bearer TEST_KEY'
+      }
+    });
+
     if (!response.ok) throw new Error(`HTTP-fel: ${response.status}`);
+
     const content = await response.json();
 
     for (const [sensorId, bitField] of Object.entries(content)) {
@@ -52,6 +58,7 @@ async function fetchAndStoreSensorData() {
     throw err;
   }
 }
+
 
 // Define the cron route
 router.get('/cron', async (req, res) => {

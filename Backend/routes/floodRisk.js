@@ -3,7 +3,7 @@ import { query } from '../db.js';
 
 const router = Router();
 
-// Trying to get the latest water level and calculate the rate of change
+// Trying to get the latest water level and calculate the rate of chang
 router.get('/flood-risk', async (req, res) => {
   try {
     const result = await query(`

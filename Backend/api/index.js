@@ -10,7 +10,7 @@ import googleRouter from '../routes/google.js';
 import registerRouter from '../routes/register.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import cronRouter from './path/to/cron-router.js';
+import cronRouter from './cron.js';
 
 
 // Load environment variables

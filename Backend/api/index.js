@@ -35,7 +35,7 @@ router.use('/api/users', userRouter);
 router.use('/login', loginRouter);
 router.use('/auth/google', googleRouter);
 router.use('/register', registerRouter);
-router.use('/api/cron', cronRouter);
+router.use('/cron', cronRouter);
 app.use('/api/emergency-contacts', emergencyContactsRouter);
 app.use(router);
 

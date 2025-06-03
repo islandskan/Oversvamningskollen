@@ -54,7 +54,7 @@ async function fetchAndStoreSensorData() {
 }
 
 // Define the cron route
-router.get('/api/cron', async (req, res) => {
+router.get('/cron', async (req, res) => {
   // Authorization check
   const authHeader = req.headers.authorization || '';
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {

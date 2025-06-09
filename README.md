@@ -1,6 +1,9 @@
 
 <img src="/images/banner.png" alt="FloodCast" width="100%" />
 
+## Monterad hårdvara
+<img src="/images/hardware.png" alt="Hårdvara" width="50%" />
+
 # Innehållsförteckning – Översvämningskollen
 
 - [Lagar och regler](#lagar-och-regler)
@@ -19,7 +22,8 @@
 
 ---
 
-[Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige](#lagar-och-regler-för-användning-av-lora-och-radioutrustning-i-sverige)
+## Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige<a name="lagar-och-regler"></a>
+
 
 För att använda LoRa-teknologi på ett lagligt och korrekt sätt i Sverige finns det vissa juridiska krav och tekniska riktlinjer att följa. Denna sektion sammanfattar de viktigaste lagarna, reglerna och god praxis som gäller för projekt som FloodCast och annan IoT-utveckling.
 

@@ -1,5 +1,5 @@
 <section align="center">
-<h1>ARCHITECTURE</h1>
+<h1>Hardware</h1>
 </section>
 
 ## Overview

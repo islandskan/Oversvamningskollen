@@ -153,11 +153,13 @@ The software is structured into modular class components, in order to simplify u
 
 ### Simplified execution flow
 
+```
 System boot(first wake up)/Wake up 
 	-> Sensor and battery read 
 	-> convert data into bit flags and packed into 32-bit integer(based on defined bit flag map) 
 	-> establish wireless connection 
 	-> send sensor id and 32-bit integers over wireless connection 
 	-> Display data and transmission status 
-	-> Sleep for 5 minutes 
+	-> Sleep for 5 minutes
+```
 

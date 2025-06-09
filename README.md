@@ -43,6 +43,14 @@ Listor över verktyg som används under projektet:
   </ul>
 </details>
 
+## Bilder
+
+![hardware_1](https://github.com/user-attachments/assets/4207d313-759b-4fb3-904e-7dd53333e83b)
+
+![hardware_2](https://github.com/user-attachments/assets/58df72b6-70cb-4d76-8437-5c423d10b21c)
+
+![hardware_3](https://github.com/user-attachments/assets/dca69ff6-c62a-40a9-9e17-da9d077e14eb)
+
 ## Deltagande
 
 <a href="https://github.com/hemrys"><img src="https://avatars.githubusercontent.com/u/48299434?v=4" title="hemrys" width="50" height="50"></a>

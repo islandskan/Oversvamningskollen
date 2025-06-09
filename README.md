@@ -32,6 +32,8 @@ Listor över verktyg som används under projektet:
     <li><a href="documentation/ACCESSIBILITY.md">Accessibility</a></li>
     <li><a href="documentation/API-DOCUMENTATION.md">API-dokumentation</a></li>
     <li><a href="documentation/ARCHITECTURE.md">Systemarkitektur</a></li>
+    <li><a href="documentation/BITFLAGGOR.md">Bitflaggor & Översättning</a></li>
+    <li><a href="documentation/TTN_DUMMY_GUIDE.md">TTN Dummy Instruktioner</a></li>
     <li><a href="documentation/CHANGELOG.md">Changelog</a></li>
     <li><a href="documentation/RETROSPECTIVE.md">Retrospektiv</a></li>
     <li><a href="documentation/TESTING.md">Testning</a></li>

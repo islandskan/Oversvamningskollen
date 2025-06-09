@@ -5,6 +5,10 @@
 
 ## Översikt
 1. [Lagar och regler](#lagar)
+2. [CE-märkning och Radioutrustningsdirektivet (RED)](#ce)
+3. [Integritet och Dataskydd (GDPR)](#gdpr)
+4. [Rekommenderade Tekniska Åtgärder](#atgarder)
+5. [Ansvarsfull Användning](#ansvarsfull)
 
 ---
 

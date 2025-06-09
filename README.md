@@ -5,70 +5,41 @@
 
 ## Översikt
 1. [Projektbeskrivning](#projektbeskrivning)
-2. [Syfte och mål](#syfte-och-mål)
-3. [Målgrupper](#målgrupper)
-4. [Systemarkitektur](#systemarkitektur)
-5. [Val av tekniker](#val-av-tekniker)
-6. [Roller och teamstruktur](#roller-och-teamstruktur)
 
 ---
 
 ## Frontend
 7. [Användargränssnitt och designprinciper](#användargränssnitt-och-designprinciper)
-8. [Tillgänglighet (Accessibility)](#tillgänglighet-accessibility)
-9. [Kartfunktioner och visualisering](#kartfunktioner-och-visualisering)
-10. [Notifikationer och rapportering](#notifikationer-och-rapportering)
-11. [Användarmanual för mobilappen](#användarmanual-för-mobilappen)
-12. [Projektstruktur (frontend)](#projektstruktur-frontend)
 
 ---
 
 ## Backend
 13. [API-dokumentation](#api-dokumentation)
-14. [Databasschema och datalagring](#databasschema-och-datalagring)
-15. [Autentisering och säkerhet](#autentisering-och-säkerhet)
-16. [Databehandling och pushnotiser](#databehandling-och-pushnotiser)
-17. [Loggning och felsökning](#loggning-och-felsökning)
 
 ---
 
 ## Hårdvara / IoT
 18. [Använda sensorer och komponenter](#använda-sensorer-och-komponenter)
-19. [Kopplingsanvisningar och schema](#kopplingsanvisningar-och-schema)
-20. [Firmware och programmering](#firmware-och-programmering)
-21. [LoRaWAN och TTN-integration](#lorawan-och-ttn-integration)
-22. [Felsökning av hårdvara](#felsökning-av-hårdvara)
-23. [Strömoptimering och prototyp](#strömoptimering-och-prototyp)
 
 ---
 
 ## Sensorlogik och flaggdata
 24. [Tolkning av sensorflaggor](#tolkning-av-sensorflaggor)
-25. [Bitfält och statuskoder](#bitfält-och-statuskoder)
 
 ---
 
 ## Juridik och regelefterlevnad
 26. [Frekvensanvändning och PTS-regler](#frekvensanvändning-och-pts-regler)
-27. [Radioutrustningsdirektivet och CE-märkning](#radioutrustningsdirektivet-och-ce-märkning)
-28. [Dataskydd och GDPR vid sensoranvändning](#dataskydd-och-gdpr-vid-sensoranvändning)
-29. [Rekommenderad radiokommunikation och ansvar](#rekommenderad-radiokommunikation-och-ansvar)
 
 ---
 
 ## Projektledning & Testning
 30. [Sprintplanering och milstolpar](#sprintplanering-och-milstolpar)
-31. [Retrospektiv och förbättringar](#retrospektiv-och-förbättringar)
-32. [Changelog och versionshantering](#changelog-och-versionshantering)
-33. [Teststrategi och testresultat](#teststrategi-och-testresultat)
 
 ---
 
 ## Bilagor
 34. [Systemdiagram](#systemdiagram)
-35. [Riskanalys](#riskanalys)
-36. [Licensinformation](#licensinformation)
-37. [Länkar och referenser](#länkar-och-referenser)
 
 # Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige
 

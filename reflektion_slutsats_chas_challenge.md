@@ -1,5 +1,5 @@
 
-# Reflektion & Slutsats – Veckorapporter Chas Challenge
+# Reflektion & Slutsats – Chas Challenge
 
 ## Reflektion
 

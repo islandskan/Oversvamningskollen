@@ -26,7 +26,7 @@ The id has no restrictions other than being unique. But this would need to be co
 
 #### value
 
-The value key is a bitflag integer that contains our latest hardware data. What this value represents can be found [here](https://github.com/islandskan/Oversvamningskollen/blob/system/documentation/BITFLAGGOR.md).
+The value key is a bitflag integer that contains our latest hardware data. What this value represents can be found [here](https://github.com/islandskan/Oversvamningskollen/blob/main/documentation/BITFLAGGOR.md).
 
 ## Retrieving Data
 

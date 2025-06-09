@@ -1,7 +1,7 @@
 #ifndef TRANSMITTERMANAGER_H
 #define TRANSMITTERMANAGER_H
 #include "../lib/config.h"
-// include utility function to encode the values into bit flags?
+
 #ifdef MOCK_MODE
 #include <Arduino.h>
 #include <ArduinoHttpClient.h>
@@ -9,9 +9,15 @@
 #include <WiFiClient.h>
 #include <ArduinoJson.h>
 #else
-    // includes for LoRaWAN
+// includes for LoRaWAN
 #include <RadioLib.h>
 #endif
+
+struct SendResult {
+    bool success;
+    int status_code;
+    String response;
+};
 
 class TransmitterManager
 {
@@ -45,8 +51,8 @@ private:
 
 public:
     TransmitterManager(uint16_t id);
-    void send_data(float battery, float water_level, float rate);
-
+    SendResult send_data(float battery, float water_level, float rate);
+    //void send_data(float battery, float water_level, float rate);
 };
 
 #endif

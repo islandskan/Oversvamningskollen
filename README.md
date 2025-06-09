@@ -218,7 +218,7 @@ Vid frågor eller tekniska problem, vänligen kontakta projektgruppen via GitHub
 
 ## - [Källkoden](https://github.com/islandskan/Oversvamningskollen/tree/main/floodcast-mobile-app/floodcast)
 
-## 🔐 INLOGGNINGSUPPGIFTER FÖR TESTNING (ELLER REGISTRERA DIG GRATIS)
+## INLOGGNINGSUPPGIFTER FÖR TESTNING (ELLER REGISTRERA DIG GRATIS)
 - E-post: `alice@example.com`
 - Lösenord: `securepassword1`
 
@@ -226,14 +226,14 @@ Vid frågor eller tekniska problem, vänligen kontakta projektgruppen via GitHub
 
 - [Öppna i Expo Go](https://expo.dev/preview/update?message=added%20search%20bar&updateRuntimeVersion=1.0.0&createdAt=2025-05-25T23%3A56%3A12.917Z&slug=exp&projectId=fd631fd1-eadf-4299-ae85-1d055bed0dd4&group=1f4657d8-309e-4a05-9872-8067c9d334fa)
 
-**‼️VIKTIGT:** Välj *Expo Go* och **inte** *development build* på förhandsvisningssidan!
+** VIKTIGT:** Välj *Expo Go* och **inte** *development build* på förhandsvisningssidan!
 
-## ⚙️ STARTA EXPO LOKALT
+## STARTA EXPO LOKALT
 Kör `npm run s` eller `npx expo start` och tryck sedan **`s`** i terminalen för att starta i **Expo Go-läge** – *inte dev build*.
 
 ---
 
-## 🛠️ Teknikstack
+## Teknikstack
 
 ### Frontend
 - **React Native** (v0.79.2) + **Expo** (v53.0.9)
@@ -255,7 +255,7 @@ Kör `npm run s` eller `npx expo start` och tryck sedan **`s`** i terminalen fö
 
 ---
 
-## 📁 Projektstruktur
+## Projektstruktur
 
 ```plaintext
 floodcast/
@@ -281,7 +281,7 @@ floodcast/
 
 ---
 
-## 🚀 Kom igång
+## Kom igång
 
 ### Förkrav
 

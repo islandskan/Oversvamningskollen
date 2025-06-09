@@ -19,39 +19,6 @@
 
 ---
 
-## Frontend
-7. [Användargränssnitt och designprinciper](#användargränssnitt-och-designprinciper)
-
----
-
-## Backend
-13. [API-dokumentation](#api-dokumentation)
-
----
-
-## Hårdvara / IoT
-18. [Använda sensorer och komponenter](#använda-sensorer-och-komponenter)
-
----
-
-## Sensorlogik och flaggdata
-24. [Tolkning av sensorflaggor](#tolkning-av-sensorflaggor)
-
----
-
-## Juridik och regelefterlevnad
-26. [Frekvensanvändning och PTS-regler](#frekvensanvändning-och-pts-regler)
-
----
-
-## Projektledning & Testning
-30. [Sprintplanering och milstolpar](#sprintplanering-och-milstolpar)
-
----
-
-## Bilagor
-34. [Systemdiagram](#systemdiagram)
-
 [Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige](#lagar-och-regler-för-användning-av-lora-och-radioutrustning-i-sverige)
 
 För att använda LoRa-teknologi på ett lagligt och korrekt sätt i Sverige finns det vissa juridiska krav och tekniska riktlinjer att följa. Denna sektion sammanfattar de viktigaste lagarna, reglerna och god praxis som gäller för projekt som FloodCast och annan IoT-utveckling.

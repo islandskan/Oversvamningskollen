@@ -243,51 +243,136 @@ Vid frågor eller tekniska problem, vänligen kontakta projektgruppen via GitHub
 
 ---
 
-## Teknikstack
+# FloodCast – Applikation (för utvecklare)
 
-### Frontend
+## - [Källkoden](https://github.com/islandskan/Oversvamningskollen/tree/main/floodcast-mobile-app/floodcast)
 
-- **React Native** `v0.79.2` med **Expo** `v53.0.9`  
-  Möjliggör snabb utveckling för både iOS och Android.
+## 🔐 INLOGGNINGSUPPGIFTER FÖR TESTNING (ELLER REGISTRERA DIG GRATIS)
+- E-post: `alice@example.com`
+- Lösenord: `securepassword1`
 
-- **TypeScript** `v5.3.3`  
-  Typsäker utveckling för bättre struktur och minskad risk för buggar.
+## 📲 EXPO GO FÖRHANDSVISNING (KRÄVER EXPO GO-APPEN)
 
-- **NativeWind** `v4.1.23`  
-  Tailwind CSS-anpassning för styling i React Native.
+- [Öppna i Expo Go](https://expo.dev/preview/update?message=added%20search%20bar&updateRuntimeVersion=1.0.0&createdAt=2025-05-25T23%3A56%3A12.917Z&slug=exp&projectId=fd631fd1-eadf-4299-ae85-1d055bed0dd4&group=1f4657d8-309e-4a05-9872-8067c9d334fa)
 
-- **Expo Router** `v5.0.6`  
-  Filbaserad, deklarativ navigering med inbyggd layout- och routinghantering.
+**‼️VIKTIGT:** Välj *Expo Go* och **inte** *development build* på förhandsvisningssidan!
 
-- **React Native Maps** `v1.20.1`  
-  Används för rendering av karta och visning av riskzoner och sensorer i realtid.
+## ⚙️ STARTA EXPO LOKALT
+Kör `npm run s` eller `npx expo start` och tryck sedan **`s`** i terminalen för att starta i **Expo Go-läge** – *inte dev build*.
 
 ---
 
-## Projektstruktur
+## 🛠️ Teknikstack
+
+### Frontend
+- **React Native** (v0.79.2) + **Expo** (v53.0.9)
+- **TypeScript** (v5.3.3)
+- **NativeWind** (v4.1.23) – Tailwind CSS för React Native
+- **Expo Router** (v5.0.6) – Filbaserad navigering
+- **React Native Maps** (v1.20.1) – För interaktiva kartor
+
+### Testning & Utveckling
+- **Jest** (v29.2.1) + **Jest Expo** – Enhetstester
+- **React Testing Library** – Komponenttestning
+- **EAS Build** – Molnbaserad bygg- och testmiljö  
+  *(Tips: kortare köer på kvällar/helger)*
+
+### Backend-integration
+- **REST API** med JWT-autentisering
+- **PostgreSQL-databas** på Vercel (optimerad för sensordata)
+- **Databehandling** med fallback till mockdata
+
+---
+
+## 📁 Projektstruktur
 
 ```plaintext
 floodcast/
-├── app/                    # Huvudapplikation (Expo Router)
-│   ├── (tabs)/             # Navigationsflikar (karta, inställningar etc.)
-│   │   ├── index.tsx       # Karta och realtidsvy
-│   │   └── settings.tsx    # Inställningar och tema
-│   ├── _layout.tsx         # Global layout och autentisering
-│   ├── index.tsx           # Startpunkt och ruttkontroll
+├── app/                    # Huvudkod för appen (Expo Router)
+│   ├── (tabs)/             # Navigeringsflikar
+│   │   ├── index.tsx       # Startsida med karta
+│   │   └── settings.tsx    # Inställningar
+│   ├── _layout.tsx         # Rotlayout med auth-hantering
+│   ├── index.tsx           # Inloggningskontroll & routing
 │   ├── login.tsx           # Inloggningsskärm
 │   └── signup.tsx          # Registreringsskärm
-├── components/             # Återanvändbara UI-komponenter
-│   ├── flood-risk-modal/   # Riskmodaler för mer information
-│   └── ui/                 # Gemensamma gränssnittselement
-├── constants/              # Konstanter och temainställningar
-├── context/                # Auth-context och andra globala tillstånd
-├── hooks/                  # Anpassade React Hooks
-├── services/               # API-kopplingar och externa anrop
-├── types/                  # TypeScript-typer och interfaces
+├── components/             # Återanvändbara komponenter
+│   ├── flood-risk-modal/   # Modaler för riskinformation
+│   └── ui/                 # Allmänna UI-komponenter
+├── constants/              # Konstanter & teman
+├── context/                # React Context (auth etc)
+├── hooks/                  # Egna hooks
+├── services/               # API-anrop
+├── types/                  # TypeScript-typer
 ├── utils/                  # Hjälpfunktioner
-└── assets/                 # Bilder, ikoner, typsnitt m.m.
-```
+└── assets/                 # Bilder, typsnitt m.m.
+````
 
+---
+
+## 🚀 Kom igång
+
+### Förkrav
+
+* **Node.js** (version 18 eller högre)
+* **npm**
+* **Expo CLI**:
+
+  ```bash
+  npm install -g @expo/cli
+  ```
+* **EAS CLI**:
+
+  ```bash
+  npm install -g eas-cli
+  ```
+
+#### (Valfritt men rekommenderat)
+
+* Android Studio – för lokal Android-testning
+* Xcode – för iOS-testning (kräver macOS)
+
+---
+
+### Installationssteg
+
+1. **Klona projektet**
+
+   ```bash
+   git clone <repository-url>
+   cd floodcast-mobile-app*
+   cd floodcast
+   ```
+
+2. **Installera beroenden**
+
+   ```bash
+   npm install
+   ```
+
+3. **Skapa och konfigurera .env**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Redigera `.env`:
+
+   ```env
+   MAPS_API_KEY=ditt_google_maps_api_key_här
+   ```
+
+4. **Starta utvecklingsservern**
+
+   ```bash
+   npm run s
+   # eller
+   npx expo start
+   ```
+
+5. **Om det står "using dev client" i terminalen – tryck `s` för att byta till Expo Go-läge**
+
+---
 
 ## Tolkning av sensorflaggor (bitfält)
 

@@ -3,12 +3,19 @@
 
 # Innehållsförteckning – Översvämningskollen
 
-## Översikt
-1. [Lagar och regler](#lagar)
-2. [CE-märkning och Radioutrustningsdirektivet (RED)](#ce)
-3. [Integritet och Dataskydd (GDPR)](#gdpr)
-4. [Rekommenderade Tekniska Åtgärder](#atgarder)
-5. [Ansvarsfull Användning](#ansvarsfull)
+- [Lagar och regler](#lagar-och-regler)
+- [Frekvensanvändning och Tillstånd](#frekvensanvändning-och-tillstånd)
+- [CE-märkning och Radioutrustningsdirektivet (RED)](#ce-märkning-och-radioutrustningsdirektivet-red)
+- [Integritet och Dataskydd (GDPR)](#integritet-och-dataskydd-gdpr)
+- [Rekommenderade Tekniska Åtgärder](#rekommenderade-tekniska-åtgärder)
+- [Ansvarsfull Användning](#ansvarsfull-användning)
+- [Frontend – FloodCast](#frontend--floodcast)
+- [Användarmanual – FloodCast](#användarmanual--floodcast)
+- [FloodCast – Applikation (för utvecklare)](#floodcast--applikation-för-utvecklare)
+- [Översvämningskollen – Backend](#översvämningskollen--backend)
+- [API-dokumentation](#api-dokumentation)
+- [Tolkning av sensorflaggor (bitfält)](#tolkning-av-sensorflaggor-bitfält)
+- [Komponentöversikt och Koppling – FloodCast IoT-system](#komponentöversikt-och-koppling--floodcast-iot-system)
 
 ---
 
@@ -45,13 +52,13 @@
 ## Bilagor
 34. [Systemdiagram](#systemdiagram)
 
-# Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige
+[Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige](#lagar-och-regler-för-användning-av-lora-och-radioutrustning-i-sverige)
 
 För att använda LoRa-teknologi på ett lagligt och korrekt sätt i Sverige finns det vissa juridiska krav och tekniska riktlinjer att följa. Denna sektion sammanfattar de viktigaste lagarna, reglerna och god praxis som gäller för projekt som FloodCast och annan IoT-utveckling.
 
 ---
 
-## Frekvensanvändning och Tillstånd
+## Frekvensanvändning och Tillstånd<a name="frekvensanvändning-och-tillstånd"></a>
 
 LoRa använder olicensierade frekvensband i det så kallade ISM-bandet (Industrial, Scientific and Medical), vilket i Sverige ligger på 868 MHz. Användningen regleras av:
 
@@ -67,7 +74,7 @@ Mer info: www.pts.se
 
 ---
 
-## CE-märkning och Radioutrustningsdirektivet (RED)
+## CE-märkning och Radioutrustningsdirektivet (RED)<a name="ce-märkning-och-radioutrustningsdirektivet-red"></a>
 
 All LoRa-utrustning som används i Sverige ska uppfylla:
 
@@ -79,11 +86,11 @@ All LoRa-utrustning som används i Sverige ska uppfylla:
 
 ---
 
-## Integritet och Dataskydd (GDPR)
+## Integritet och Dataskydd (GDPR)<a name="integritet-och-dataskydd-gdpr"></a>
 
 Om LoRa-sensorer samlar in personuppgifter, exempelvis platsdata eller indirekta identifierare, gäller följande:
 
-### GDPR (Dataskyddsförordningen)
+## Integritet och Dataskydd (GDPR)<a name="integritet-och-dataskydd-gdpr"></a>
 
 - Informera användaren om datainsamling och syfte.
 - Samla in minsta möjliga mängd data för att uppnå syftet.
@@ -92,7 +99,7 @@ Om LoRa-sensorer samlar in personuppgifter, exempelvis platsdata eller indirekta
 
 ---
 
-## Rekommenderade Tekniska Åtgärder
+## Rekommenderade Tekniska Åtgärder<a name="rekommenderade-tekniska-åtgärder"></a>
 
 - Använd kryptering (t.ex. AES128) mellan sensor och backend.
 - Kontrollera att nätverksservern (TTN) är korrekt konfigurerad för regionspecifika regler.
@@ -101,14 +108,14 @@ Om LoRa-sensorer samlar in personuppgifter, exempelvis platsdata eller indirekta
 
 ---
 
-## Ansvarsfull Användning
+## Ansvarsfull Användning<a name="ansvarsfull-användning"></a>
 
 - LoRa är en delad resurs. Undvik att överanvända bandet, särskilt i tätbebyggda områden.
 - Säkerställ att din utrustning inte stör annan radiokommunikation.
 - Rapportera misstänkta störningar till PTS.
 
 
-# Frontend – Floodcast (Översvämningskollen)
+## Frontend – FloodCast<a name="frontend--floodcast"></a>
 
 ## Funktioner
 
@@ -129,7 +136,7 @@ Om LoRa-sensorer samlar in personuppgifter, exempelvis platsdata eller indirekta
 
 ---
 
-# Användarmanual – FloodCast
+## Användarmanual – FloodCast<a name="användarmanual--floodcast"></a>
 
 FloodCast är en mobilapplikation utvecklad för att ge medborgare, myndigheter och räddningstjänster möjlighet att i realtid övervaka översvämningsrisker. Denna manual beskriver hur appen används från installation till användning av de centrala funktionerna.
 
@@ -218,9 +225,9 @@ Vid frågor eller tekniska problem, vänligen kontakta projektgruppen via GitHub
 
 ---
 
-# FloodCast – Applikation (för utvecklare)
+## FloodCast – Applikation (för utvecklare)<a name="floodcast--applikation-för-utvecklare"></a>
 
-## - [Källkoden](https://github.com/islandskan/Oversvamningskollen/tree/main/floodcast-mobile-app/floodcast)
+## - [Källkoden](https://github.com/islandskan/Oversvamningskollen)
 
 ## INLOGGNINGSUPPGIFTER FÖR TESTNING (ELLER REGISTRERA DIG GRATIS)
 - E-post: `alice@example.com`
@@ -349,7 +356,7 @@ floodcast/
 
 ---
 
-<h1>Översvämningskollen – Backend</h1>
+## Översvämningskollen – Backend<a name="översvämningskollen--backend"></a>
 
 <p>Detta är backend-delen av Översvämningskollen – ett API för att hantera användare, sensorer, nödkontakter och vattennivådata i realtid.</p>
 
@@ -418,10 +425,7 @@ PG_URI='följ intruktionerna eller gå till nästa steg om du vill ha en egen da
   </li>
 </ol>
 
-
-
-
-<h2>API-dokumentation</h2>
+## API-dokumentation<a name="api-dokumentation"></a>
 
 <h3>/api/users</h3>
 <ul>
@@ -470,7 +474,7 @@ Swagger-spec: <a href="https://app.swaggerhub.com/apis/chasacademy-135/floodcast
 <p>MIT-licens. Se <code>LICENSE</code>-filen i repo:t.</p>
 
 
-## Tolkning av sensorflaggor (bitfält)
+## Tolkning av sensorflaggor (bitfält)<a name="tolkning-av-sensorflaggor-bitfält"></a>
 
 Vårt system använder ett bitfält (heltal) för att skicka status från sensorn på ett kompakt sätt. Varje flagga representerar ett visst tillstånd i sensorn.
 
@@ -498,7 +502,7 @@ export enum SensorFlags {
 ```
 ---
 
-# Komponentöversikt och Koppling – FloodCast IoT-system
+## Komponentöversikt och Koppling – FloodCast IoT-system<a name="komponentöversikt-och-koppling--floodcast-iot-system"></a>
 
 ## Hårdvarukomponenter
 

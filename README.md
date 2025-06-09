@@ -4,7 +4,7 @@
 # Innehållsförteckning – Översvämningskollen
 
 ## Översikt
-1. [Projektbeskrivning](#projektbeskrivning)
+1. [Lagar och regler](#lagar)
 
 ---
 

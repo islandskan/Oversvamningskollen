@@ -22,7 +22,7 @@
 
 ---
 
-## - [All dokumentation (samlad)](https://github.com/islandskan/Oversvamningskollen/tree/main/documentation)
+## - [All dokumentation (repository)](https://github.com/islandskan/Oversvamningskollen/tree/main/documentation)
 
 ---
 

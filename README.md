@@ -22,6 +22,10 @@
 
 ---
 
+## - [All dokumentation (samlad)](https://github.com/islandskan/Oversvamningskollen/tree/main/documentation)
+
+---
+
 ## Lagar och Regler för Användning av LoRa och Radioutrustning i Sverige<a name="lagar-och-regler"></a>
 
 
@@ -521,3 +525,146 @@ export enum SensorFlags {
 | **Serial Monitor (Arduino IDE)** | För felsökning och sensoravläsning         |
 | **The Things Network (TTN)** | För att ta emot och analysera LoRa-data i molnet |
 
+---
+
+# Systembeskrivning – FloodCast (Mock- och Produktionsläge)
+
+## Översikt över Läge
+
+FloodCast-systemet har två huvudsakliga lägen:
+
+- **Mock-läge (MOCK_MODE)**: Används när riktig hårdvara eller LoRaWAN-kommunikation inte finns tillgänglig. Användbart för att testa logik, beräkningar och dataöverföring med mock-data.
+- **Produktionsläge (PRODUCTION_MODE)**: Används med verklig hårdvara och LoRaWAN-stacken. Används för att testa alla komponenter i fält eller labb.
+
+## Funktioner
+
+Gemensamma funktioner (oavsett läge):
+
+- Vattennivåavläsning (mock eller sensor)
+- Strömförsörjning (mock eller LiPo-batteri)
+- Beräkning av förändringstakt i vattennivå
+- Beräkning av batterinivå i procent
+- Packning av data i kompakt format (32-bitars heltal)
+- Trådlös dataöverföring
+- Visning av status/data på display
+- Låg strömförbrukning (sömnläge mellan avläsningar)
+
+### Mock-läge:
+
+- Vattennivå simuleras med potentiometer
+- Batteri simuleras med approximation av 3.7V LiPo livslängd
+- HTTP POST till VPS över WiFi
+- Simulerat sömnläge (ESP32 timers)
+
+### Produktionsläge:
+
+- Riktiga avläsningar från vattennivåsensor
+- Batterinivå beräknas från LiPo-spänning
+- Data skickas via 868MHz LoRaWAN till gateway
+- Inbyggt sömnläge mellan avläsningar
+
+## Hårdvarukomponenter
+
+### Mock-läge:
+
+- Arduino Uno R4 WiFi
+- LCD 1602A display
+- 10KΩ potentiometer
+- Röd LED
+- 1KΩ, 10KΩ, 110Ω motstånd
+- (Alternativ 1) Breadboard-strömmodul + 9V batteri
+- (Alternativ 2) USB till USB-C för ström + seriell
+
+### Produktionsläge:
+
+- TTGO LoRa32 T3 V1.6.1
+- (Inbyggd) OLED SSD1306 128x64
+- (Inbyggd) SX1276 LoRa 868MHz chip
+- LoRa-antenn (2.0 dbi, SMA)
+- 3.7V 3000mAh LiPo med JST PH 2-pin
+- JST PH 2-pin till GH 2-pin adapter
+- Seeedstudio Vattennivåsensor (10cm, I2C, Grove)
+
+## Mjukvarudesign
+
+### Arkitektur
+
+Kodbasen är uppdelad i modulära klasser för enkel testning och växling mellan lägen. Nyckelansvar:
+
+- **Sensor Interface**: Läser rådata (mock eller sensor), räknar ut nivå i cm och förändring över tid
+- **Battery Interface**: Läser mock eller verklig spänning och konverterar till batteriprocent
+- **Communication Interface**: Hanterar WiFi eller LoRa-protokoll, konverterar till 32-bitars data, ansluter till VPS eller TTN
+- **Display Interface**: Visar mätdata, status och sömn/vakna-cykel
+- **System Management**: Håller koll på hela sömn-läs-skicka-vila-loopen
+
+### Filstruktur
+
+```
+include/
+├── BatteryManager.h
+├── DisplayManager.h
+├── Manager.h
+├── SensorManager.h
+├── TransmitterManager.h
+
+lib/
+├── config.h
+├── transmit_config.example.h
+
+src/
+├── BatteryManager.cpp
+├── DisplayManager.cpp
+├── Manager.cpp
+├── SensorManager.cpp
+├── TransmitterManager.cpp
+├── main.cpp
+
+test/
+├── battery_manager/test.cpp
+├── sensor_manager/test.cpp
+├── transmitter/test.cpp
+```
+
+### Nyckelklasser
+
+**BatteryManager**
+- Mock-läge: Använder mock-voltage och simulerar batterinivå
+- Produktionsläge: Konverterar analog signal till spänning (LiPo) och procent
+- Simulerar batteriförbrukning i mock-läge
+
+**SensorManager**
+- Mock: Läser analog input från potentiometer och mappar till 10cm sensorvärde
+- Produktion: Läser värde från vattennivåsensor (Grove)
+- Sparar 12 mätningar (60 min) i buffert, räknar förändring
+
+**TransmitterManager**
+- Mock: Ansluter till WiFi, skickar data till VPS via HTTP POST (JSON + 32-bit integer)
+- Produktion: Initierar LoRa, packar data i 32-bitars format, skickar som uplink
+
+**DisplayManager**
+- Mock: LCD 1602A (digital pins)
+- Produktion: OLED SSD1306 via I2C
+- Visar laddning, status och meddelande
+- Display stängs av vid sömn för att spara ström
+
+**Manager**
+- Initierar de andra klasserna
+- Mock: Simulerar cykler och visar feedback via display och Serial
+- Produktion: Kör sensordata, batteri, display, kommunikation i loop
+
+## Övriga filer
+
+**main.cpp**
+- Initierar `Manager app` och kör `app.cycle()` i loop
+
+**config.h**
+- Innehåller `#define MOCK_MODE` eller `#define PRODUCTION_MODE`
+- Baserat på valet kompileras olika koddelar
+
+**transmit_config.example.h**
+- Fyll i dina egna serveruppgifter och WiFi-info
+- Byt namn till `transmit_config.h` i samma mapp
+
+## Förenklat flöde
+
+**System boot/wakeup** → läs sensordata → konvertera till bitflagga (32-bit int) → upprätta kommunikation → skicka data → visa info → sova i 5 minuter

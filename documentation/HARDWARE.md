@@ -78,6 +78,7 @@ The software is structured into modular class components, in order to simplify u
 - **System Management**: Handles sleep-wake-read-send-cycle, manages the other objects (sensor, battery, display, and communication)
 
 ### Software structure
+```
 |----- include
 	|--- BatteryManager.h
 	|--- DisplayManager.h
@@ -101,7 +102,7 @@ The software is structured into modular class components, in order to simplify u
 		|--- test.cpp
 	|--- transmitter
 		|--- test.cpp
-
+```
 ### Key classes
 
 ```BatteryManager```

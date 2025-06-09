@@ -3,8 +3,9 @@
 #include "../include/BatteryManager.h"
 #include "../include/SensorManager.h"
 #include "../include/TransmitterManager.h"
-// #include "../include/DisplayManager.h"
+#include "../include/DisplayManager.h"
 #include "../lib/config.h"
+#include "../lib/transmit_config.h"
 #ifdef MOCK_MODE
 #include <FspTimer.h>
 #endif
@@ -18,7 +19,7 @@ private:
     TransmitterManager transmitter2;
     TransmitterManager transmitter3;
     TransmitterManager transmitter4;
-    // DisplayManager display;
+    DisplayManager display;
 #ifdef MOCK_MODE
     FspTimer sleep_timer;
 #endif
